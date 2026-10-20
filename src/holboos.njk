@@ -15,10 +15,11 @@ permalink: /holboos/
       <ul class="link-cards">
         {%- for l in g.items %}
         <li>
-          <a class="link-card" href="{{ l.url }}" rel="noopener" target="_blank">
+          {%- set internal = (l.url | string).startsWith("/") %}
+          <a class="link-card" href="{{ l.url }}"{% if not internal %} rel="noopener" target="_blank"{% endif %}>
             <span class="link-card-title">{{ l.title }}<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M6 3h7v7M13 3 4.5 11.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             <span class="link-card-text">{{ l.text }}</span>
-            <span class="link-card-host">{{ l.url | hostname }}</span>
+            <span class="link-card-host">{{ "sankhuuch-audit.mn" + l.url if internal else (l.url | hostname) }}</span>
           </a>
         </li>
         {%- endfor %}

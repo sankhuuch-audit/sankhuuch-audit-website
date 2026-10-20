@@ -1,0 +1,107 @@
+---
+layout: layouts/base.njk
+title: Цалингийн тооцоолуур
+description: Цалин, нийгмийн даатгалын шимтгэл (НДШ), эрүүл мэндийн даатгал, ХХОАТ, гарт олгох цалин, ажил олгогчийн зардлыг 2026, 2027, 2028 оны хууль тогтоомжоор тооцох тооцоолуур.
+permalink: /tootsooluur/
+bodyClass: page-calc
+---
+{%- from "partials/macros.njk" import pageHero %}
+{{ pageHero("Тооцоолуур", "Цалингийн тооцоолуур", "Цалин, НДШ, ЭМД, ХХОАТ болон гарт олгох дүнг 2026, 2027, 2028 оны хууль тогтоомжоор шууд тооцоолно.") }}
+
+<section class="section">
+  <div class="container calc-layout">
+    <form class="calc-form" id="calc-form" novalidate onsubmit="return false">
+      <div class="calc-field">
+        <span class="calc-label">Он</span>
+        <div class="seg" role="radiogroup" aria-label="Он">
+          {%- for y in payroll.years %}
+          <label class="seg-opt"><input type="radio" name="year" value="{{ y.year }}"{% if y.year == payroll.default_year %} checked{% endif %}><span>{{ y.label }}</span></label>
+          {%- endfor %}
+        </div>
+      </div>
+
+      <div class="calc-field">
+        <span class="calc-label">Юунаас тооцох вэ</span>
+        <div class="seg" role="radiogroup" aria-label="Тооцох арга">
+          <label class="seg-opt"><input type="radio" name="mode" value="gross" checked><span>Нийт цалингаас</span></label>
+          <label class="seg-opt"><input type="radio" name="mode" value="net"><span>Гарт олгохоос</span></label>
+        </div>
+      </div>
+
+      <label class="calc-field">
+        <span class="calc-label" id="calc-amount-label">Сарын нийт бодогдсон цалин, ₮</span>
+        <input class="calc-input" id="calc-amount" type="text" inputmode="decimal" autocomplete="off" value="2,000,000" aria-describedby="calc-amount-hint">
+        <span class="calc-hint" id="calc-amount-hint">Үндсэн цалин, нэмэгдэл, хоол унааны мөнгө зэрэг НД, ХХОАТ ногдох бүх орлого.</span>
+      </label>
+
+      <label class="calc-field">
+        <span class="calc-label">Ажлын байрны эрсдэлийн ангилал</span>
+        <select class="calc-input" id="calc-risk">
+          <option value="0" selected>Ердийн (оффисын ажил)</option>
+          <option value="1">Дунд</option>
+          <option value="2">Өндөр</option>
+        </select>
+        <span class="calc-hint" id="calc-risk-hint"></span>
+      </label>
+
+      <p class="calc-yearnote" id="calc-yearnote"></p>
+    </form>
+
+    <div class="calc-result" aria-live="polite">
+      <div class="calc-net">
+        <p class="calc-net-label" id="calc-net-label">Гарт олгох цалин</p>
+        <p class="calc-net-value" id="calc-net">—</p>
+        <div class="calc-bar" aria-hidden="true">
+          <span class="bar-net" id="bar-net"></span><span class="bar-ss" id="bar-ss"></span><span class="bar-pit" id="bar-pit"></span>
+        </div>
+        <ul class="calc-legend" aria-hidden="true">
+          <li><i class="bar-net"></i>Гарт олгох</li><li><i class="bar-ss"></i>НДШ, ЭМД</li><li><i class="bar-pit"></i>ХХОАТ</li>
+        </ul>
+      </div>
+
+      <table class="calc-table">
+        <caption class="visually-hidden">Ажилтны цалингийн тооцоо</caption>
+        <tbody>
+          <tr><th scope="row">Нийт бодогдсон цалин</th><td id="r-gross">—</td></tr>
+          <tr class="sub"><th scope="row">Шимтгэл ногдох орлого</th><td id="r-base">—</td></tr>
+          <tr><th scope="row">НДШ, ажилтан (<span id="r-ee-rate"></span>)</th><td id="r-ee-ss">—</td></tr>
+          <tr><th scope="row">ЭМД, ажилтан (<span id="r-ee-h-rate"></span>)</th><td id="r-ee-h">—</td></tr>
+          <tr class="sub"><th scope="row">Татвар ногдуулах орлого</th><td id="r-taxable">—</td></tr>
+          <tr><th scope="row">ХХОАТ (шатлалаар)</th><td id="r-pit-gross">—</td></tr>
+          <tr id="row-credit"><th scope="row">Цалингийн хөнгөлөлт</th><td id="r-credit">—</td></tr>
+          <tr><th scope="row">Суутгах ХХОАТ</th><td id="r-pit">—</td></tr>
+          <tr class="total"><th scope="row">Гарт олгох</th><td id="r-net">—</td></tr>
+        </tbody>
+      </table>
+
+      <h2 class="h-small calc-h">Ажил олгогчийн зардал</h2>
+      <table class="calc-table">
+        <caption class="visually-hidden">Ажил олгогчийн зардал</caption>
+        <tbody>
+          <tr><th scope="row">НДШ, ажил олгогч (<span id="r-er-rate"></span>)</th><td id="r-er-ss">—</td></tr>
+          <tr><th scope="row">ЭМД, ажил олгогч (<span id="r-er-h-rate"></span>)</th><td id="r-er-h">—</td></tr>
+          <tr class="total"><th scope="row">Нийт цалингийн зардал</th><td id="r-cost">—</td></tr>
+        </tbody>
+      </table>
+      <p class="calc-warn" id="calc-warn" hidden></p>
+    </div>
+  </div>
+
+  <div class="container">
+    <aside class="calc-notes">
+      <h2 class="h-small">Тооцооны аргачлал</h2>
+      <ul>
+        <li>Шимтгэл ногдох орлого = нийт цалин, гэхдээ ажилтны хувьд ХХДХ × 10-аас ихгүй (НДЕХ 19.4.1). Ажил олгогчийн шимтгэлд 2028 оноос ХХДХ × 12 дээд хэмжээ үйлчилнэ (19.5).</li>
+        <li>Татвар ногдуулах орлого = нийт цалин − ажилтны НДШ − ЭМД. ХХОАТ-ын жилийн шатлалыг 12-т хувааж сар бүр суутгана. Жилийн эцэст нийт орлогоор дахин тулгана.</li>
+        <li>2026 онд цалингийн сарын хөнгөлөлт (ХХОАТ-ын хууль 23.1) үйлчилнэ. 2027 оноос хүчингүй (2026.06.26-ны хууль).</li>
+        <li>Тусгаагүй: тэтгэвэр авагч ажилтан, хөгжлийн бэрхшээлтэй ажилтны чөлөөлөлт, ажил гүйцэтгэх гэрээт ажилтан, цалин ХХДХ-ээс бага үеийн шимтгэлийн доод хэмжээ, ээлжийн амралт, тэтгэмж.</li>
+      </ul>
+      <p class="calc-disclaimer">Тооцоолуур нь ерөнхий мэдээллийн зорилготой. Бодит цалин бодохдоо харьяа нийгмийн даатгал, татварын албаны мэдээлэлтэй тулгана уу. Excel хувилбарыг <a href="/zuvlugu/failuud/">Хэрэгцээт файл</a> хэсгээс татаж авна уу.</p>
+    </aside>
+  </div>
+</section>
+
+<script type="application/json" id="payroll-data">{{ payroll.years | json | safe }}</script>
+<script src="/assets/js/calc.js" defer></script>
+
+{% include "partials/contact-band.njk" %}

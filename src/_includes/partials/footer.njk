@@ -12,6 +12,7 @@
       <h2 class="footer-h">{{ "Pages" if isEn else "Хуудсууд" }}</h2>
       <ul>
         {%- for item in (en.navigation if isEn else navigation) %}<li><a href="{{ item.url }}">{{ item.label }}</a></li>{% endfor %}
+        {%- if not isEn %}<li><a href="/tootsooluur/">Цалингийн тооцоолуур</a></li>{% endif %}
       </ul>
     </nav>
     {%- if isEn %}

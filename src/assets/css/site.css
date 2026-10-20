@@ -640,3 +640,55 @@ a.chip-sm:hover { background: var(--tint-2); }
 .link-card-host { font-size: .82rem; color: var(--teal-ink); font-weight: 600; }
 .link-note { font-size: .88rem; color: var(--muted); }
 .materials-more { margin-top: 16px; }
+
+/* ---------- Цалингийн тооцоолуур ---------- */
+.calc-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 28px; align-items: start; }
+@media (max-width: 900px) { .calc-layout { grid-template-columns: 1fr; } }
+.calc-form { display: grid; gap: 20px; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+.calc-field { display: grid; gap: 8px; }
+.calc-label { font-family: var(--f-head); font-weight: 700; font-size: .92rem; color: var(--navy); }
+.calc-hint { font-size: .85rem; color: var(--muted); }
+.calc-input { width: 100%; min-height: 48px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; font: 600 1.05rem var(--f-body, inherit); color: var(--text); background: #fff; }
+#calc-amount { font-size: 1.35rem; font-family: var(--f-head); }
+.calc-input:focus { outline: 2px solid var(--teal-light); outline-offset: 1px; border-color: var(--teal-ink); }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px; border: 1px solid var(--line); border-radius: 12px; background: var(--tint); }
+.seg-opt { flex: 1 1 auto; position: relative; }
+.seg-opt input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.seg-opt span { display: block; text-align: center; padding: 9px 12px; border-radius: 9px; font: 700 .9rem var(--f-head); color: var(--muted); cursor: pointer; }
+.seg-opt input:checked + span { background: var(--navy); color: #fff; }
+.seg-opt input:focus-visible + span { outline: 2px solid var(--teal-light); outline-offset: 1px; }
+.calc-yearnote { font-size: .88rem; color: var(--muted); padding: 10px 12px; border-radius: 10px; background: var(--gold-soft); border: 1px solid var(--gold-line); }
+.calc-result { position: sticky; top: 96px; padding: 24px; border-radius: var(--radius); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow); }
+@media (max-width: 900px) { .calc-result { position: static; } }
+.calc-net { padding: 18px 20px; border-radius: 12px; background: var(--navy); color: #fff; margin-bottom: 18px; }
+.calc-net-label { font-size: .88rem; opacity: .8; }
+.calc-net-value { font: 800 clamp(1.8rem, 6vw, 2.4rem)/1.15 var(--f-head); color: var(--teal-light); margin: 4px 0 12px; }
+.calc-bar { display: flex; height: 10px; border-radius: 6px; overflow: hidden; background: rgb(255 255 255 / .15); }
+.calc-bar span { display: block; height: 100%; transition: width .2s ease; }
+.bar-net { background: var(--teal-light); } .bar-ss { background: #7f9be0; } .bar-pit { background: #e2b45a; }
+.calc-legend { list-style: none; display: flex; flex-wrap: wrap; gap: 14px; margin: 10px 0 0; padding: 0; font-size: .8rem; opacity: .9; }
+.calc-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.calc-table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+.calc-table th { text-align: left; font-weight: 500; color: var(--text); padding: 9px 0; border-bottom: 1px solid var(--line); }
+.calc-table td { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; padding: 9px 0 9px 12px; border-bottom: 1px solid var(--line); }
+.calc-table tr.sub th, .calc-table tr.sub td { color: var(--muted); font-size: .86rem; font-weight: 500; }
+.calc-table tr.total th, .calc-table tr.total td { font-family: var(--f-head); font-weight: 800; color: var(--navy); border-bottom: 0; padding-top: 12px; }
+.calc-h { margin: 22px 0 6px; }
+.calc-warn { margin-top: 14px; font-size: .88rem; padding: 10px 12px; border-radius: 10px; background: #fbebeb; color: #8a2a2a; }
+.calc-notes { margin-top: 32px; padding: 22px 24px; border-radius: var(--radius); background: var(--tint); }
+.calc-notes ul { margin: 10px 0 0; padding-left: 1.2em; display: grid; gap: 6px; font-size: .92rem; }
+.calc-disclaimer { margin-top: 12px; font-size: .88rem; color: var(--muted); }
+
+/* Хажуугийн «Тооцоолуур» товч */
+.calc-tab { position: fixed; z-index: 40; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; background: var(--teal-ink, #127c84); color: #fff; font: 700 .9rem var(--f-head); box-shadow: 0 8px 24px -10px rgba(12, 35, 80, .55); }
+.calc-tab:hover { background: var(--navy); color: #fff; }
+.calc-tab svg { flex: none; }
+@media (min-width: 900px) {
+  .calc-tab { right: 0; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; padding: 16px 10px; border-radius: 12px 0 0 12px; }
+  .calc-tab svg { transform: rotate(90deg); }
+}
+@media (max-width: 899px) {
+  .calc-tab { right: 16px; bottom: 16px; width: 54px; height: 54px; justify-content: center; border-radius: 50%; }
+  .calc-tab span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+}
+.nav-open .calc-tab, .page-calc .calc-tab { display: none; }
