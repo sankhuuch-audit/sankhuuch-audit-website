@@ -5,7 +5,7 @@ description: Аудит, санхүүгийн тайланг нягтлах аж
 permalink: /unii-sanal/
 ---
 {%- from "partials/macros.njk" import pageHero %}
-{{ pageHero("Үнийн санал авах", "Үнийн санал авах хүсэлт", "Байгууллагынхаа үндсэн мэдээллийг бөглөж илгээнэ үү. Бид мэдээлэлтэй танилцаад үнийн саналаа таны имэйл хаяг руу илгээнэ.") }}
+{{ pageHero("Үнийн санал авах", "Үнийн санал авах хүсэлт", "Байгууллагынхаа үндсэн мэдээллийг бөглөж илгээнэ үү. Урьдчилсан үнийн санал таны имэйл хаяг руу автоматаар очно.") }}
 
 <section class="section">
   <div class="container quote-layout">
@@ -13,22 +13,19 @@ permalink: /unii-sanal/
       data-emailjs-key="{{ site.quote_form.emailjs_public_key }}"
       data-emailjs-service="{{ site.quote_form.emailjs_service_id }}"
       data-emailjs-template="{{ site.quote_form.emailjs_template_id }}"
-      data-company-email="{{ site.email }}">
+      data-company-email="{{ site.email }}"
+      data-pricing="{{ site.quote_form.pricing | json }}">
 
       <fieldset class="q-group">
         <legend><span class="q-step">1</span>Байгууллагын мэдээлэл</legend>
         <div class="q-grid">
           <label class="q-field q-span2"><span>Байгууллагын нэр <b aria-hidden="true">*</b></span>
             <input id="q-company" name="company" type="text" autocomplete="organization" required></label>
-          <label class="q-field"><span>Регистрийн дугаар</span>
-            <input id="q-register" name="register" type="text" inputmode="numeric" autocomplete="off"></label>
-          <label class="q-field"><span>Байгууллагын хэлбэр <b aria-hidden="true">*</b></span>
+          <label class="q-field q-span2"><span>Байгууллагын хэлбэр <b aria-hidden="true">*</b></span>
             <select id="q-entity" name="entity" required>
               <option value="">Сонгоно уу</option>
               <option>Хувийн хэвшлийн аж ахуйн нэгж</option>
               <option>Гадаадын хөрөнгө оруулалттай аж ахуйн нэгж</option>
-              <option>Төрийн өмчит болон төрийн өмчийн оролцоотой аж ахуйн нэгж</option>
-              <option>Төсөвт байгууллага</option>
               <option>Төрийн бус байгууллага</option>
               <option>Төсөл, хөтөлбөр</option>
               <option>Бусад</option>
@@ -44,7 +41,7 @@ permalink: /unii-sanal/
           {%- for s in collections.services %}
           <label class="q-check"><input type="checkbox" name="services" value="{{ s.data.title }}"><span>{{ s.data.title }}</span></label>
           {%- endfor %}
-          <label class="q-check"><input type="checkbox" name="services" value="Татварын зөвлөх үйлчилгээ"><span>Татварын зөвлөх үйлчилгээ</span></label>
+          <label class="q-check"><input type="checkbox" name="services" value="Нягтлан бодох бүртгэлийн бодлогын баримт бичиг боловсруулах"><span>Нягтлан бодох бүртгэлийн бодлогын баримт бичиг боловсруулах</span></label>
         </div>
         <p class="q-error" id="q-services-error" hidden>Дор хаяж нэг үйлчилгээ сонгоно уу.</p>
         <div class="q-grid">
@@ -79,11 +76,15 @@ permalink: /unii-sanal/
       <fieldset class="q-group">
         <legend><span class="q-step">3</span>Санхүүгийн үндсэн үзүүлэлт</legend>
         <p class="q-hint">Сүүлийн тайлант хугацааны ойролцоо дүнг <strong>сая төгрөгөөр</strong> оруулна уу. Үнийн санал гаргахад ажлын цар хүрээг тооцоход ашиглана.</p>
-        <div class="q-grid">
+        <div class="q-grid q-grid-3">
           <label class="q-field"><span>Нийт хөрөнгө, сая ₮ <b aria-hidden="true">*</b></span>
             <input id="q-assets" name="total_assets" type="number" inputmode="decimal" min="0" step="any" required></label>
           <label class="q-field"><span>Борлуулалтын орлого, сая ₮ <b aria-hidden="true">*</b></span>
             <input id="q-revenue" name="revenue" type="number" inputmode="decimal" min="0" step="any" required></label>
+          <label class="q-field"><span>Нийт зардал, сая ₮ <b aria-hidden="true">*</b></span>
+            <input id="q-expenses" name="total_expenses" type="number" inputmode="decimal" min="0" step="any" required></label>
+        </div>
+        <div class="q-grid">
           <label class="q-field"><span>Ажилтны тоо</span>
             <input id="q-staff" name="employees" type="number" inputmode="numeric" min="0" step="1"></label>
           <label class="q-field"><span>Салбар, охин компани</span>
@@ -115,17 +116,23 @@ permalink: /unii-sanal/
         <label class="q-hp" aria-hidden="true">Энэ талбарыг хоосон орхино уу<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
       </fieldset>
 
+      <div class="q-legal" role="note">
+        <p class="q-legal-title">Үнийн саналын тухай</p>
+        <p>Хүсэлт илгээмэгц таны оруулсан мэдээлэлд үндэслэн ажлын цар хүрээг тооцсон <strong>урьдчилсан үнийн санал</strong> автоматаар гарч, таны имэйл хаяг руу илгээгдэнэ.</p>
+        <p>Урьдчилсан үнийн санал нь эцсийн үнэ биш. <a href="https://legalinfo.mn/mn/detail/11192" rel="noopener" target="_blank">Аудитын тухай хуульд</a> заасны дагуу үйлчилгээний хөлсийг талууд харилцан тохиролцож, гэрээгээр тогтооно.</p>
+      </div>
+
       <p class="q-error q-error-box" id="q-error" role="alert" hidden></p>
       <div class="q-actions">
         <button class="btn btn-primary" type="submit" id="q-submit">Хүсэлт илгээх</button>
-        <p class="q-note">Хүсэлт илгээсний дараа таны имэйл хаяг руу баталгаажуулах имэйл очно.</p>
+        <p class="q-note">Урьдчилсан үнийн санал таны имэйл хаяг руу автоматаар очно.</p>
       </div>
     </form>
 
     <div class="quote-done" id="quote-done" hidden tabindex="-1">
       <p class="eyebrow">Хүсэлт хүлээн авлаа</p>
       <h2>Баярлалаа!</h2>
-      <p id="quote-done-text">Таны хүсэлтийг хүлээн авлаа. Баталгаажуулах имэйлийг <strong data-done-email></strong> хаяг руу илгээлээ. Бид мэдээлэлтэй танилцаад үнийн саналаа илгээнэ.</p>
+      <p id="quote-done-text">Таны хүсэлтийг хүлээн авлаа. Урьдчилсан үнийн саналыг <strong data-done-email></strong> хаяг руу илгээлээ. Энэ нь эцсийн үнэ биш бөгөөд үйлчилгээний хөлсийг харилцан тохиролцож, гэрээгээр тогтооно.</p>
       <p class="q-note">Имэйл ирэхгүй бол «Spam» хавтсаа шалгана уу эсвэл <a href="{{ site.phones[0] | telHref }}">{{ site.phones[0] }}</a> утсаар холбогдоно уу.</p>
       <a class="btn btn-outline" href="/">Нүүр хуудас руу буцах</a>
     </div>
@@ -134,8 +141,8 @@ permalink: /unii-sanal/
       <h2 class="h-small">Үнийн санал хэрхэн гардаг вэ</h2>
       <ol class="quote-steps">
         <li><strong>Хүсэлт илгээх</strong><span>Байгууллагын үндсэн мэдээлэл, санхүүгийн үзүүлэлтээ бөглөнө.</span></li>
-        <li><strong>Баталгаажуулах имэйл</strong><span>Хүсэлт хүлээн авсныг мэдэгдэх имэйл таны хаяг руу автоматаар очно.</span></li>
-        <li><strong>Үнийн санал</strong><span>Ажлын цар хүрээг тооцоолж, үнийн саналыг таны имэйл рүү илгээнэ.</span></li>
+        <li><strong>Урьдчилсан үнийн санал</strong><span>Таны мэдээлэлд үндэслэн тооцсон урьдчилсан үнийн санал имэйлээр автоматаар очно.</span></li>
+        <li><strong>Тохиролцох, гэрээ байгуулах</strong><span>Ажлын нөхцөлийг нарийвчлан тохиролцож, үйлчилгээний хөлсийг гэрээгээр тогтооно.</span></li>
       </ol>
       <div class="quote-contact">
         <p class="contact-label">Шууд холбогдох</p>

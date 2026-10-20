@@ -13,10 +13,22 @@
     to: form.getAttribute("data-company-email")
   };
   var useEmailJS = !!(cfg.key && cfg.service && cfg.template);
+  var pricing = null;
+  try { pricing = JSON.parse(form.getAttribute("data-pricing") || "null"); } catch (e) { pricing = null; }
+
+  /* Урьдчилсан үнийн тооцоо: хэмжээ = нийт хөрөнгө, орлого, зардлын хамгийн их нь (сая ₮).
+     tiers: [{ "max": 500, "from": 1500000, "to": 2500000 }, ..., { "max": null, "from": ..., "to": ... }] */
+  function estimate(data) {
+    if (!pricing || !pricing.tiers || !pricing.tiers.length) return null;
+    var size = Math.max(Number(data.total_assets) || 0, Number(data.revenue) || 0, Number(data.total_expenses) || 0);
+    var tier = pricing.tiers.filter(function (t) { return t.max === null || t.max === undefined || size <= Number(t.max); })[0];
+    if (!tier) return null;
+    var f = function (n) { return Math.round(Number(n)).toLocaleString("en-US") + "₮"; };
+    return tier.to && Number(tier.to) !== Number(tier.from) ? f(tier.from) + " – " + f(tier.to) : f(tier.from);
+  }
 
   var LABELS = [
     ["company", "Байгууллагын нэр"],
-    ["register", "Регистрийн дугаар"],
     ["entity", "Байгууллагын хэлбэр"],
     ["industry", "Үйл ажиллагааны чиглэл"],
     ["services", "Шаардлагатай үйлчилгээ"],
@@ -26,6 +38,7 @@
     ["deadline", "Дуусгах хүсэлтэй хугацаа"],
     ["total_assets", "Нийт хөрөнгө (сая ₮)"],
     ["revenue", "Борлуулалтын орлого (сая ₮)"],
+    ["total_expenses", "Нийт зардал (сая ₮)"],
     ["employees", "Ажилтны тоо"],
     ["branches", "Салбар, охин компани"],
     ["contact_name", "Холбоо барих хүн"],
@@ -57,7 +70,7 @@
 
   function details(data) {
     var rows = LABELS.filter(function (l) { return data[l[0]]; }).map(function (l) {
-      var v = (l[0] === "total_assets" || l[0] === "revenue") ? fmtNum(data[l[0]]) : data[l[0]];
+      var v = (l[0] === "total_assets" || l[0] === "revenue" || l[0] === "total_expenses") ? fmtNum(data[l[0]]) : data[l[0]];
       return [l[1], v];
     });
     var text = rows.map(function (r) { return r[0] + ": " + r[1]; }).join("\n");
@@ -120,7 +133,7 @@
     e.preventDefault();
     if (form.elements.website && form.elements.website.value) return; // spam
     if (!validate()) return;
-    var data = collect(), d = details(data);
+    var data = collect(), d = details(data), est = estimate(data);
     var subject = "Үнийн санал авах хүсэлт: " + data.company;
 
     if (!useEmailJS || !window.emailjs) {
@@ -139,7 +152,9 @@
       details_html: d.html,
       reply_to: data.email,
       to_email: cfg.to,
-      submitted_at: new Date().toLocaleString("mn-MN", { timeZone: "Asia/Ulaanbaatar" })
+      submitted_at: new Date().toLocaleString("mn-MN", { timeZone: "Asia/Ulaanbaatar" }),
+      estimate: est || "Урьдчилсан үнийн саналыг манай мэргэжилтэн тооцоолж, тантай холбогдоно.",
+      estimate_note: "Урьдчилсан үнийн санал нь эцсийн үнэ биш. Аудитын тухай хуульд заасны дагуу үйлчилгээний хөлсийг талууд харилцан тохиролцож, гэрээгээр тогтооно."
     });
     window.emailjs.send(cfg.service, cfg.template, params, { publicKey: cfg.key }).then(function () {
       done(data.email, false);

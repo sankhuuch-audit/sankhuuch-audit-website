@@ -17,6 +17,10 @@
   "quote_form": {
     "emailjs_public_key": "",
     "emailjs_service_id": "",
-    "emailjs_template_id": ""
+    "emailjs_template_id": "",
+    "pricing": {
+      "_tailbar": "Урьдчилсан үнийн тооцоо. size = нийт хөрөнгө, борлуулалтын орлого, нийт зардлын хамгийн их нь (сая ₮). tiers: size нь max-аас бага буюу тэнцүү бол тухайн шатлалын хөлс (₮). Хоосон бол урьдчилсан үнэ тооцохгүй.",
+      "tiers": []
+    }
   }
 }
