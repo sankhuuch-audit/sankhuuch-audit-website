@@ -1,0 +1,32 @@
+---
+layout: layouts/base.njk
+title: Хэрэгцээт холбоос
+description: Цахим татварын систем, И-баримт, нийгмийн даатгалын шимтгэлийн систем, legalinfo.mn, Сангийн яам, ММНБИ зэрэг нягтлан бодогчдод хэрэгтэй албан ёсны холбоосууд.
+permalink: /holboos/
+---
+{%- from "partials/macros.njk" import pageHero %}
+{{ pageHero("Холбоос", "Хэрэгцээт холбоос", "Нягтлан бодогч, санхүүгийн ажилтнуудад өдөр тутам хэрэгтэй албан ёсны цахим системүүд.") }}
+
+<section class="section">
+  <div class="container link-groups">
+    {%- for g in links %}
+    <div class="link-group">
+      <h2 class="h-small">{{ g.group }}</h2>
+      <ul class="link-cards">
+        {%- for l in g.items %}
+        <li>
+          <a class="link-card" href="{{ l.url }}" rel="noopener" target="_blank">
+            <span class="link-card-title">{{ l.title }}<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M6 3h7v7M13 3 4.5 11.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="link-card-text">{{ l.text }}</span>
+            <span class="link-card-host">{{ l.url | hostname }}</span>
+          </a>
+        </li>
+        {%- endfor %}
+      </ul>
+    </div>
+    {%- endfor %}
+    <p class="link-note">Холбоосууд гадны албан ёсны сайт руу шинэ цонхонд нээгдэнэ.</p>
+  </div>
+</section>
+
+{% include "partials/contact-band.njk" %}

@@ -133,8 +133,8 @@ main:focus { outline: none; }
 .nav-toggle-bars { display: grid; gap: 4px; }
 .nav-toggle-bars i { display: block; width: 18px; height: 2px; background: currentColor; border-radius: 1px; }
 
-@media (min-width: 1201px) { .site-nav .nav-home { display: none; } }
-@media (max-width: 1200px) {
+@media (min-width: 1280px) { .site-nav .nav-home { display: none; } }
+@media (max-width: 1279px) {
   .nav-toggle { display: inline-flex; }
   .site-nav { position: absolute; left: 0; right: 0; top: 100%; background: #fff; border-bottom: 1px solid var(--line); box-shadow: var(--shadow); display: none; padding: 8px var(--gutter) 16px; }
   .nav-open .site-nav { display: block; }
@@ -570,13 +570,13 @@ a.chip-sm:hover { background: var(--tint-2); }
 .nav-caret { opacity: .6; transition: transform .15s ease; }
 .site-nav .sub-nav { list-style: none; display: block; margin: 0; padding: 6px; }
 .site-nav .sub-nav a { font-size: .92rem; padding: 9px 12px; }
-@media (min-width: 1201px) {
+@media (min-width: 1280px) {
   .site-nav .sub-nav { position: absolute; top: calc(100% + 4px); left: 0; min-width: 190px; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .15s ease, transform .15s ease, visibility .15s; z-index: 60; }
   .site-nav .has-sub::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 8px; }
   .site-nav .has-sub:hover .sub-nav, .site-nav .has-sub:focus-within .sub-nav { opacity: 1; visibility: visible; transform: none; }
   .site-nav .has-sub:hover .nav-caret, .site-nav .has-sub:focus-within .nav-caret { transform: rotate(180deg); }
 }
-@media (max-width: 1200px) {
+@media (max-width: 1279px) {
   .site-nav .sub-nav { padding: 0 0 4px 14px; margin-left: 12px; border-left: 2px solid var(--line); }
   .site-nav .sub-nav a { font-size: .95rem; padding: 9px 12px; color: var(--muted); }
   .site-nav .has-sub > a { display: flex; }
@@ -591,15 +591,15 @@ a.chip-sm:hover { background: var(--tint-2); }
 .lang-switch a { color: var(--muted); }
 .lang-switch a:hover { color: var(--navy); background: var(--tint); }
 .lang-switch .lang-current { background: var(--navy); color: #fff; }
-@media (min-width: 1201px) {
+@media (min-width: 1280px) {
   .site-nav { margin-left: auto; }
   .header-inner { gap: 14px; }
 }
-@media (min-width: 1201px) and (max-width: 1360px) {
+@media (min-width: 1280px) and (max-width: 1360px) {
   .site-nav a { padding-inline: 7px; font-size: .86rem; }
   .site-nav a.nav-cta { padding-inline: 13px; margin-left: 4px; }
 }
-@media (max-width: 1200px) {
+@media (max-width: 1279px) {
   .header-tools { margin-left: auto; }
 }
 @media (max-width: 480px) {
@@ -625,3 +625,17 @@ a.chip-sm:hover { background: var(--tint-2); }
 .q-attn { display: flex; align-items: flex-start; gap: 10px; margin-top: 12px; padding: 11px 14px; border: 1px solid var(--gold-line); border-radius: var(--radius-sm); background: var(--gold-soft); font-size: .92rem; line-height: 1.5; color: var(--text); }
 .q-attn svg { flex: none; margin-top: 2px; color: var(--gold); }
 .q-attn strong { color: var(--navy); }
+
+/* ---------- Хэрэгцээт холбоос ---------- */
+.link-groups { display: grid; gap: 36px; }
+.link-group .h-small { margin-bottom: 14px; }
+.link-cards { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 960px) { .link-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .link-cards { grid-template-columns: 1fr; } }
+.link-card { display: grid; gap: 6px; height: 100%; padding: 18px 20px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: #fff; text-decoration: none; color: var(--text); transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease; }
+.link-card:hover { border-color: var(--teal-ink); box-shadow: var(--shadow); transform: translateY(-1px); }
+.link-card-title { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-family: var(--f-head); font-weight: 700; color: var(--navy); }
+.link-card-title svg { flex: none; color: var(--teal-ink); }
+.link-card-text { font-size: .92rem; color: var(--muted); }
+.link-card-host { font-size: .82rem; color: var(--teal-ink); font-weight: 600; }
+.link-note { font-size: .88rem; color: var(--muted); }

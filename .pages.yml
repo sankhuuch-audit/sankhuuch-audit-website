@@ -281,6 +281,25 @@ content:
           format: markdown
 
   # ---------------- Ерөнхий тохиргоо ----------------
+  - name: links
+    label: Хэрэгцээт холбоос
+    type: file
+    path: src/_data/links.json
+    format: json
+    list: true
+    fields:
+      - { name: group, label: Бүлгийн нэр, type: string }
+      - name: items
+        label: Холбоосууд
+        type: object
+        list:
+          collapsible:
+            summary: "{title}"
+        fields:
+          - { name: title, label: Нэр, type: string, required: true }
+          - { name: url, label: Хаяг (https://...), type: string, required: true }
+          - { name: text, label: Товч тайлбар, type: string }
+
   - name: site
     label: Холбоо барих, сошиал
     type: file
