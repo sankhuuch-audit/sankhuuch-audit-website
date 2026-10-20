@@ -1,0 +1,156 @@
+---
+title: About us
+description: The history, mission, principles, team, clients, licences and memberships of Sankhuuch Audit LLC, an audit firm in Ulaanbaatar, Mongolia.
+permalink: /en/about/
+altUrl: /bidnii-tuhai/
+---
+{%- from "partials/macros.njk" import pageHero %}
+{{ pageHero("About us", en.history_title, en.history_intro) }}
+
+<section class="section">
+  <div class="container">
+    <ol class="timeline" aria-label="Our history">
+      {%- for t in en.timeline %}
+      <li class="timeline-item{% if loop.last %} is-latest{% endif %}">
+        <span class="timeline-dot" aria-hidden="true"></span>
+        <p class="timeline-year">{{ t.year }}</p>
+        <p class="timeline-text">{{ t.text }}</p>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="section section-navy">
+  <div class="container mission">
+    <p class="eyebrow eyebrow-on-dark">Our mission</p>
+    <blockquote class="mission-quote"><p>{{ en.mission }}</p></blockquote>
+    <ul class="mission-tags">
+      {%- for k in en.mission_keywords %}<li>{{ k }}</li>{% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Ethics</p>
+      <h2>The principles we uphold</h2>
+    </div>
+    <div class="principles">
+      {%- for p in en.principles %}
+      <div class="principle">
+        <h3>{{ p.title }}</h3>
+        <p>{{ p.text }}</p>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-tint">
+  <div class="container two-col">
+    <div class="team">
+      <p class="eyebrow">People</p>
+      <h2>Our team</h2>
+      <div class="team-body">
+        {%- set r = 54 %}
+        <figure class="donut" aria-label="{{ company.team_total }} staff in total">
+          <svg viewBox="0 0 140 140" width="180" height="180" role="img" aria-hidden="true">
+            <circle cx="70" cy="70" r="{{ r }}" fill="none" stroke="#e3e8f1" stroke-width="18"/>
+            {%- for s in en.team | donutSegments(company.team_total, r) %}
+            <circle cx="70" cy="70" r="{{ r }}" fill="none" stroke="{{ s.color }}" stroke-width="18" stroke-dasharray="{{ s.dash }} {{ s.gap }}" stroke-dashoffset="{{ s.offset }}" transform="rotate(-90 70 70)"/>
+            {%- endfor %}
+          </svg>
+          <figcaption><span class="donut-total">{{ company.team_total }}</span><span class="donut-label">staff</span></figcaption>
+        </figure>
+        <ul class="team-list">
+          {%- for s in en.team | donutSegments(company.team_total, r) %}
+          <li>
+            <span class="swatch" style="background:{{ s.color }}" aria-hidden="true"></span>
+            <span class="team-count">{{ s.count }}</span>
+            <span class="team-role"><strong>{{ s.role }}</strong><span>{{ s.note }}</span></span>
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="clients">
+      <p class="eyebrow">Last 5 years</p>
+      <h2>Number of clients</h2>
+      {%- set maxV = 150 %}
+      {%- set top = 20 %}{% set base = 230 %}{% set h = base - top %}
+      <figure class="bar-chart">
+        <svg viewBox="0 0 520 270" role="img" aria-label="Number of clients: {% for c in company.clients_by_year %}{{ c.year }}: {{ c.count }}{% if not loop.last %}, {% endif %}{% endfor %}">
+          {%- for g in [0, 50, 100, 150] %}
+          {%- set gy = base - (g / maxV) * h %}
+          <line x1="44" x2="510" y1="{{ gy }}" y2="{{ gy }}" stroke="#dfe4ee" stroke-width="1"/>
+          <text x="34" y="{{ gy + 4 }}" text-anchor="end" font-size="12" fill="#5d6a82">{{ g }}</text>
+          {%- endfor %}
+          {%- set peak = company.clients_by_year | maxOf("count") %}
+          {%- for c in company.clients_by_year %}
+          {%- set bh = (c.count / maxV) * h %}
+          {%- set x = 66 + loop.index0 * 90 %}
+          <rect x="{{ x }}" y="{{ base - bh }}" width="54" height="{{ bh }}" rx="5" fill="{{ '#2fb3bb' if c.count == peak else '#7f9be0' }}"/>
+          <text x="{{ x + 27 }}" y="{{ base - 12 }}" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">{{ c.count }}</text>
+          <text x="{{ x + 27 }}" y="{{ base + 22 }}" text-anchor="middle" font-size="13" fill="{{ '#127c84' if c.count == peak else '#3b4a66' }}" font-weight="{{ '700' if c.count == peak else '500' }}">{{ c.year }}</text>
+          {%- endfor %}
+        </svg>
+      </figure>
+      <ul class="client-notes">
+        {%- set peakItem = company.clients_by_year | findBy("count", peak) %}
+        <li><strong>{{ peak }}</strong><span>peak, reached in {{ peakItem.year }}</span></li>
+        <li><strong>{{ en.clients_average_text }}</strong><span>clients per year on average</span></li>
+        <li><strong>{{ en.clients_non_audit }}</strong><span>entities use our services beyond audit</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="clients">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Our clients</p>
+      <h2>Organisations we have worked with</h2>
+      <p class="section-intro">{{ en.clients_intro }}</p>
+    </div>
+    <div class="client-groups">
+      {%- for g in en.client_groups %}
+      <div class="client-group">
+        <h3>{{ g.title }}</h3>
+        <ul>{% for n in g.names %}<li>{{ n }}</li>{% endfor %}</ul>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" id="credentials">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Professional credentials</p>
+      <h2>Licences and memberships</h2>
+    </div>
+    <div class="creds">
+      {%- for c in en.credentials %}
+      <article class="cred-card{% if c.image %} has-image{% endif %}">
+        {%- if c.image %}
+        <a class="cred-image" href="{{ c.image }}" target="_blank" rel="noopener">
+          <img src="{{ c.image }}" alt="{{ c.title }} (certificate issued in Mongolian)" loading="lazy">
+          <span class="cred-zoom">View larger</span>
+        </a>
+        {%- endif %}
+        <div class="cred-body">
+          <h3>{{ c.title }}</h3>
+          <p class="cred-issuer">{{ c.issuer }}</p>
+          {%- if c.detail %}<p class="cred-detail">{{ c.detail }}</p>{% endif %}
+          {%- if c.link %}<a class="link-small" href="{{ c.link }}" rel="noopener" target="_blank">Verify on {{ c.link | hostname }}</a>{% endif %}
+        </div>
+      </article>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+{% include "partials/contact-band.njk" %}

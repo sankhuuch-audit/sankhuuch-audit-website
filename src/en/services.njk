@@ -1,0 +1,70 @@
+---
+title: Services
+description: Financial statement audit, review of financial statements, other assurance engagements, and finance, accounting and tax advisory services in Mongolia.
+permalink: /en/services/
+altUrl: /uilchilgee/
+---
+{%- from "partials/macros.njk" import pageHero %}
+{{ pageHero("Our services", "How our services are organised", "We provide services in two areas: “Audit and assurance” and “Advisory and related services”.") }}
+
+<section class="section">
+  <div class="container">
+    <div class="org" aria-label="How our services are organised">
+      <p class="org-root">{{ en.site.name }}</p>
+      <div class="org-branches">
+        {%- for g in en.groups %}
+        <div class="org-branch org-branch-{{ g.key }}">
+          <a class="org-group" href="#{{ g.key }}">{{ g.label }}</a>
+          <ul class="org-leaves">
+            {%- for s in en.services | where("group", g.key) %}
+            <li><a href="#{{ s.slug }}">{{ s.title }}</a></li>
+            {%- endfor %}
+          </ul>
+        </div>
+        {%- endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- for g in en.groups %}
+<section class="section {{ 'section-tint' if loop.first }}" id="{{ g.key }}">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">{{ g.label }}</p>
+      <h2>{{ g.heading }}</h2>
+    </div>
+    <div class="service-blocks">
+      {%- for s in en.services | where("group", g.key) %}
+      <article class="service-block" id="{{ s.slug }}">
+        <div class="service-block-head">
+          <h3>{{ s.title }}</h3>
+          {%- if s.summary %}<p class="service-summary">{{ s.summary }}</p>{% endif %}
+        </div>
+        {%- if s.items and s.items.length %}
+        <ul class="check-list">
+          {%- for it in s.items %}<li>{{ it }}</li>{% endfor %}
+        </ul>
+        {%- endif %}
+        {%- if s.details and s.details.length %}
+        <div class="service-detail prose">
+          {%- if s.detail_intro %}<p>{{ s.detail_intro }}</p>{% endif %}
+          <ul>{% for d in s.details %}<li>{{ d }}</li>{% endfor %}</ul>
+        </div>
+        {%- endif %}
+      </article>
+      {%- endfor %}
+    </div>
+    {%- if g.key == "audit" and en.audit_focus.length %}
+    <aside class="focus-box">
+      <h3>When auditing financial statements, we focus on</h3>
+      <ul>
+        {%- for f in en.audit_focus %}<li>{{ f }}</li>{% endfor %}
+      </ul>
+    </aside>
+    {%- endif %}
+  </div>
+</section>
+{%- endfor %}
+
+{% include "partials/contact-band.njk" %}

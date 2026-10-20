@@ -16,6 +16,49 @@
   var pricing = null;
   try { pricing = JSON.parse(form.getAttribute("data-pricing") || "null"); } catch (e) { pricing = null; }
 
+  var isEn = (document.documentElement.lang || "").toLowerCase().indexOf("en") === 0;
+  var T = isEn ? {
+    labels: { company: "Organisation name", entity: "Type of organisation", services: "Services required", total_assets: "Total assets (MNT million)", revenue: "Sales revenue (MNT million)", total_expenses: "Total expenses (MNT million)", contact_name: "Contact person", phone: "Phone", email: "Email", notes: "Additional information" },
+    estField: "Preliminary estimate",
+    subject: "Quote request (English site): ",
+    estFallback: "Our specialist will prepare a preliminary quote and contact you.",
+    estNote: "The preliminary quote is not the final price. In accordance with the Law of Mongolia on Auditing, the service fee is agreed between the parties and set out in the engagement contract.",
+    reply: function (d, est, note, to) {
+      return "Dear " + d.contact_name + ",\n\n" +
+        "Thank you. We have received the quote request for " + d.company + ".\n\n" +
+        (est ? "Preliminary quote: " + est + "\n\n" + note + "\n\nOur specialist will contact you shortly to agree the terms of the engagement.\n\n"
+             : "Based on the information you provided, our specialist will prepare a preliminary quote and contact you shortly.\n\n" + note + "\n\n") +
+        "Kind regards,\nSankhuuch Audit LLC\n" + to;
+    },
+    sending: "Sending…",
+    submit: "Send request",
+    invalid: "Please complete the fields marked with an asterisk (*) and check that your email address is correct.",
+    failed: function (to) { return "We could not send your request. Please check your internet connection and try again. If the problem persists, email " + to + " or call us."; },
+    viaMail: "Your email app has opened with a message containing your request. Sending that email will deliver the request to us.",
+    yourAddr: "your email address",
+    locale: "en-GB"
+  } : {
+    labels: { company: "Байгууллагын нэр", entity: "Байгууллагын хэлбэр", services: "Шаардлагатай үйлчилгээ", total_assets: "Нийт хөрөнгө (сая ₮)", revenue: "Борлуулалтын орлого (сая ₮)", total_expenses: "Нийт зардал (сая ₮)", contact_name: "Холбоо барих хүн", phone: "Утас", email: "Имэйл", notes: "Нэмэлт мэдээлэл" },
+    estField: "Урьдчилсан үнэ",
+    subject: "Үнийн санал авах хүсэлт: ",
+    estFallback: "Урьдчилсан үнийн саналыг манай мэргэжилтэн тооцоолж, тантай холбогдоно.",
+    estNote: "Урьдчилсан үнийн санал нь эцсийн үнэ биш. Аудитын тухай хуульд заасны дагуу үйлчилгээний хөлсийг талууд харилцан тохиролцож, гэрээгээр тогтооно.",
+    reply: function (d, est, note, to) {
+      return "Сайн байна уу, " + d.contact_name + ".\n\n" +
+        "«" + d.company + "»-ийн үнийн санал авах хүсэлтийг хүлээн авлаа. Баярлалаа.\n\n" +
+        (est ? "Урьдчилсан үнийн санал: " + est + "\n\n" + note + "\n\nАжлын нөхцөлийг нарийвчлан тохиролцохоор манай мэргэжилтэн тантай удахгүй холбогдоно.\n\n"
+             : "Таны оруулсан мэдээлэлд үндэслэн манай мэргэжилтэн урьдчилсан үнийн санал боловсруулж, тантай удахгүй холбогдоно.\n\n" + note + "\n\n") +
+        "Хүндэтгэсэн,\n“Санхүүч-Аудит” ХХК\n" + to;
+    },
+    sending: "Илгээж байна…",
+    submit: "Хүсэлт илгээх",
+    invalid: "Одоор (*) тэмдэглэсэн талбаруудыг бөглөнө үү. Имэйл хаягаа зөв оруулсан эсэхээ шалгана уу.",
+    failed: function (to) { return "Хүсэлтийг илгээж чадсангүй. Интернэт холболтоо шалгаад дахин оролдоно уу. Асуудал давтагдвал " + to + " хаяг руу имэйл бичих эсвэл утсаар холбогдоно уу."; },
+    viaMail: "Таны имэйл програм нээгдэж, хүсэлтийн мэдээлэл бүхий имэйл бэлэн болсон. Тэр имэйлийг илгээснээр хүсэлт бидэнд хүрнэ.",
+    yourAddr: "таны",
+    locale: "mn-MN"
+  };
+
   /* Урьдчилсан үнийн тооцоо: хэмжээ = нийт хөрөнгө, орлого, зардлын хамгийн их нь (сая ₮).
      tiers: [{ "max": 500, "from": 1500000, "to": 2500000 }, ..., { "max": null, "from": ..., "to": ... }] */
   function estimate(data) {
@@ -27,18 +70,8 @@
     return tier.to && Number(tier.to) !== Number(tier.from) ? f(tier.from) + " – " + f(tier.to) : f(tier.from);
   }
 
-  var LABELS = [
-    ["company", "Байгууллагын нэр"],
-    ["entity", "Байгууллагын хэлбэр"],
-    ["services", "Шаардлагатай үйлчилгээ"],
-    ["total_assets", "Нийт хөрөнгө (сая ₮)"],
-    ["revenue", "Борлуулалтын орлого (сая ₮)"],
-    ["total_expenses", "Нийт зардал (сая ₮)"],
-    ["contact_name", "Холбоо барих хүн"],
-    ["phone", "Утас"],
-    ["email", "Имэйл"],
-    ["notes", "Нэмэлт мэдээлэл"]
-  ];
+  var LABELS = ["company", "entity", "services", "total_assets", "revenue", "total_expenses", "contact_name", "phone", "email", "notes"]
+    .map(function (k) { return [k, T.labels[k]]; });
 
   var errBox = document.getElementById("q-error");
   var srvErr = document.getElementById("q-services-error");
@@ -92,7 +125,7 @@
     srvErr.hidden = anyService;
     if (!anyService) { ok = false; first = first || form.querySelector('input[name="services"]'); }
     if (!ok) {
-      showError("Одоор (*) тэмдэглэсэн талбаруудыг бөглөнө үү. Имэйл хаягаа зөв оруулсан эсэхээ шалгана уу.");
+      showError(T.invalid);
       if (first) first.focus({ preventScroll: true });
     }
     return ok;
@@ -103,7 +136,7 @@
     var box = document.getElementById("quote-done");
     var t = document.getElementById("quote-done-text");
     if (viaMail) {
-      t.textContent = "Таны имэйл програм нээгдэж, хүсэлтийн мэдээлэл бүхий имэйл бэлэн болсон. Тэр имэйлийг илгээснээр хүсэлт бидэнд хүрнэ.";
+      t.textContent = T.viaMail;
     } else {
       var s = box.querySelector("[data-done-email]");
       if (s) s.textContent = email;
@@ -136,32 +169,26 @@
       add(l[1], v);
     });
     add("email", data.email);
-    add("Урьдчилсан үнэ", estText);
+    add(T.estField, estText);
     add("_subject", subject);
     add("_template", "table");
     add("_next", back);
-    add("_autoresponse",
-      "Сайн байна уу, " + data.contact_name + ".\n\n" +
-      "«" + data.company + "»-ийн үнийн санал авах хүсэлтийг хүлээн авлаа. Баярлалаа.\n\n" +
-      (est ? "Урьдчилсан үнийн санал: " + est + "\n\n" + estNote + "\n\n" +
-        "Ажлын нөхцөлийг нарийвчлан тохиролцохоор манай мэргэжилтэн тантай удахгүй холбогдоно.\n\n"
-      : "Таны оруулсан мэдээлэлд үндэслэн манай мэргэжилтэн урьдчилсан үнийн санал боловсруулж, тантай удахгүй холбогдоно.\n\n" + estNote + "\n\n") +
-      "Хүндэтгэсэн,\n“Санхүүч-Аудит” ХХК\n" + cfg.to);
+    add("_autoresponse", T.reply(data, est, estNote, cfg.to));
     try { sessionStorage.setItem("quote-email", data.email); } catch (e) {}
     btn.disabled = true;
-    btn.textContent = "Илгээж байна…";
+    btn.textContent = T.sending;
     document.body.appendChild(f);
     f.submit();
   }
 
   // «Буцах» товчоор ирэхэд товчийг сэргээнэ
-  window.addEventListener("pageshow", function () { btn.disabled = false; btn.textContent = "Хүсэлт илгээх"; });
+  window.addEventListener("pageshow", function () { btn.disabled = false; btn.textContent = T.submit; });
 
   // FormSubmit-ээс буцаж ирэхэд баярлалаа хэсгийг харуулна
   if (/[?&]sent=1/.test(location.search)) {
     var savedEmail = "";
     try { savedEmail = sessionStorage.getItem("quote-email") || ""; sessionStorage.removeItem("quote-email"); } catch (e) {}
-    done(savedEmail || "таны", false);
+    done(savedEmail || T.yourAddr, false);
     if (history.replaceState) history.replaceState(null, "", location.pathname);
   }
 
@@ -176,10 +203,10 @@
     if (form.elements.website && form.elements.website.value) return; // spam
     if (!validate()) return;
     var data = collect(), d = details(data), est = estimate(data);
-    var subject = "Үнийн санал авах хүсэлт: " + data.company;
+    var subject = T.subject + data.company;
 
-    var estText = est || "Урьдчилсан үнийн саналыг манай мэргэжилтэн тооцоолж, тантай холбогдоно.";
-    var estNote = "Урьдчилсан үнийн санал нь эцсийн үнэ биш. Аудитын тухай хуульд заасны дагуу үйлчилгээний хөлсийг талууд харилцан тохиролцож, гэрээгээр тогтооно.";
+    var estText = est || T.estFallback;
+    var estNote = T.estNote;
 
     if (!useEmailJS || !window.emailjs) {
       sendViaFormSubmit(data, subject, est, estText, estNote);
@@ -188,14 +215,14 @@
 
     btn.disabled = true;
     var label = btn.textContent;
-    btn.textContent = "Илгээж байна…";
+    btn.textContent = T.sending;
     var params = Object.assign({}, data, {
       subject: subject,
       details_text: d.text,
       details_html: d.html,
       reply_to: data.email,
       to_email: cfg.to,
-      submitted_at: new Date().toLocaleString("mn-MN", { timeZone: "Asia/Ulaanbaatar" }),
+      submitted_at: new Date().toLocaleString(T.locale, { timeZone: "Asia/Ulaanbaatar" }),
       estimate: estText,
       estimate_note: estNote
     });
@@ -204,7 +231,7 @@
     }, function () {
       btn.disabled = false;
       btn.textContent = label;
-      showError("Хүсэлтийг илгээж чадсангүй. Интернэт холболтоо шалгаад дахин оролдоно уу. Асуудал давтагдвал " + cfg.to + " хаяг руу имэйл бичих эсвэл утсаар холбогдоно уу.");
+      showError(T.failed(cfg.to));
     });
   });
 })();

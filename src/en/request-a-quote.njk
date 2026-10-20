@@ -1,0 +1,112 @@
+---
+title: Request a quote
+description: Request a quote for a financial statement audit, review, assurance engagement or finance, accounting and tax advisory services from Sankhuuch Audit LLC.
+permalink: /en/request-a-quote/
+altUrl: /unii-sanal/
+---
+{%- from "partials/macros.njk" import pageHero %}
+{{ pageHero("Request a quote", "Request a quote", "Fill in your organisation's key details and send the request. A preliminary quote will be emailed to you automatically.") }}
+
+<section class="section">
+  <div class="container quote-layout">
+    <form class="quote-form" id="quote-form" novalidate
+      data-emailjs-key="{{ site.quote_form.emailjs_public_key }}"
+      data-emailjs-service="{{ site.quote_form.emailjs_service_id }}"
+      data-emailjs-template="{{ site.quote_form.emailjs_template_id }}"
+      data-company-email="{{ site.email }}"
+      data-pricing="{{ site.quote_form.pricing | json }}">
+
+      <fieldset class="q-group">
+        <legend><span class="q-step">1</span>Organisation and services</legend>
+        <div class="q-grid">
+          <label class="q-field"><span>Organisation name <b aria-hidden="true">*</b></span>
+            <input id="q-company" name="company" type="text" autocomplete="organization" required></label>
+          <label class="q-field"><span>Type of organisation <b aria-hidden="true">*</b></span>
+            <select id="q-entity" name="entity" required>
+              <option value="">Please select</option>
+              {%- for t in en.entity_types %}
+              <option>{{ t }}</option>
+              {%- endfor %}
+            </select></label>
+        </div>
+        <p class="q-sublabel">Services required <b aria-hidden="true">*</b></p>
+        <div class="q-checks" role="group" aria-label="Services required">
+          {%- for s in en.services %}
+          <label class="q-check"><input type="checkbox" name="services" value="{{ s.title }}"><span>{{ s.title }}</span></label>
+          {%- endfor %}
+          <label class="q-check"><input type="checkbox" name="services" value="{{ en.quote_extra_service }}"><span>{{ en.quote_extra_service }}</span></label>
+        </div>
+        <p class="q-error" id="q-services-error" hidden>Please select at least one service.</p>
+      </fieldset>
+
+      <fieldset class="q-group">
+        <legend><span class="q-step">2</span>Key financial figures</legend>
+        <p class="q-hint">Enter approximate amounts for the latest reporting period <strong>in millions of tögrög (MNT)</strong>.</p>
+        <div class="q-grid q-grid-3">
+          <label class="q-field"><span>Total assets, MNT m <b aria-hidden="true">*</b></span>
+            <input id="q-assets" name="total_assets" type="number" inputmode="decimal" min="0" step="any" required></label>
+          <label class="q-field"><span>Sales revenue, MNT m <b aria-hidden="true">*</b></span>
+            <input id="q-revenue" name="revenue" type="number" inputmode="decimal" min="0" step="any" required></label>
+          <label class="q-field"><span>Total expenses, MNT m <b aria-hidden="true">*</b></span>
+            <input id="q-expenses" name="total_expenses" type="number" inputmode="decimal" min="0" step="any" required></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="q-group">
+        <legend><span class="q-step">3</span>Contact details</legend>
+        <div class="q-grid q-grid-3">
+          <label class="q-field"><span>Name <b aria-hidden="true">*</b></span>
+            <input id="q-name" name="contact_name" type="text" autocomplete="name" required></label>
+          <label class="q-field"><span>Phone <b aria-hidden="true">*</b></span>
+            <input id="q-phone" name="phone" type="tel" autocomplete="tel" required></label>
+          <label class="q-field"><span>Email <b aria-hidden="true">*</b></span>
+            <input id="q-email" name="email" type="email" autocomplete="email" required></label>
+        </div>
+        <details class="q-more">
+          <summary>Add more information (optional)</summary>
+          <label class="q-field"><span class="visually-hidden">Additional information</span>
+            <textarea id="q-notes" name="notes" rows="3" placeholder="Reporting period, required completion date, any special circumstances, etc."></textarea></label>
+        </details>
+        <label class="q-check q-check-line"><input id="q-consent" type="checkbox" name="consent" value="Yes" required><span>I agree that the information I have provided may be used to prepare a quote <b aria-hidden="true">*</b></span></label>
+        <label class="q-hp" aria-hidden="true">Leave this field empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+      </fieldset>
+
+      <div class="q-legal" role="note">
+        <p class="q-legal-title">About the quote</p>
+        <p>As soon as you send your request, a <strong>preliminary quote</strong> reflecting the scope of work, based on the information you provided, is generated automatically and sent to your email address.</p>
+        <p>The preliminary quote is not the final price. In accordance with the <a href="https://legalinfo.mn/mn/detail/11192" rel="noopener" target="_blank" hreflang="mn">Law of Mongolia on Auditing</a>, the service fee is agreed between the parties and set out in the engagement contract.</p>
+      </div>
+
+      <p class="q-error q-error-box" id="q-error" role="alert" hidden></p>
+      <div class="q-actions">
+        <button class="btn btn-primary" type="submit" id="q-submit">Send request</button>
+        <p class="q-note">A short “I'm not a robot” check may appear when you send the request. The preliminary quote will be emailed to you automatically.</p>
+      </div>
+    </form>
+
+    <div class="quote-done" id="quote-done" hidden tabindex="-1">
+      <p class="eyebrow">Request received</p>
+      <h2>Thank you!</h2>
+      <p id="quote-done-text">We have received your request. A copy of your request and information on the preliminary quote have been sent to <strong data-done-email></strong>. The preliminary quote is not the final price; the service fee is agreed between the parties and set out in the contract.</p>
+      <p class="q-note">If the email does not arrive, please check your spam folder or call us on <a href="{{ site.phones[0] | telHref }}">{{ site.phones[0] }}</a>.</p>
+      <a class="btn btn-outline" href="/en/">Back to the home page</a>
+    </div>
+
+    <aside class="quote-aside">
+      <h2 class="h-small">How the quote works</h2>
+      <ol class="quote-steps">
+        <li><strong>Send a request</strong><span>Enter your organisation's name, the services you need and three financial figures. It takes about 2 minutes.</span></li>
+        <li><strong>Preliminary quote</strong><span>A preliminary quote based on your information is emailed to you automatically.</span></li>
+        <li><strong>Agreement and contract</strong><span>We agree the terms of the engagement in detail and set the service fee in the contract.</span></li>
+      </ol>
+      <div class="quote-contact">
+        <p class="contact-label">Contact us directly</p>
+        <p>{% for p in site.phones %}<a href="{{ p | telHref }}">{{ p }}</a>{% if not loop.last %}<br>{% endif %}{% endfor %}</p>
+        <p><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<script src="/assets/js/emailjs-4.4.1.min.js" defer></script>
+<script src="/assets/js/quote.js" defer></script>

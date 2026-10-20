@@ -1,14 +1,20 @@
+{%- set isEn = (lang == "en") %}
 <section class="contact-band">
   <div class="container contact-band-inner">
     <div>
-      <p class="eyebrow eyebrow-on-dark"><span class="tribar" aria-hidden="true"><i></i><i></i><i></i></span>Холбоо барих</p>
+      <p class="eyebrow eyebrow-on-dark"><span class="tribar" aria-hidden="true"><i></i><i></i><i></i></span>{{ "Contact" if isEn else "Холбоо барих" }}</p>
+      {%- if isEn %}
+      <p class="contact-band-title">We look forward to <span class="accent">working with you.</span></p>
+      <p class="contact-band-cta"><a class="btn btn-primary" href="/en/request-a-quote/">Request a quote</a></p>
+      {%- else %}
       <p class="contact-band-title">Та бүхэнтэй хамтран ажиллахдаа <span class="accent">таатай байх болно.</span></p>
       <p class="contact-band-cta"><a class="btn btn-primary" href="/unii-sanal/">Үнийн санал авах</a></p>
+      {%- endif %}
     </div>
     <ul class="contact-band-list">
-      <li><span class="cb-label">Утас</span><span>{% for p in site.phones %}<a href="{{ p | telHref }}">{{ p }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</span></li>
-      <li><span class="cb-label">Имэйл</span><span><a href="mailto:{{ site.email }}">{{ site.email }}</a></span></li>
-      <li><span class="cb-label">Хаяг</span><span>{{ site.address }}</span></li>
+      <li><span class="cb-label">{{ "Phone" if isEn else "Утас" }}</span><span>{% for p in site.phones %}<a href="{{ p | telHref }}">{{ p }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</span></li>
+      <li><span class="cb-label">{{ "Email" if isEn else "Имэйл" }}</span><span><a href="mailto:{{ site.email }}">{{ site.email }}</a></span></li>
+      <li><span class="cb-label">{{ "Address" if isEn else "Хаяг" }}</span><span>{{ en.site.address if isEn else site.address }}</span></li>
     </ul>
   </div>
 </section>

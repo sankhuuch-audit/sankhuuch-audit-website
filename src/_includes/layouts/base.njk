@@ -1,21 +1,30 @@
 <!doctype html>
-<html lang="mn">
+{%- set isEn = (lang == "en") %}
+{%- set S = en.site if isEn else site %}
+<html lang="{{ 'en' if isEn else 'mn' }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  {%- if isHome %}{% set pageTitle = site.name + " | " + site.tagline %}{% else %}{% set pageTitle = title + " | " + site.shortName %}{% endif %}
-  {%- set pageDescription = description or summary or site.description %}
+  {%- if isHome %}{% set pageTitle = S.name + " | " + S.tagline %}{% else %}{% set pageTitle = title + " | " + S.shortName %}{% endif %}
+  {%- set pageDescription = description or summary or S.description %}
   {%- set canonical = page.url | absUrl(site.url) %}
   <title>{{ pageTitle }}</title>
   <meta name="description" content="{{ pageDescription }}">
   <link rel="canonical" href="{{ canonical }}">
   <meta property="og:type" content="{{ ogType or 'website' }}">
-  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="og:site_name" content="{{ S.name }}">
   <meta property="og:title" content="{{ pageTitle }}">
   <meta property="og:description" content="{{ pageDescription }}">
   <meta property="og:url" content="{{ canonical }}">
   <meta property="og:image" content="{{ '/assets/img/og-image.png' | absUrl(site.url) }}">
-  <meta property="og:locale" content="mn_MN">
+  <meta property="og:locale" content="{{ 'en_US' if isEn else 'mn_MN' }}">
+  {%- if altUrl %}
+  <meta property="og:locale:alternate" content="{{ 'mn_MN' if isEn else 'en_US' }}">
+  {%- set mnUrl = altUrl if isEn else page.url %}{% set enUrl = page.url if isEn else altUrl %}
+  <link rel="alternate" hreflang="mn" href="{{ mnUrl | absUrl(site.url) }}">
+  <link rel="alternate" hreflang="en" href="{{ enUrl | absUrl(site.url) }}">
+  <link rel="alternate" hreflang="x-default" href="{{ mnUrl | absUrl(site.url) }}">
+  {%- endif %}
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#16264a">
   {%- if noindex %}<meta name="robots" content="noindex">{% endif %}
@@ -30,9 +39,9 @@
   {
     "@context": "https://schema.org",
     "@type": "AccountingService",
-    "name": {{ site.name | json | safe }},
-    "alternateName": "Sankhuuch audit LLC",
-    "description": {{ site.description | json | safe }},
+    "name": {{ S.name | json | safe }},
+    "alternateName": {{ (site.name if isEn else en.site.name) | json | safe }},
+    "description": {{ S.description | json | safe }},
     "url": {{ site.url | json | safe }},
     "logo": {{ '/assets/img/logo.png' | absUrl(site.url) | json | safe }},
     "image": {{ '/assets/img/og-image.png' | absUrl(site.url) | json | safe }},
@@ -41,8 +50,8 @@
     "foundingDate": "2008",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": {{ site.address | json | safe }},
-      "addressLocality": "Улаанбаатар",
+      "streetAddress": {{ S.address | json | safe }},
+      "addressLocality": {{ ("Ulaanbaatar" if isEn else "Улаанбаатар") | json | safe }},
       "addressCountry": "MN"
     }{% if site.youtube_channel or site.facebook_url %},
     "sameAs": [{% if site.youtube_channel %}{{ site.youtube_channel | json | safe }}{% endif %}{% if site.youtube_channel and site.facebook_url %}, {% endif %}{% if site.facebook_url %}{{ site.facebook_url | json | safe }}{% endif %}]{% endif %}
@@ -51,7 +60,7 @@
   {%- block head %}{% endblock %}
 </head>
 <body class="{{ bodyClass }}">
-  <a class="skip-link" href="#main">Үндсэн агуулга руу шилжих</a>
+  <a class="skip-link" href="#main">{{ "Skip to main content" if isEn else "Үндсэн агуулга руу шилжих" }}</a>
   {% include "partials/header.njk" %}
   <main id="main" tabindex="-1">
     {{ content | safe }}

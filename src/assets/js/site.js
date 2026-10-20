@@ -96,7 +96,7 @@
         setTimeout(function () { btn.textContent = label; }, 2000);
       }
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(function () { done("Хуулагдлаа"); }, function () { done(text); });
+        navigator.clipboard.writeText(text).then(function () { done((document.documentElement.lang || "").indexOf("en") === 0 ? "Copied" : "Хуулагдлаа"); }, function () { done(text); });
       } else {
         done(text);
       }

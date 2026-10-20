@@ -1,0 +1,148 @@
+---
+permalink: /en/
+altUrl: /
+isHome: true
+title: Home
+bodyClass: page-home
+---
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow eyebrow-on-dark"><span class="tribar" aria-hidden="true"><i></i><i></i><i></i></span>Since 2008</p>
+      <h1 class="hero-title"><span class="nowrap">Sankhuuch Audit</span> <span class="accent">LLC</span></h1>
+      <p class="hero-tagline">{{ en.site.tagline }}</p>
+      <p class="hero-lead">{{ en.site.description }}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/en/request-a-quote/">Request a quote</a>
+        <a class="btn btn-outline-light" href="/en/services/">Explore our services</a>
+      </div>
+      <a class="badge-member" href="{{ site.monicpa_url }}" rel="noopener" target="_blank">
+        <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m6.2 10.2 2.6 2.5 5-5.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        MonICPA member
+      </a>
+    </div>
+    <div class="hero-stats" aria-label="Key figures">
+      {%- for s in en.stats %}
+      <div class="stat">
+        <p class="stat-value">{{ s.value }}</p>
+        <p class="stat-label">{{ s.label }}</p>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Our services</p>
+      <h2>From audit and assurance to advisory services</h2>
+    </div>
+    <div class="service-groups">
+      {%- for g in en.groups %}
+      <div class="service-group service-group-{{ g.key }}">
+        <h3 class="service-group-title">{{ g.label }}</h3>
+        <ul class="service-list">
+          {%- for s in en.services | where("group", g.key) %}
+          <li>
+            <a href="/en/services/#{{ s.slug }}">
+              <span class="service-name">{{ s.title }}</span>
+              <span class="service-items">{{ s.items | join(" · ") }}</span>
+            </a>
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-navy">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow eyebrow-on-dark">The role of audit</p>
+      <h2>What value does an audit create?</h2>
+    </div>
+    <ol class="value-chain">
+      {%- for v in en.value_chain %}
+      <li class="value-step{% if loop.index == 2 %} is-core{% endif %}">
+        <p class="value-num">0{{ loop.index }} · {{ v.step }}</p>
+        <h3>{{ v.title }}</h3>
+        <p>{{ v.text }}</p>
+      </li>
+      {%- endfor %}
+    </ol>
+    <p class="value-result"><strong>Outcome:</strong> {{ en.value_result }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">What sets us apart</p>
+      <h2>What we offer our clients beyond the audit</h2>
+    </div>
+    <div class="diff-grid">
+      {%- for d in en.differentiators %}
+      <div class="diff">
+        <h3>{{ d.title }}</h3>
+        <p>{{ d.text }}</p>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head-row">
+      <div>
+        <p class="eyebrow">Our clients</p>
+        <h2>Selected organisations we have worked with</h2>
+      </div>
+      <a class="link-more" href="/en/about/#clients">View all</a>
+    </div>
+    <ul class="client-wall">
+      {%- for g in en.client_groups %}{% for n in g.names | limit(3) %}<li>{{ n }}</li>{% endfor %}{% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section section-tint">
+  <div class="container trust">
+    <div class="trust-copy">
+      <p class="eyebrow">Professional credentials</p>
+      <h2>Licences and memberships</h2>
+      <ul class="cred-list">
+        {%- for c in en.credentials %}
+        <li>
+          <p class="cred-title">{{ c.title }}</p>
+          <p class="cred-detail">{{ c.issuer }}{% if c.detail %} · {{ c.detail }}{% endif %}</p>
+          {%- if c.link %}<a class="link-small" href="{{ c.link }}" rel="noopener" target="_blank">Verify</a>{% endif %}
+        </li>
+        {%- endfor %}
+      </ul>
+      <a class="link-more" href="/en/about/#credentials">Learn more</a>
+    </div>
+    <div class="trust-figures">
+      <div><p class="stat-value">100</p><p class="stat-label">client organisations served each year, on average</p></div>
+      <div><p class="stat-value">{{ company.team_total }}</p><p class="stat-label">professionals on our team</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-tint en-resources">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Resources</p>
+      <h2>Advice, videos and the Accountants' Calendar</h2>
+      <p class="section-intro">Our articles, video library and the annual Accountants' Calendar cover Mongolian tax, social insurance and accounting rules, and are published in Mongolian.</p>
+    </div>
+    <ul class="service-chips">
+      {%- for r in en.mn_resources %}<li><a href="{{ r.url }}" hreflang="mn">{{ r.label }} (in Mongolian)</a></li>{% endfor %}
+    </ul>
+  </div>
+</section>
+
+{% include "partials/contact-band.njk" %}

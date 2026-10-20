@@ -1,0 +1,168 @@
+{
+  "_tailbar": "Англи хувилбарын агуулга. Монгол агуулгын (site.json, company.json, services) орчуулга. Тоон мэдээлэл company.json-оос автоматаар авна.",
+  "site": {
+    "name": "Sankhuuch Audit LLC",
+    "shortName": "Sankhuuch Audit",
+    "tagline": "A firm specialising in audit, accounting and advisory services",
+    "description": "Since 2008, Sankhuuch Audit LLC has continuously provided financial statement audits, accounting advisory services, and other review and assurance engagements.",
+    "address": "Room 604, Shine Tereg Plaza, Narnii Road 10, 1st khoroo, Sukhbaatar district, Ulaanbaatar, Mongolia"
+  },
+  "navigation": [
+    { "url": "/en/", "label": "Home" },
+    { "url": "/en/about/", "label": "About us" },
+    { "url": "/en/services/", "label": "Services" },
+    { "url": "/en/contact/", "label": "Contact" },
+    { "url": "/en/request-a-quote/", "label": "Request a quote" }
+  ],
+  "mn_resources": [
+    { "url": "/zuvlugu/", "label": "Advice and updates" },
+    { "url": "/video/", "label": "Video library" },
+    { "url": "/zuvlugu/#kalendar", "label": "Accountants' Calendar" }
+  ],
+  "stats": [
+    { "value": "18", "label": "years of continuous operation" },
+    { "value": "10", "label": "professionals on our team" },
+    { "value": "100", "label": "client organisations served each year, on average" },
+    { "value": "20+", "label": "years of experience for each of our 4 lead auditors" }
+  ],
+  "history_title": "18 years of continuous service",
+  "history_intro": "Founded in 2008, the firm has provided financial statement audits, accounting advisory services, and other review and assurance engagements without interruption for 18 years.",
+  "timeline": [
+    { "year": "2008", "text": "Founded" },
+    { "year": "2018", "text": "10th anniversary" },
+    { "year": "2019", "text": "First edition of the “Accountants' Calendar” published" },
+    { "year": "2022", "text": "Recommendations for clients; development of the “Nya-Bo” app" },
+    { "year": "2026", "text": "Use of artificial intelligence (AI) in audit work" }
+  ],
+  "mission": "To provide professional support and assistance to businesses, organisations and individuals, and to help stakeholders obtain accurate, reliable information by verifying and attesting the results of economic activity.",
+  "mission_keywords": ["Professional support", "Verification and assurance", "Reliable information"],
+  "principles": [
+    { "title": "Reliability", "text": "We act objectively and deliver truthful, reliable services, free from any constraint that could affect our independence." },
+    { "title": "Integrity", "text": "We provide reasonable assurance on whether financial statements and accounting policies are accurately prepared and comply with laws and regulations." },
+    { "title": "Trust", "text": "We deliver audit services to professional standards and work to earn the trust of our clients and of the users of financial statements." },
+    { "title": "Accountability", "text": "We audit in accordance with laws and standards and take full responsibility for the accuracy of our opinions." }
+  ],
+  "value_chain": [
+    { "step": "Client", "title": "Reporting entities and organisations", "text": "Prepare their financial statements and engage an independent auditor" },
+    { "step": "Audit", "title": "Financial statement audit", "text": "We form an opinion on whether the statements are accurate and prepared in accordance with standards" },
+    { "step": "Users", "title": "Users of financial statements", "text": "Make decisions based on verified, reliable information" }
+  ],
+  "value_result": "Stakeholders receive accurate, reliable information",
+  "team": [
+    { "count": 4, "role": "Lead auditors", "note": "More than 20 years of experience" },
+    { "count": 3, "role": "Audit assistants", "note": "More than 5 years of experience" },
+    { "count": 1, "role": "Consultant", "note": "Specialised in taxation" },
+    { "count": 2, "role": "Other staff", "note": "Operations support" }
+  ],
+  "clients_average_text": "About 100",
+  "clients_non_audit": "About 10",
+  "differentiators": [
+    { "title": "Recommendations for every client", "text": "Since 2022 we have provided all our clients with recommendations on both common and client-specific matters." },
+    { "title": "Monthly newsletter", "text": "Every month we email our clients updates on IFRS, accounting and tax matters." },
+    { "title": "“Nya-Bo”, a first for Mongolia", "text": "In development since 2022, its web version will launch very soon, and our clients will be able to use it free of charge." },
+    { "title": "Accountants' Calendar", "text": "Since 2019 we have printed and delivered, every year, a calendar containing the information accountants need." }
+  ],
+  "audit_focus": [
+    "Determining whether the financial statements are free from material misstatement and irregularities",
+    "Assessing whether the financial statements have been prepared in accordance with applicable laws, accounting standards and the rules issued by the Ministry of Finance",
+    "Issuing an opinion on the financial statements and providing recommendations"
+  ],
+  "credentials": [
+    { "title": "Member of MonICPA", "issuer": "Mongolian Institute of Certified Public Accountants", "detail": "The firm's registration can be verified on the MonICPA website.", "link": "https://monicpa.mn/c/596888", "image": "" },
+    { "title": "Licensed to audit insurance companies", "issuer": "Financial Regulatory Commission of Mongolia", "detail": "Since 2016", "link": "", "image": "/assets/img/szh-daatgal-audit-gerchilgee.jpg" }
+  ],
+  "clients_intro": "We have audited the financial statements of major national companies, financial institutions, foreign-invested companies, and state-owned and budget organisations. Selected clients:",
+  "client_groups": [
+    {
+      "title": "Major national companies",
+      "names": ["Erdenes Mongol LLC", "Mongol Trans LLC", "Gashuunsukhait Road LLC", "Hunnu Air LLC", "Tuushin LLC", "Tuushin Hotel LLC", "Ikh Nayad Plaza LLC", "Soyolj LLC", "“Ach” Medical University"]
+    },
+    {
+      "title": "Finance and insurance",
+      "names": ["Ganzam Insurance LLC", "Nachinzaan LLC", "Illanai NBFI LLC", "Enti Finance LLC"]
+    },
+    {
+      "title": "Foreign-invested companies",
+      "names": ["Dongsheng Petroleum (Mongolia) LLC", "Mon Czech Uranium LLC", "Mongolsat Networks LLC", "Suruga Motors LLC", "Shim Technology LLC, a Mongolian-Swiss joint venture"]
+    },
+    {
+      "title": "State-owned and budget organisations",
+      "names": ["Ulaanbaatar District Heating Network SOJSC", "Mongolian State University of Arts and Culture", "Road Fund", "National Dermatology Center"]
+    }
+  ],
+  "groups": [
+    { "key": "audit", "label": "Audit and assurance", "heading": "Audit and assurance services" },
+    { "key": "advisory", "label": "Advisory and related services", "heading": "Advisory and related services" }
+  ],
+  "services": [
+    {
+      "slug": "financial-statement-audit",
+      "group": "audit",
+      "title": "Financial statement audit",
+      "summary": "We provide an independent opinion on whether financial statements are accurate and prepared in accordance with standards.",
+      "items": ["Private, foreign-invested and domestically invested businesses", "State-owned and partially state-owned entities", "Projects and programmes"],
+      "detail_intro": "We audit the following organisations:",
+      "details": [
+        "Private-sector businesses engaged in production and services",
+        "State-owned and partially state-owned organisations",
+        "Budget organisations funded from the state budget",
+        "Foreign-invested and joint-venture organisations",
+        "Foreign and domestic projects and programmes"
+      ]
+    },
+    {
+      "slug": "review-of-financial-statements",
+      "group": "audit",
+      "title": "Review of financial statements",
+      "summary": "We review a complete set of financial statements or an individual statement.",
+      "items": ["Complete set of financial statements", "Partial audit procedures on an individual statement"],
+      "detail_intro": "",
+      "details": []
+    },
+    {
+      "slug": "other-assurance-engagements",
+      "group": "audit",
+      "title": "Other assurance engagements",
+      "summary": "We provide assurance on specific accounts, return on investment and other matters.",
+      "items": ["Review of specific accounts", "Assessment of return on investment", "Other assurance"],
+      "detail_intro": "",
+      "details": []
+    },
+    {
+      "slug": "finance-and-accounting-advisory",
+      "group": "advisory",
+      "title": "Finance and accounting advisory",
+      "summary": "We provide professional advice on accounting, reporting and tax matters.",
+      "items": ["Development of accounting policies", "Methodological support and advice on reporting", "Tax advisory services", "Other services"],
+      "detail_intro": "This area covers:",
+      "details": [
+        "Assisting in developing accounting policy documents, as required by the Law on Accounting, in line with financial and accounting laws, standards and regulations",
+        "Accounting, reporting and financial management advice for private-sector businesses",
+        "Reviewing calculations of taxes, fees, charges and contributions, and assisting with the preparation of tax returns",
+        "Advising budget organisations and state-owned enterprises on spending public assets in compliance with laws and regulations, and on increasing the value obtained from every tögrög spent"
+      ]
+    },
+    {
+      "slug": "other-related-services",
+      "group": "advisory",
+      "title": "Other related services",
+      "summary": "We support related financial matters such as risk, efficiency and debt management.",
+      "items": ["Risk management", "Efficiency studies", "Debt management", "Other services on request"],
+      "detail_intro": "This area covers:",
+      "details": [
+        "Conducting economic efficiency studies and analysis, and providing methodology",
+        "Risk management and business profitability advice",
+        "Debt management advice",
+        "Assisting businesses and organisations in establishing internal financial controls"
+      ]
+    }
+  ],
+  "quote_extra_service": "Development of accounting policy documents",
+  "entity_types": [
+    "Private business",
+    "Foreign-invested business",
+    "Non-governmental organisation",
+    "Project or programme",
+    "Other"
+  ]
+}

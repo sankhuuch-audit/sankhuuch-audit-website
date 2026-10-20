@@ -1,20 +1,35 @@
+{%- set isEn = (lang == "en") %}
+{%- set S = en.site if isEn else site %}
+{%- set navItems = en.navigation if isEn else navigation %}
+{%- set homeUrl = "/en/" if isEn else "/" %}
+{%- set otherUrl = altUrl or ("/" if isEn else "/en/") %}
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href="/" aria-label="{{ site.name }}, нүүр хуудас">
+    <a class="brand" href="{{ homeUrl }}" aria-label="{{ S.name }}, {{ 'home page' if isEn else 'нүүр хуудас' }}">
       <img class="brand-logo" src="/assets/img/logo.svg" width="66" height="41" alt="">
       <span class="brand-text">
-        <span class="brand-name">{{ site.name }}</span>
-        <span class="brand-sub">2008 оноос хойш</span>
+        <span class="brand-name">{{ S.name }}</span>
+        <span class="brand-sub">{{ "Since 2008" if isEn else "2008 оноос хойш" }}</span>
       </span>
     </a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Цэс нээх">
-      <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i><i></i></span>
-      <span class="nav-toggle-label">Цэс</span>
-    </button>
-    <nav class="site-nav" id="site-nav" aria-label="Үндсэн цэс">
+    <div class="header-tools">
+      <nav class="lang-switch" aria-label="{{ 'Language' if isEn else 'Хэл сонгох' }}">
+        {%- if isEn %}
+        <a href="{{ otherUrl }}" hreflang="mn" lang="mn" title="Монгол хэл">МН</a><span class="lang-current" aria-current="true" title="English">EN</span>
+        {%- else %}
+        <span class="lang-current" aria-current="true" title="Монгол хэл">МН</span><a href="{{ otherUrl }}" hreflang="en" lang="en" title="English">EN</a>
+        {%- endif %}
+      </nav>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="{{ 'Open menu' if isEn else 'Цэс нээх' }}">
+        <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="nav-toggle-label">{{ "Menu" if isEn else "Цэс" }}</span>
+      </button>
+    </div>
+    <nav class="site-nav" id="site-nav" aria-label="{{ 'Main menu' if isEn else 'Үндсэн цэс' }}">
       <ul>
-        {%- for item in navigation %}
-        {%- set active = (page.url == item.url) or (item.url != "/" and (page.url | string).startsWith(item.url)) %}
+        {%- for item in navItems %}
+        {%- set active = (page.url == item.url) or (item.url != homeUrl and (page.url | string).startsWith(item.url)) %}
+        {%- set isCta = (item.url == '/unii-sanal/' or item.url == '/en/request-a-quote/') %}
         {%- if item.url == '/zuvlugu/' %}
         <li class="has-sub">
           <a href="{{ item.url }}"{% if active %} aria-current="page"{% endif %}>{{ item.label }}<svg class="nav-caret" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
@@ -26,9 +41,10 @@
           </ul>
         </li>
         {%- else %}
-        <li{% if item.url == '/' %} class="nav-home"{% endif %}><a href="{{ item.url }}" class="{% if item.url == '/unii-sanal/' %}nav-cta{% endif %}"{% if active %} aria-current="page"{% endif %}>{{ item.label }}</a></li>
+        <li{% if item.url == homeUrl %} class="nav-home"{% endif %}><a href="{{ item.url }}" class="{% if isCta %}nav-cta{% endif %}"{% if active %} aria-current="page"{% endif %}>{{ item.label }}</a></li>
         {%- endif %}
         {%- endfor %}
+        <li class="nav-lang"><a href="{{ otherUrl }}" hreflang="{{ 'mn' if isEn else 'en' }}" lang="{{ 'mn' if isEn else 'en' }}">{{ "Монгол хэл" if isEn else "English" }}</a></li>
       </ul>
     </nav>
   </div>

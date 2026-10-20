@@ -106,6 +106,7 @@ export default function (eleventyConfig) {
   );
   eleventyConfig.addFilter("exceptUrl", (arr, url) => (arr || []).filter((i) => i.url !== url));
   eleventyConfig.addFilter("findBy", (arr, key, value) => (arr || []).find((x) => x && x[key] === value));
+  eleventyConfig.addFilter("where", (arr, key, value) => (arr || []).filter((x) => x && x[key] === value));
   eleventyConfig.addFilter("absUrl", (path, base) => {
     try { return new URL(path, base).href; } catch { return path; }
   });

@@ -1,0 +1,61 @@
+---
+title: Contact
+description: Address, phone and email of Sankhuuch Audit LLC. Room 604, Shine Tereg Plaza, Narnii Road 10, 1st khoroo, Sukhbaatar district, Ulaanbaatar, Mongolia.
+permalink: /en/contact/
+altUrl: /holboo-barih/
+---
+{%- from "partials/macros.njk" import pageHero %}
+{{ pageHero("Contact", "We look forward to working with you.", "Get in touch with us about audit, accounting, tax and financial advisory services.") }}
+
+<section class="section">
+  <div class="container contact-grid">
+    <div class="contact-card">
+      <p class="contact-label">Address</p>
+      <p class="contact-value">{{ en.site.address }}</p>
+      {%- if site.map_url %}<a class="link-small" href="{{ site.map_url }}" rel="noopener" target="_blank">View on the map</a>{% endif %}
+    </div>
+    <div class="contact-card">
+      <p class="contact-label">Phone</p>
+      <p class="contact-value">{% for p in site.phones %}<a href="{{ p | telHref }}">{{ p }}</a>{% if not loop.last %}<br>{% endif %}{% endfor %}</p>
+    </div>
+    <div class="contact-card">
+      <p class="contact-label">Email</p>
+      <p class="contact-value"><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+      <button type="button" class="link-small copy-btn" data-copy="{{ site.email }}">Copy email address</button>
+    </div>
+    <div class="contact-card">
+      <p class="contact-label">MonICPA registration</p>
+      <p class="contact-value"><a href="{{ site.monicpa_url }}" rel="noopener" target="_blank">{{ site.monicpa_url | replace("https://", "") }}</a></p>
+    </div>
+    {%- if site.youtube_channel or site.facebook_url %}
+    <div class="contact-card">
+      <p class="contact-label">Social media</p>
+      <p class="contact-value">
+        {%- if site.youtube_channel %}<a href="{{ site.youtube_channel }}" rel="noopener" target="_blank">YouTube channel</a>{% endif %}
+        {%- if site.youtube_channel and site.facebook_url %}<br>{% endif %}
+        {%- if site.facebook_url %}<a href="{{ site.facebook_url }}" rel="noopener" target="_blank">Facebook</a>{% endif %}
+      </p>
+    </div>
+    {%- endif %}
+  </div>
+  {%- if site.map_embed %}
+  <div class="container">
+    <div class="map-wrap">
+      <iframe class="map-frame" src="{{ site.map_embed | replace('hl=mn', 'hl=en') }}" title="Location of Sankhuuch Audit LLC: Shine Tereg Plaza" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
+    <p class="map-caption">Shine Tereg Plaza, Room 604. {% if site.map_url %}<a href="{{ site.map_url }}" rel="noopener" target="_blank">Open in Google Maps for directions</a>{% endif %}</p>
+  </div>
+  {%- endif %}
+</section>
+
+<section class="section section-tint">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Our services</p>
+      <h2>How can we help?</h2>
+    </div>
+    <ul class="service-chips">
+      {%- for s in en.services %}<li><a href="/en/services/#{{ s.slug }}">{{ s.title }}</a></li>{% endfor %}
+    </ul>
+  </div>
+</section>
