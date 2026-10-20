@@ -1,12 +1,12 @@
 ---
 layout: layouts/base.njk
 title: Ээлжийн амралтын тооцоолуур
-description: Ажилласан жилээс хамаарсан ээлжийн амралтын нэмэлт хоног болон ээлжийн амралтын цалинг (олговор) тооцох тооцоолуур.
+description: Ээлжийн үндсэн болон нэмэгдэл амралтын хоног (хэвийн, хэвийн бус нөхцөл), бүтэн бус цаг, ажилласан сараар ногдох хоног, ээлжийн амралтын цалинг Хөдөлмөрийн тухай хууль, ХНХ сайдын А/191 журмаар тооцох тооцоолуур.
 permalink: /tootsooluur/eeljiin-amralt/
 bodyClass: page-calc
 ---
 {%- from "partials/macros.njk" import pageHero %}
-{{ pageHero("Тооцоолуур", "Ээлжийн амралтын тооцоолуур", "Ажилласан жилээр ээлжийн амралтын хоног, өмнөх амралтаас хойшх цалингаар амралтын цалинг тооцоолно.") }}
+{{ pageHero("Тооцоолуур", "Ээлжийн амралтын тооцоолуур", "Хөдөлмөрийн тухай хууль, ХНХ сайдын А/191 тушаалаар баталсан журмаар ээлжийн амралтын хоног, амралтын цалинг тооцоолно.") }}
 
 <section class="section">
   <div class="container">
@@ -14,21 +14,94 @@ bodyClass: page-calc
   </div>
   <div class="container calc-layout">
     <form class="calc-form" id="leave-form" novalidate onsubmit="return false">
-      <label class="calc-field">
-        <span class="calc-label">Нийт ажилласан жил (хөдөлмөрийн стаж)</span>
-        <input class="calc-input" id="lv-years" type="text" inputmode="numeric" autocomplete="off" value="12">
-        <span class="calc-hint">Бүтэн жилээр. Хэвийн хөдөлмөрийн нөхцөлөөр тооцно.</span>
-      </label>
-      <label class="calc-field">
-        <span class="calc-label">Өмнөх ээлжийн амралтаас хойш олгосон нийт цалин, ₮</span>
-        <input class="calc-input" id="lv-pay" type="text" inputmode="numeric" autocomplete="off" value="24,000,000">
-        <span class="calc-hint">Үндсэн цалин, нэмэгдэл, нэмэгдэл хөлс, шагнал урамшуулал. Суутгал хийхээс өмнөх дүн.</span>
-      </label>
-      <label class="calc-field">
-        <span class="calc-label">Тэр хугацаанд ажилласан өдөр</span>
-        <input class="calc-input" id="lv-days" type="text" inputmode="numeric" autocomplete="off" value="250">
-        <span class="calc-hint">Ажлын анхны жилд ажилд орсон өдрөөс хойшх ажилласан өдөр.</span>
-      </label>
+      <fieldset class="calc-group">
+        <legend>1. Амралтын хоног</legend>
+        <label class="calc-field">
+          <span class="calc-label">Ээлжийн үндсэн амралт</span>
+          <select class="calc-input" id="lv-base">
+            <option value="{{ leave.base_days }}" selected>Ердийн ажилтан: {{ leave.base_days }} өдөр</option>
+            <option value="{{ leave.base_special }}">Хөгжлийн бэрхшээлтэй, 18 насанд хүрээгүй: {{ leave.base_special }} өдөр</option>
+            <option value="turn18">Ажлын жилийн дунд 18 нас хүрсэн</option>
+          </select>
+          <span class="calc-hint">ХТХ 99.3, 99.4.</span>
+        </label>
+
+        <label class="calc-field" id="lv-minor-field" hidden>
+          <span class="calc-label">18 нас хүрэх хүртэлх сар</span>
+          <input class="calc-input" id="lv-minor-months" type="text" inputmode="numeric" autocomplete="off" value="11">
+          <span class="calc-hint">Ажлын жилийн эхнээс 18 нас хүрсэн сарыг оролцуулан тоолно. Энэ хугацаанд {{ leave.base_special }}, үлдсэн сард {{ leave.base_days }} өдрөөр тооцно (журмын 2.4).</span>
+        </label>
+
+        <div class="calc-field">
+          <span class="calc-label">Хөдөлмөрийн нөхцөл</span>
+          <div class="seg" role="radiogroup" aria-label="Хөдөлмөрийн нөхцөл">
+            <label class="seg-opt"><input type="radio" name="cond" value="normal" checked><span>Хэвийн</span></label>
+            <label class="seg-opt"><input type="radio" name="cond" value="abnormal"><span>Хэвийн бус</span></label>
+          </div>
+        </div>
+
+        <div class="calc-field">
+          <span class="calc-label" id="lv-service-label">Нийт ажилласан хугацаа (хөдөлмөрийн стаж)</span>
+          <div class="calc-pair" role="group" aria-labelledby="lv-service-label">
+            <label class="calc-unit"><input class="calc-input" id="lv-years" type="text" inputmode="numeric" autocomplete="off" value="3" aria-label="Жил"><span aria-hidden="true">жил</span></label>
+            <label class="calc-unit"><input class="calc-input" id="lv-months" type="text" inputmode="numeric" autocomplete="off" value="0" aria-label="Сар"><span aria-hidden="true">сар</span></label>
+          </div>
+          <span class="calc-hint" id="lv-service-hint">Нэмэгдэл амралт 61 дэх сараас (5 жил 1 сар) эхэлнэ.</span>
+        </div>
+      </fieldset>
+
+      <fieldset class="calc-group">
+        <legend>2. Тооцох хугацаа</legend>
+        <div class="calc-field">
+          <span class="calc-label">Амралтыг юугаар тооцох вэ</span>
+          <div class="seg" role="radiogroup" aria-label="Тооцох хугацаа">
+            <label class="seg-opt"><input type="radio" name="period" value="year" checked><span>Бүтэн жил</span></label>
+            <label class="seg-opt"><input type="radio" name="period" value="months"><span>Сараар</span></label>
+            <label class="seg-opt"><input type="radio" name="period" value="days"><span>Өдөр, цаг</span></label>
+          </div>
+          <span class="calc-hint" id="lv-period-hint"></span>
+        </div>
+
+        <label class="calc-field" id="lv-pm-field" hidden>
+          <span class="calc-label">Тухайн ажлын жилд ажилласан сар</span>
+          <input class="calc-input" id="lv-pmonths" type="text" inputmode="numeric" autocomplete="off" value="6">
+        </label>
+
+        <div class="calc-field" id="lv-pd-field" hidden>
+          <span class="calc-label" id="lv-pd-label">Тухайн ажлын жилд ажилласан</span>
+          <div class="calc-pair">
+            <input class="calc-input" id="lv-pdays" type="text" inputmode="decimal" autocomplete="off" value="172" aria-labelledby="lv-pd-label">
+            <select class="calc-input" id="lv-punit" aria-label="Хэмжих нэгж">
+              <option value="days" selected>ажлын өдөр</option>
+              <option value="hours">цаг</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="calc-field" id="lv-hours-field">
+          <span class="calc-label">Өдөрт ажиллах цаг</span>
+          <input class="calc-input" id="lv-hours" type="text" inputmode="decimal" autocomplete="off" value="8">
+          <span class="calc-hint">Ердийн ажлын өдөр {{ leave.day_hours }} цаг. Бүтэн бус цагийн ажилтан бол гэрээний цаг (7 хоногт 20 цаг бол 4) (журмын 2.3).</span>
+        </label>
+      </fieldset>
+
+      <fieldset class="calc-group">
+        <legend>3. Амралтын цалин</legend>
+        <label class="calc-field">
+          <span class="calc-label">Өмнөх ээлжийн амралтаас хойшх цалин хөлсний нийлбэр, ₮</span>
+          <input class="calc-input" id="lv-pay" type="text" inputmode="numeric" autocomplete="off" value="12,125,000">
+          <span class="calc-hint">Үндсэн цалин, нэмэгдэл, нэмэгдэл хөлс, шагнал урамшуулал, суутгалаас өмнөх дүнгээр (журмын 3.3).</span>
+        </label>
+        <label class="calc-field">
+          <span class="calc-label">Тэр саруудад ажилласан ажлын өдөр</span>
+          <input class="calc-input" id="lv-days" type="text" inputmode="numeric" autocomplete="off" value="194">
+          <span class="calc-hint">Анх удаа амрах бол ажилд орсноос хойшх (3.5), жирэмсний амралтын дараа бол түүнээс өмнөх саруудаар (3.6).</span>
+        </label>
+        <label class="calc-check">
+          <input type="checkbox" id="lv-nottaken">
+          <span>Ажлын зайлшгүй шаардлагаар амралтаа биеэр эдэлж чадаагүй. Амралтын цалинг 1.5 дахин нэмэгдүүлнэ (ХТХ 110.2).</span>
+        </label>
+      </fieldset>
     </form>
 
     <div class="calc-result" aria-live="polite">
@@ -38,39 +111,62 @@ bodyClass: page-calc
         <p class="calc-net-sub" id="lv-days-sum"></p>
       </div>
       <table class="calc-table">
-        <caption class="visually-hidden">Ээлжийн амралтын тооцоо</caption>
+        <caption class="visually-hidden">Ээлжийн амралтын хоног</caption>
         <tbody>
-          <tr><th scope="row">Үндсэн амралт</th><td id="lv-base">—</td></tr>
-          <tr><th scope="row">Нэмэлт амралт</th><td id="lv-extra">—</td></tr>
-          <tr class="total"><th scope="row">Нийт амралт</th><td id="lv-all">—</td></tr>
-          <tr class="sub"><th scope="row">Нэг өдрийн дундаж цалин</th><td id="lv-daily">—</td></tr>
-          <tr class="total"><th scope="row">Амралтын цалин (суутгалаас өмнө)</th><td id="lv-pay-out">—</td></tr>
+          <tr><th scope="row" id="lv-r-base-label">Үндсэн амралт</th><td id="lv-r-base">—</td></tr>
+          <tr><th scope="row" id="lv-r-extra-label">Нэмэгдэл амралт</th><td id="lv-r-extra">—</td></tr>
+          <tr class="sub"><th scope="row">Ажлын бүтэн жилд ногдох</th><td id="lv-r-annual">—</td></tr>
+          <tr id="lv-row-period" hidden><th scope="row" id="lv-r-period-label">Ажилласан хугацаа</th><td id="lv-r-period">—</td></tr>
+          <tr id="lv-row-pt" hidden><th scope="row" id="lv-r-pt-label">Бүтэн бус цаг</th><td id="lv-r-pt">—</td></tr>
+          <tr class="total"><th scope="row">Олгох ээлжийн амралт</th><td id="lv-r-all">—</td></tr>
         </tbody>
       </table>
+
+      <h2 class="h-small calc-h">Амралтын цалин</h2>
+      <table class="calc-table">
+        <caption class="visually-hidden">Ээлжийн амралтын цалин</caption>
+        <tbody>
+          <tr><th scope="row">Нэг өдрийн дундаж цалин</th><td id="lv-r-daily">—</td></tr>
+          <tr><th scope="row">Ээлжийн амралтын цалин</th><td id="lv-r-pay">—</td></tr>
+          <tr id="lv-row-x" hidden><th scope="row">1.5 дахин нэмэгдүүлсэн (ХТХ 110.2)</th><td id="lv-r-x">—</td></tr>
+          <tr class="total"><th scope="row">Олгох дүн, суутгалаас өмнө</th><td id="lv-r-out">—</td></tr>
+        </tbody>
+      </table>
+      <p class="calc-yearnote" id="lv-rate"></p>
       <p class="calc-cta"><a class="btn btn-outline btn-sm" id="lv-net-link" href="/tootsooluur/">НДШ, ХХОАТ-ын суутгалыг тооцох</a></p>
     </div>
   </div>
 
   <div class="container">
     <div class="calc-notes">
-      <h2 class="h-small">Нэмэлт амралтын хоног, хэвийн нөхцөлд</h2>
-      <table class="calc-table calc-ref">
-        <thead><tr><th scope="col">Ажилласан жил</th><th scope="col">Нэмэлт ажлын өдөр</th></tr></thead>
-        <tbody>
-          <tr><td>1–5 жил</td><td>0</td></tr>
-          {%- for r in leave.extra_normal %}
-          <tr><td>{% if r.to %}{{ r.from }}–{{ r.to }} жил дуустал{% else %}{{ r.from }} дахь жилээс{% endif %}</td><td>{{ r.days }}</td></tr>
-          {%- endfor %}
-        </tbody>
-      </table>
-      <h2 class="h-small calc-h">Тооцооны аргачлал</h2>
+      <h2 class="h-small">Нэмэгдэл амралт, ажлын өдрөөр</h2>
+      <div class="calc-ref-wrap">
+        <table class="calc-table calc-ref calc-ref-3" id="lv-ref">
+          <thead><tr><th scope="col">Нийт ажилласан хугацаа</th><th scope="col">Хэвийн нөхцөл</th><th scope="col">Хэвийн бус нөхцөл</th></tr></thead>
+          <tbody>
+            <tr data-from="0" data-to="60"><td>1–5 дахь жил <span class="calc-ref-m">(60 сар хүртэл)</span></td><td>0</td><td>0</td></tr>
+            {%- for r in leave.extra %}
+            <tr data-from="{{ r.from }}" data-to="{{ r.to if r.to else '' }}"><td>{{ r.years }} <span class="calc-ref-m">({{ r.from }}{% if r.to %}–{{ r.to }}{% else %} ба түүнээс дээш{% endif %} сар)</span></td><td>{{ r.normal }}</td><td>{{ r.abnormal }}</td></tr>
+            {%- endfor %}
+          </tbody>
+        </table>
+      </div>
+      <p class="calc-ref-src">ХТХ 99.5, 99.6; журмын 2.13. Үндсэн амралт дээр нэмж олгоно.</p>
+
+      <h2 class="h-small calc-h">Журмын гол заалт</h2>
       <ul>
-        <li>Ээлжийн амралтын үндсэн хугацаа ажлын {{ leave.base_days }} өдөр. Нэмэлт хоногийг ажилласан жилээр дээрх хүснэгтээр нэмнэ.</li>
-        <li>Нэг өдрийн дундаж цалин = өмнөх ээлжийн амралтаас хойшх сарын нийт цалин ÷ тэр саруудад ажилласан өдрийн нийлбэр.</li>
-        <li>Ээлжийн амралтын цалин = нэг өдрийн дундаж цалин × амралтын нийт өдөр. Амралтын цалинг амралт эхлэхээс өмнө олгоно.</li>
-        <li>Амралтын цалингаас НДШ, ЭМД, ХХОАТ суутгана. Хэвийн бус нөхцөлд ажилладаг, хөгжлийн бэрхшээлтэй, 18 хүртэлх насны ажилтны хоног өөр байдгийг тусгаагүй.</li>
+        <li><strong>Ажлын жил.</strong> Амралтыг ажилд анх орсон өдрөөс тоолсон ажлын жилээр тооцно (журмын 2.1). Гэрээ байгуулснаас хойш 6 сар ажилласны дараа амралт эдлэх эрх үүснэ (ХТХ 99.2).</li>
+        <li><strong>Нэмэгдэл амралт.</strong> Нийт ажилласан сараар дээрх хүснэгтээр тооцно. Хэвийн болон хэвийн бус нөхцөлд ажилласан бол хугацааг тус тусад нь тооцож нэгтгэнэ (2.13, 2.14).</li>
+        <li><strong>18 нас хүрсэн.</strong> 18 нас хүрсэн сарыг оролцуулан өмнөх хугацааг {{ leave.base_special }}, дараах хугацааг {{ leave.base_days }} өдрөөр тооцож нэгтгэнэ: 20/12×11 + 15/12×1 = 19.58 өдөр (2.4).</li>
+        <li><strong>Бүтэн бус цаг.</strong> Ажилласан цагийг {{ leave.day_hours }} цагийн ердийн ажлын өдөрт шилжүүлнэ. 6 цаг ажилладаг, 7 жил ажилласан ажилтанд (15 + 3) × 0.75 = 13.5 өдөр (2.3).</li>
+        <li><strong>Ажлаас гарах, гэрээ дуусах.</strong> Ажилласан сард ногдох хоногийг (жилийн хоног ÷ 12 × сар) тооцож олгоно, урьдчилан илүү эдэлсэн бол суутгана (2.8). Бусад үед ажлын нэг жилээр бүтэн тооцно (2.9).</li>
+        <li><strong>Улирлын, нэгтгэн бодох цаг.</strong> Ажилласан өдрийг ажлын нэг өдөрт ногдох хоногоор үржүүлнэ: 15 ÷ 12 ÷ 21 × 172 = 10.24 өдөр (2.10, 2.11). Тооцоолуур завсрын утгыг тоймлохгүй тул журмын 2.3-ын 3 дахь жишээнээс (7.22) бага зэрэг зөрнө.</li>
+        <li><strong>Тооцохгүй хугацаа.</strong> Хүүхэд асрах чөлөө, цэргийн жинхэнэ алба, 6 сараас дээш сургалт, гэрч, хохирогчийн хамгаалалт, ажлаас түдгэлзсэн хугацаа (2.5). Жирэмсний болон амаржсаны амралт, тэтгэмжтэй болон хувийн чөлөө, түр чадвар алдалтын хугацаанд амралт тооцно (2.6).</li>
+        <li><strong>Амралтын цалин.</strong> Өмнөх амралтаас хойш ажилласан саруудын цалин хөлсийг тэр саруудын ажилласан өдөрт хувааж, амралтын өдрөөр үржүүлнэ: 12,125,000 ÷ 194 = 62,500₮ × 15 = 937,500₮ (3.4). Амралт эхлэхээс өмнө олгоно (3.1).</li>
+        <li><strong>Хэсэгчлэн эдлэх.</strong> Аль нэг тасралтгүй хэсэг нь ажлын 10 өдрөөс доошгүй байна (ХТХ 99.8, журмын 2.2). Цалинг бүтнээр эсвэл хэсэг тус бүрд олгож болно (3.2).</li>
+        <li>Амралтын цалингаас НДШ, ЭМД, ХХОАТ суутгана.</li>
       </ul>
-      <p class="calc-disclaimer">Эх сурвалж: Санхүүчдийн календарь; ХНХ сайдын 2021.12.06-ны А/191 тушаалаар баталсан <a href="https://legalinfo.mn/mn/detail/16389706300881" rel="noopener" target="_blank">«Ээлжийн амралт олгох, ээлжийн амралтын цалин тооцох журам»</a>. Тооцоолуур нь ерөнхий мэдээллийн зорилготой.</p>
+      <p class="calc-disclaimer">Эх сурвалж: <a href="{{ leave.law_url }}" rel="noopener" target="_blank">Хөдөлмөрийн тухай хууль (шинэчилсэн найруулга)</a>, 99, 110 дугаар зүйл; ХНХ сайдын 2021.12.06-ны А/191 тушаалын хавсралт <a href="{{ leave.rule_url }}" rel="noopener" target="_blank">«Ээлжийн амралт олгох, ээлжийн амралтын цалин тооцох журам»</a> (хүчинтэй, 2026.10.20-нд шалгав). Тооцоолуур нь ерөнхий мэдээллийн зорилготой.</p>
     </div>
   </div>
 </section>
