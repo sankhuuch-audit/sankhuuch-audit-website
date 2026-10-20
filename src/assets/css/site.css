@@ -620,3 +620,8 @@ a.chip-sm:hover { background: var(--tint-2); }
   .header-tools .lang-switch { display: none; }
   .site-nav .nav-lang { display: block; border-top: 1px solid var(--line); margin-top: 8px; padding-top: 6px; }
 }
+
+/* Имэйл хаягийн анхааруулга */
+.q-attn { display: flex; align-items: flex-start; gap: 10px; margin-top: 12px; padding: 11px 14px; border: 1px solid var(--gold-line); border-radius: var(--radius-sm); background: var(--gold-soft); font-size: .92rem; line-height: 1.5; color: var(--text); }
+.q-attn svg { flex: none; margin-top: 2px; color: var(--gold); }
+.q-attn strong { color: var(--navy); }
