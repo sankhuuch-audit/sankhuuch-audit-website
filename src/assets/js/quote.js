@@ -1,77 +1,31 @@
 /* Үнийн санал авах маягт
-   EmailJS тохируулсан үед: компанид мэдэгдэл + үйлчлүүлэгчид автомат хариу имэйл илгээнэ.
-   Тохируулаагүй үед: FormSubmit үйлчилгээгээр info@ хаяг руу илгээж, үйлчлүүлэгчид автомат хариу явуулна. */
+   Бөглөсөн мэдээллийг FormSubmit (formsubmit.co) үйлчилгээгээр компанийн имэйл (info@) руу илгээнэ.
+   Компани хариуг гараар өгнө. Имэйлийн «Reply» дарахад шууд үйлчлүүлэгч рүү хариу бичигдэнэ. */
 (function () {
   "use strict";
   var form = document.getElementById("quote-form");
   if (!form) return;
 
-  var cfg = {
-    key: form.getAttribute("data-emailjs-key"),
-    service: form.getAttribute("data-emailjs-service"),
-    template: form.getAttribute("data-emailjs-template"),
-    to: form.getAttribute("data-company-email")
-  };
-  var useEmailJS = !!(cfg.key && cfg.service && cfg.template);
-  var pricing = null;
-  try { pricing = JSON.parse(form.getAttribute("data-pricing") || "null"); } catch (e) { pricing = null; }
-
+  var to = form.getAttribute("data-company-email");
   var isEn = (document.documentElement.lang || "").toLowerCase().indexOf("en") === 0;
   var T = isEn ? {
     labels: { company: "Organisation name", entity: "Type of organisation", services: "Services required", total_assets: "Total assets (MNT million)", revenue: "Sales revenue (MNT million)", total_expenses: "Total expenses (MNT million)", contact_name: "Contact person", phone: "Phone", email: "Email", notes: "Additional information" },
-    estField: "Preliminary estimate",
     subject: "Quote request (English site): ",
-    estFallback: "Our specialist will prepare a preliminary quote and contact you.",
-    estNote: "The preliminary quote is not the final price. In accordance with the Law of Mongolia on Auditing, the service fee is agreed between the parties and set out in the engagement contract.",
-    reply: function (d, est, note, to) {
-      return "Dear " + d.contact_name + ",\n\n" +
-        "Thank you. We have received the quote request for " + d.company + ".\n\n" +
-        (est ? "Preliminary quote: " + est + "\n\n" + note + "\n\nOur specialist will contact you shortly to agree the terms of the engagement.\n\n"
-             : "Based on the information you provided, our specialist will prepare a preliminary quote and contact you shortly.\n\n" + note + "\n\n") +
-        "Kind regards,\nSankhuuch Audit LLC\n" + to;
-    },
     sending: "Sending…",
     submit: "Send request",
     invalid: "Please complete the fields marked with an asterisk (*) and check that your email address is correct.",
-    failed: function (to) { return "We could not send your request. Please check your internet connection and try again. If the problem persists, email " + to + " or call us."; },
-    viaMail: "Your email app has opened with a message containing your request. Sending that email will deliver the request to us.",
-    yourAddr: "your email address",
-    locale: "en-GB"
+    failed: function (to) { return "We could not send your request. Please try again in a moment. If the problem persists, email " + to + " or call us."; }
   } : {
     labels: { company: "Байгууллагын нэр", entity: "Байгууллагын хэлбэр", services: "Шаардлагатай үйлчилгээ", total_assets: "Нийт хөрөнгө (сая ₮)", revenue: "Борлуулалтын орлого (сая ₮)", total_expenses: "Нийт зардал (сая ₮)", contact_name: "Холбоо барих хүн", phone: "Утас", email: "Имэйл", notes: "Нэмэлт мэдээлэл" },
-    estField: "Урьдчилсан үнэ",
     subject: "Үнийн санал авах хүсэлт: ",
-    estFallback: "Урьдчилсан үнийн саналыг манай мэргэжилтэн тооцоолж, тантай холбогдоно.",
-    estNote: "Урьдчилсан үнийн санал нь эцсийн үнэ биш. Аудитын тухай хуульд заасны дагуу үйлчилгээний хөлсийг талууд харилцан тохиролцож, гэрээгээр тогтооно.",
-    reply: function (d, est, note, to) {
-      return "Сайн байна уу, " + d.contact_name + ".\n\n" +
-        "«" + d.company + "»-ийн үнийн санал авах хүсэлтийг хүлээн авлаа. Баярлалаа.\n\n" +
-        (est ? "Урьдчилсан үнийн санал: " + est + "\n\n" + note + "\n\nАжлын нөхцөлийг нарийвчлан тохиролцохоор манай мэргэжилтэн тантай удахгүй холбогдоно.\n\n"
-             : "Таны оруулсан мэдээлэлд үндэслэн манай мэргэжилтэн урьдчилсан үнийн санал боловсруулж, тантай удахгүй холбогдоно.\n\n" + note + "\n\n") +
-        "Хүндэтгэсэн,\n“Санхүүч-Аудит” ХХК\n" + to;
-    },
     sending: "Илгээж байна…",
     submit: "Хүсэлт илгээх",
     invalid: "Одоор (*) тэмдэглэсэн талбаруудыг бөглөнө үү. Имэйл хаягаа зөв оруулсан эсэхээ шалгана уу.",
-    failed: function (to) { return "Хүсэлтийг илгээж чадсангүй. Интернэт холболтоо шалгаад дахин оролдоно уу. Асуудал давтагдвал " + to + " хаяг руу имэйл бичих эсвэл утсаар холбогдоно уу."; },
-    viaMail: "Таны имэйл програм нээгдэж, хүсэлтийн мэдээлэл бүхий имэйл бэлэн болсон. Тэр имэйлийг илгээснээр хүсэлт бидэнд хүрнэ.",
-    yourAddr: "таны",
-    locale: "mn-MN"
+    failed: function (to) { return "Хүсэлтийг илгээж чадсангүй. Хэсэг хугацааны дараа дахин оролдоно уу. Асуудал давтагдвал " + to + " хаяг руу имэйл бичих эсвэл утсаар холбогдоно уу."; }
   };
 
-  /* Урьдчилсан үнийн тооцоо: хэмжээ = нийт хөрөнгө, орлого, зардлын хамгийн их нь (сая ₮).
-     tiers: [{ "max": 500, "from": 1500000, "to": 2500000 }, ..., { "max": null, "from": ..., "to": ... }] */
-  function estimate(data) {
-    if (!pricing || !pricing.tiers || !pricing.tiers.length) return null;
-    var size = Math.max(Number(data.total_assets) || 0, Number(data.revenue) || 0, Number(data.total_expenses) || 0);
-    var tier = pricing.tiers.filter(function (t) { return t.max === null || t.max === undefined || size <= Number(t.max); })[0];
-    if (!tier) return null;
-    var f = function (n) { return Math.round(Number(n)).toLocaleString("en-US") + "₮"; };
-    return tier.to && Number(tier.to) !== Number(tier.from) ? f(tier.from) + " – " + f(tier.to) : f(tier.from);
-  }
-
-  var LABELS = ["company", "entity", "services", "total_assets", "revenue", "total_expenses", "contact_name", "phone", "email", "notes"]
-    .map(function (k) { return [k, T.labels[k]]; });
+  var KEYS = ["company", "entity", "services", "total_assets", "revenue", "total_expenses", "contact_name", "phone", "email", "notes"];
+  var NUMERIC = { total_assets: 1, revenue: 1, total_expenses: 1 };
 
   var errBox = document.getElementById("q-error");
   var srvErr = document.getElementById("q-services-error");
@@ -79,31 +33,38 @@
 
   function collect() {
     var fd = new FormData(form), data = {};
-    LABELS.forEach(function (l) {
-      var v = l[0] === "services" ? fd.getAll("services").join(", ") : (fd.get(l[0]) || "");
-      data[l[0]] = String(v).trim();
+    KEYS.forEach(function (k) {
+      var v = k === "services" ? fd.getAll("services").join(", ") : (fd.get(k) || "");
+      v = String(v).trim();
+      if (NUMERIC[k]) v = v.replace(/,/g, "");
+      data[k] = v;
     });
     return data;
   }
 
+  /* Тоо бичих үед мянгатыг «,»-аар, бутархайг «.»-аар автоматаар ялгана: 454534653.5 → 454,534,653.5 */
+  function formatNumInput(el) {
+    var raw = el.value;
+    var fromEnd = raw.length - (el.selectionStart == null ? raw.length : el.selectionStart);
+    var cleaned = raw.replace(/[^\d.]/g, "");
+    var dot = cleaned.indexOf(".");
+    var intPart = (dot >= 0 ? cleaned.slice(0, dot) : cleaned).replace(/^0+(?=\d)/, "");
+    var decPart = dot >= 0 ? cleaned.slice(dot + 1).replace(/\./g, "").slice(0, 3) : "";
+    if (dot === 0) intPart = "0";
+    var out = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (dot >= 0 ? "." + decPart : "");
+    if (out !== raw) {
+      el.value = out;
+      var pos = Math.max(0, out.length - fromEnd);
+      try { el.setSelectionRange(pos, pos); } catch (e) {}
+    }
+  }
+  form.querySelectorAll("[data-num]").forEach(function (el) {
+    el.addEventListener("input", function () { formatNumInput(el); });
+  });
+
   function fmtNum(v) {
     var n = Number(v);
     return isFinite(n) && v !== "" ? n.toLocaleString("en-US", { maximumFractionDigits: 2 }) : v;
-  }
-
-  function details(data) {
-    var rows = LABELS.filter(function (l) { return data[l[0]]; }).map(function (l) {
-      var v = (l[0] === "total_assets" || l[0] === "revenue" || l[0] === "total_expenses") ? fmtNum(data[l[0]]) : data[l[0]];
-      return [l[1], v];
-    });
-    var text = rows.map(function (r) { return r[0] + ": " + r[1]; }).join("\n");
-    var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
-    var html = '<table cellpadding="6" cellspacing="0" style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px">' +
-      rows.map(function (r) {
-        return '<tr><td style="border:1px solid #dde3ee;background:#f2f5fa;font-weight:bold;vertical-align:top">' + esc(r[0]) +
-          '</td><td style="border:1px solid #dde3ee;white-space:pre-line">' + esc(r[1]) + "</td></tr>";
-      }).join("") + "</table>";
-    return { text: text, html: html };
   }
 
   function showError(msg) {
@@ -117,8 +78,10 @@
     var ok = true, first = null;
     form.querySelectorAll("[required]").forEach(function (el) {
       var bad = el.type === "checkbox" ? !el.checked : !el.value.trim();
+      if (!bad && el.hasAttribute("data-num")) bad = !isFinite(Number(el.value.replace(/,/g, "")));
       if (!bad && el.type === "email") bad = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim());
-      el.closest(".q-field, .q-check") && el.closest(".q-field, .q-check").classList.toggle("is-invalid", bad);
+      var wrap = el.closest(".q-field, .q-check");
+      if (wrap) wrap.classList.toggle("is-invalid", bad);
       if (bad) { ok = false; first = first || el; }
     });
     var anyService = form.querySelectorAll('input[name="services"]:checked').length > 0;
@@ -131,65 +94,12 @@
     return ok;
   }
 
-  function done(email, viaMail) {
+  function done() {
     form.hidden = true;
     var box = document.getElementById("quote-done");
-    var t = document.getElementById("quote-done-text");
-    if (viaMail) {
-      t.textContent = T.viaMail;
-    } else {
-      var s = box.querySelector("[data-done-email]");
-      if (s) s.textContent = email;
-    }
     box.hidden = false;
     box.focus();
     box.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  /* FormSubmit (formsubmit.co): бүртгэлгүй имэйл илгээх үйлчилгээ.
-     Компанид хүснэгт хэлбэрийн имэйл, үйлчлүүлэгчид автомат хариу илгээнэ.
-     Автомат хариу зөвхөн энгийн (AJAX биш) илгээлт + «робот биш» шалгалттай үед ажилладаг. */
-  function sendViaFormSubmit(data, subject, est, estText, estNote) {
-    var back = location.origin + location.pathname + "?sent=1";
-    var f = document.createElement("form");
-    f.method = "POST";
-    f.action = "https://formsubmit.co/" + encodeURIComponent(cfg.to);
-    f.acceptCharset = "UTF-8";
-    f.style.display = "none";
-    var add = function (name, value) {
-      var i = document.createElement("input");
-      i.type = name === "email" ? "email" : "hidden";
-      i.name = name;
-      i.value = value;
-      f.appendChild(i);
-    };
-    LABELS.forEach(function (l) {
-      if (l[0] === "email" || !data[l[0]]) return;
-      var v = (l[0] === "total_assets" || l[0] === "revenue" || l[0] === "total_expenses") ? fmtNum(data[l[0]]) : data[l[0]];
-      add(l[1], v);
-    });
-    add("email", data.email);
-    add(T.estField, estText);
-    add("_subject", subject);
-    add("_template", "table");
-    add("_next", back);
-    add("_autoresponse", T.reply(data, est, estNote, cfg.to));
-    try { sessionStorage.setItem("quote-email", data.email); } catch (e) {}
-    btn.disabled = true;
-    btn.textContent = T.sending;
-    document.body.appendChild(f);
-    f.submit();
-  }
-
-  // «Буцах» товчоор ирэхэд товчийг сэргээнэ
-  window.addEventListener("pageshow", function () { btn.disabled = false; btn.textContent = T.submit; });
-
-  // FormSubmit-ээс буцаж ирэхэд баярлалаа хэсгийг харуулна
-  if (/[?&]sent=1/.test(location.search)) {
-    var savedEmail = "";
-    try { savedEmail = sessionStorage.getItem("quote-email") || ""; sessionStorage.removeItem("quote-email"); } catch (e) {}
-    done(savedEmail || T.yourAddr, false);
-    if (history.replaceState) history.replaceState(null, "", location.pathname);
   }
 
   form.addEventListener("change", function (e) {
@@ -200,38 +110,35 @@
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-    if (form.elements.website && form.elements.website.value) return; // spam
+    if (form.elements.website && form.elements.website.value) return; // спам
     if (!validate()) return;
-    var data = collect(), d = details(data), est = estimate(data);
-    var subject = T.subject + data.company;
+    var data = collect();
 
-    var estText = est || T.estFallback;
-    var estNote = T.estNote;
-
-    if (!useEmailJS || !window.emailjs) {
-      sendViaFormSubmit(data, subject, est, estText, estNote);
-      return;
-    }
+    var payload = {};
+    KEYS.forEach(function (k) {
+      if (k === "email" || !data[k]) return;
+      payload[T.labels[k]] = NUMERIC[k] ? fmtNum(data[k]) : data[k];
+    });
+    payload.email = data.email;
+    payload._replyto = data.email;
+    payload._subject = T.subject + data.company;
+    payload._template = "table";
+    payload._captcha = "false";
 
     btn.disabled = true;
-    var label = btn.textContent;
     btn.textContent = T.sending;
-    var params = Object.assign({}, data, {
-      subject: subject,
-      details_text: d.text,
-      details_html: d.html,
-      reply_to: data.email,
-      to_email: cfg.to,
-      submitted_at: new Date().toLocaleString(T.locale, { timeZone: "Asia/Ulaanbaatar" }),
-      estimate: estText,
-      estimate_note: estNote
-    });
-    window.emailjs.send(cfg.service, cfg.template, params, { publicKey: cfg.key }).then(function () {
-      done(data.email, false);
-    }, function () {
+    var fail = function () {
       btn.disabled = false;
-      btn.textContent = label;
-      showError(T.failed(cfg.to));
-    });
+      btn.textContent = T.submit;
+      showError(T.failed(to));
+    };
+    fetch("https://formsubmit.co/ajax/" + encodeURIComponent(to), {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(function (r) { return r.json(); }).then(function (res) {
+      if (res && String(res.success) === "true") { done(); }
+      else { if (window.console) console.warn("FormSubmit:", res && res.message); fail(); }
+    }).catch(fail);
   });
 })();

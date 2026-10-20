@@ -6,16 +6,12 @@ permalink: /unii-sanal/
 altUrl: /en/request-a-quote/
 ---
 {%- from "partials/macros.njk" import pageHero %}
-{{ pageHero("Үнийн санал авах", "Үнийн санал авах хүсэлт", "Байгууллагынхаа үндсэн мэдээллийг бөглөж илгээнэ үү. Урьдчилсан үнийн санал таны имэйл хаяг руу автоматаар очно.") }}
+{{ pageHero("Үнийн санал авах", "Үнийн санал авах хүсэлт", "Байгууллагынхаа үндсэн мэдээллийг бөглөж илгээнэ үү. Манай мэргэжилтэн урьдчилсан үнийн санал боловсруулж, таны имэйл хаяг руу илгээнэ.") }}
 
 <section class="section">
   <div class="container quote-layout">
     <form class="quote-form" id="quote-form" novalidate
-      data-emailjs-key="{{ site.quote_form.emailjs_public_key }}"
-      data-emailjs-service="{{ site.quote_form.emailjs_service_id }}"
-      data-emailjs-template="{{ site.quote_form.emailjs_template_id }}"
-      data-company-email="{{ site.email }}"
-      data-pricing="{{ site.quote_form.pricing | json }}">
+      data-company-email="{{ site.email }}">
 
       <fieldset class="q-group">
         <legend><span class="q-step">1</span>Байгууллага, үйлчилгээ</legend>
@@ -47,11 +43,11 @@ altUrl: /en/request-a-quote/
         <p class="q-hint">Сүүлийн тайлант хугацааны ойролцоо дүнг <strong>сая төгрөгөөр</strong> оруулна уу.</p>
         <div class="q-grid q-grid-3">
           <label class="q-field"><span>Нийт хөрөнгө, сая ₮ <b aria-hidden="true">*</b></span>
-            <input id="q-assets" name="total_assets" type="number" inputmode="decimal" min="0" step="any" required></label>
+            <input id="q-assets" name="total_assets" type="text" inputmode="decimal" autocomplete="off" data-num placeholder="Жишээ: 1,250.5" required></label>
           <label class="q-field"><span>Борлуулалтын орлого, сая ₮ <b aria-hidden="true">*</b></span>
-            <input id="q-revenue" name="revenue" type="number" inputmode="decimal" min="0" step="any" required></label>
+            <input id="q-revenue" name="revenue" type="text" inputmode="decimal" autocomplete="off" data-num placeholder="Жишээ: 1,250.5" required></label>
           <label class="q-field"><span>Нийт зардал, сая ₮ <b aria-hidden="true">*</b></span>
-            <input id="q-expenses" name="total_expenses" type="number" inputmode="decimal" min="0" step="any" required></label>
+            <input id="q-expenses" name="total_expenses" type="text" inputmode="decimal" autocomplete="off" data-num placeholder="Жишээ: 1,250.5" required></label>
         </div>
       </fieldset>
 
@@ -76,22 +72,22 @@ altUrl: /en/request-a-quote/
 
       <div class="q-legal" role="note">
         <p class="q-legal-title">Үнийн саналын тухай</p>
-        <p>Хүсэлт илгээмэгц таны оруулсан мэдээлэлд үндэслэн ажлын цар хүрээг тооцсон <strong>урьдчилсан үнийн санал</strong> автоматаар гарч, таны имэйл хаяг руу илгээгдэнэ.</p>
+        <p>Хүсэлтийг хүлээн авсны дараа манай мэргэжилтэн таны оруулсан мэдээлэлд үндэслэн ажлын цар хүрээг тооцсон <strong>урьдчилсан үнийн санал</strong> боловсруулж, таны имэйл хаяг руу илгээнэ.</p>
         <p>Урьдчилсан үнийн санал нь эцсийн үнэ биш. <a href="https://legalinfo.mn/mn/detail/11192" rel="noopener" target="_blank">Аудитын тухай хуульд</a> заасны дагуу үйлчилгээний хөлсийг талууд харилцан тохиролцож, гэрээгээр тогтооно.</p>
       </div>
 
       <p class="q-error q-error-box" id="q-error" role="alert" hidden></p>
       <div class="q-actions">
         <button class="btn btn-primary" type="submit" id="q-submit">Хүсэлт илгээх</button>
-        <p class="q-note">Илгээх үед «Би робот биш» гэсэн богино шалгалт гарч болно. Урьдчилсан үнийн санал таны имэйл хаяг руу автоматаар очно.</p>
+        <p class="q-note">Хүсэлт шууд манай имэйлд ирэх бөгөөд мэргэжилтэн тантай удахгүй холбогдоно.</p>
       </div>
     </form>
 
     <div class="quote-done" id="quote-done" hidden tabindex="-1">
       <p class="eyebrow">Хүсэлт хүлээн авлаа</p>
       <h2>Баярлалаа!</h2>
-      <p id="quote-done-text">Таны хүсэлтийг хүлээн авлаа. Хүсэлтийн хуулбар болон урьдчилсан үнийн саналын мэдээллийг <strong data-done-email></strong> хаяг руу илгээлээ. Урьдчилсан үнийн санал нь эцсийн үнэ биш бөгөөд үйлчилгээний хөлсийг харилцан тохиролцож, гэрээгээр тогтооно.</p>
-      <p class="q-note">Имэйл ирэхгүй бол «Spam» хавтсаа шалгана уу эсвэл <a href="{{ site.phones[0] | telHref }}">{{ site.phones[0] }}</a> утсаар холбогдоно уу.</p>
+      <p id="quote-done-text">Таны хүсэлтийг хүлээн авлаа. Манай мэргэжилтэн урьдчилсан үнийн санал боловсруулж, таны имэйл хаяг руу удахгүй илгээнэ. Урьдчилсан үнийн санал нь эцсийн үнэ биш бөгөөд үйлчилгээний хөлсийг харилцан тохиролцож, гэрээгээр тогтооно.</p>
+      <p class="q-note">Яаралтай бол <a href="{{ site.phones[0] | telHref }}">{{ site.phones[0] }}</a> утсаар холбогдоно уу.</p>
       <a class="btn btn-outline" href="/">Нүүр хуудас руу буцах</a>
     </div>
 
@@ -99,7 +95,7 @@ altUrl: /en/request-a-quote/
       <h2 class="h-small">Үнийн санал хэрхэн гардаг вэ</h2>
       <ol class="quote-steps">
         <li><strong>Хүсэлт илгээх</strong><span>Байгууллагын нэр, үйлчилгээ, санхүүгийн 3 үзүүлэлтээ бөглөнө. 2 минут орчим зарцуулна.</span></li>
-        <li><strong>Урьдчилсан үнийн санал</strong><span>Таны мэдээлэлд үндэслэн тооцсон урьдчилсан үнийн санал имэйлээр автоматаар очно.</span></li>
+        <li><strong>Урьдчилсан үнийн санал</strong><span>Манай мэргэжилтэн таны мэдээлэлд үндэслэн урьдчилсан үнийн санал боловсруулж, имэйлээр илгээнэ.</span></li>
         <li><strong>Тохиролцох, гэрээ байгуулах</strong><span>Ажлын нөхцөлийг нарийвчлан тохиролцож, үйлчилгээний хөлсийг гэрээгээр тогтооно.</span></li>
       </ol>
       <div class="quote-contact">
@@ -111,5 +107,4 @@ altUrl: /en/request-a-quote/
   </div>
 </section>
 
-<script src="/assets/js/emailjs-4.4.1.min.js" defer></script>
 <script src="/assets/js/quote.js" defer></script>

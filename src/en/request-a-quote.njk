@@ -5,16 +5,12 @@ permalink: /en/request-a-quote/
 altUrl: /unii-sanal/
 ---
 {%- from "partials/macros.njk" import pageHero %}
-{{ pageHero("Request a quote", "Request a quote", "Fill in your organisation's key details and send the request. A preliminary quote will be emailed to you automatically.") }}
+{{ pageHero("Request a quote", "Request a quote", "Fill in your organisation's key details and send the request. Our specialist will prepare a preliminary quote and email it to you.") }}
 
 <section class="section">
   <div class="container quote-layout">
     <form class="quote-form" id="quote-form" novalidate
-      data-emailjs-key="{{ site.quote_form.emailjs_public_key }}"
-      data-emailjs-service="{{ site.quote_form.emailjs_service_id }}"
-      data-emailjs-template="{{ site.quote_form.emailjs_template_id }}"
-      data-company-email="{{ site.email }}"
-      data-pricing="{{ site.quote_form.pricing | json }}">
+      data-company-email="{{ site.email }}">
 
       <fieldset class="q-group">
         <legend><span class="q-step">1</span>Organisation and services</legend>
@@ -44,11 +40,11 @@ altUrl: /unii-sanal/
         <p class="q-hint">Enter approximate amounts for the latest reporting period <strong>in millions of tögrög (MNT)</strong>.</p>
         <div class="q-grid q-grid-3">
           <label class="q-field"><span>Total assets, MNT m <b aria-hidden="true">*</b></span>
-            <input id="q-assets" name="total_assets" type="number" inputmode="decimal" min="0" step="any" required></label>
+            <input id="q-assets" name="total_assets" type="text" inputmode="decimal" autocomplete="off" data-num placeholder="e.g. 1,250.5" required></label>
           <label class="q-field"><span>Sales revenue, MNT m <b aria-hidden="true">*</b></span>
-            <input id="q-revenue" name="revenue" type="number" inputmode="decimal" min="0" step="any" required></label>
+            <input id="q-revenue" name="revenue" type="text" inputmode="decimal" autocomplete="off" data-num placeholder="e.g. 1,250.5" required></label>
           <label class="q-field"><span>Total expenses, MNT m <b aria-hidden="true">*</b></span>
-            <input id="q-expenses" name="total_expenses" type="number" inputmode="decimal" min="0" step="any" required></label>
+            <input id="q-expenses" name="total_expenses" type="text" inputmode="decimal" autocomplete="off" data-num placeholder="e.g. 1,250.5" required></label>
         </div>
       </fieldset>
 
@@ -73,22 +69,22 @@ altUrl: /unii-sanal/
 
       <div class="q-legal" role="note">
         <p class="q-legal-title">About the quote</p>
-        <p>As soon as you send your request, a <strong>preliminary quote</strong> reflecting the scope of work, based on the information you provided, is generated automatically and sent to your email address.</p>
+        <p>Once we receive your request, our specialist will prepare a <strong>preliminary quote</strong> reflecting the scope of work, based on the information you provided, and send it to your email address.</p>
         <p>The preliminary quote is not the final price. In accordance with the <a href="https://legalinfo.mn/mn/detail/11192" rel="noopener" target="_blank" hreflang="mn">Law of Mongolia on Auditing</a>, the service fee is agreed between the parties and set out in the engagement contract.</p>
       </div>
 
       <p class="q-error q-error-box" id="q-error" role="alert" hidden></p>
       <div class="q-actions">
         <button class="btn btn-primary" type="submit" id="q-submit">Send request</button>
-        <p class="q-note">A short “I'm not a robot” check may appear when you send the request. The preliminary quote will be emailed to you automatically.</p>
+        <p class="q-note">Your request comes straight to our inbox, and our specialist will contact you shortly.</p>
       </div>
     </form>
 
     <div class="quote-done" id="quote-done" hidden tabindex="-1">
       <p class="eyebrow">Request received</p>
       <h2>Thank you!</h2>
-      <p id="quote-done-text">We have received your request. A copy of your request and information on the preliminary quote have been sent to <strong data-done-email></strong>. The preliminary quote is not the final price; the service fee is agreed between the parties and set out in the contract.</p>
-      <p class="q-note">If the email does not arrive, please check your spam folder or call us on <a href="{{ site.phones[0] | telHref }}">{{ site.phones[0] }}</a>.</p>
+      <p id="quote-done-text">We have received your request. Our specialist will prepare a preliminary quote and email it to you shortly. The preliminary quote is not the final price; the service fee is agreed between the parties and set out in the contract.</p>
+      <p class="q-note">If it is urgent, please call us on <a href="{{ site.phones[0] | telHref }}">{{ site.phones[0] }}</a>.</p>
       <a class="btn btn-outline" href="/en/">Back to the home page</a>
     </div>
 
@@ -96,7 +92,7 @@ altUrl: /unii-sanal/
       <h2 class="h-small">How the quote works</h2>
       <ol class="quote-steps">
         <li><strong>Send a request</strong><span>Enter your organisation's name, the services you need and three financial figures. It takes about 2 minutes.</span></li>
-        <li><strong>Preliminary quote</strong><span>A preliminary quote based on your information is emailed to you automatically.</span></li>
+        <li><strong>Preliminary quote</strong><span>Our specialist prepares a preliminary quote based on your information and emails it to you.</span></li>
         <li><strong>Agreement and contract</strong><span>We agree the terms of the engagement in detail and set the service fee in the contract.</span></li>
       </ol>
       <div class="quote-contact">
@@ -108,5 +104,4 @@ altUrl: /unii-sanal/
   </div>
 </section>
 
-<script src="/assets/js/emailjs-4.4.1.min.js" defer></script>
 <script src="/assets/js/quote.js" defer></script>

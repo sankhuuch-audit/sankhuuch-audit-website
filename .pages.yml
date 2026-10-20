@@ -299,15 +299,6 @@ content:
       - { name: map_url, label: Газрын зургийн холбоос, type: string }
       - { name: youtube_channel, label: YouTube сувгийн холбоос, type: string }
       - { name: facebook_url, label: Facebook хуудасны холбоос, type: string }
-      - name: quote_form
-        label: Үнийн санал авах маягтын тохиргоо (EmailJS)
-        description: EmailJS-ийн Public Key, Service ID, Template ID. Буруу утга оруулбал маягт имэйл илгээхгүй.
-        type: object
-        fields:
-          - { name: emailjs_public_key, label: Public Key, type: string }
-          - { name: emailjs_service_id, label: Service ID, type: string }
-          - { name: emailjs_template_id, label: Template ID, type: string }
-
   - name: company
     label: Компанийн мэдээлэл
     type: file
