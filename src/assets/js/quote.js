@@ -1,6 +1,6 @@
 /* Үнийн санал авах маягт
    EmailJS тохируулсан үед: компанид мэдэгдэл + үйлчлүүлэгчид автомат хариу имэйл илгээнэ.
-   Тохируулаагүй үед: имэйл програмаар дамжуулан info@ хаяг руу илгээнэ. */
+   Тохируулаагүй үед: FormSubmit үйлчилгээгээр info@ хаяг руу илгээж, үйлчлүүлэгчид автомат хариу явуулна. */
 (function () {
   "use strict";
   var form = document.getElementById("quote-form");
@@ -123,6 +123,58 @@
     box.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  /* FormSubmit (formsubmit.co): бүртгэлгүй имэйл илгээх үйлчилгээ.
+     Компанид хүснэгт хэлбэрийн имэйл, үйлчлүүлэгчид автомат хариу илгээнэ.
+     Автомат хариу зөвхөн энгийн (AJAX биш) илгээлт + «робот биш» шалгалттай үед ажилладаг. */
+  function sendViaFormSubmit(data, subject, est, estText, estNote) {
+    var back = location.origin + location.pathname + "?sent=1";
+    var f = document.createElement("form");
+    f.method = "POST";
+    f.action = "https://formsubmit.co/" + encodeURIComponent(cfg.to);
+    f.acceptCharset = "UTF-8";
+    f.style.display = "none";
+    var add = function (name, value) {
+      var i = document.createElement("input");
+      i.type = name === "email" ? "email" : "hidden";
+      i.name = name;
+      i.value = value;
+      f.appendChild(i);
+    };
+    LABELS.forEach(function (l) {
+      if (l[0] === "email" || !data[l[0]]) return;
+      var v = (l[0] === "total_assets" || l[0] === "revenue" || l[0] === "total_expenses") ? fmtNum(data[l[0]]) : data[l[0]];
+      add(l[1], v);
+    });
+    add("email", data.email);
+    add("Урьдчилсан үнэ", estText);
+    add("_subject", subject);
+    add("_template", "table");
+    add("_next", back);
+    add("_autoresponse",
+      "Сайн байна уу, " + data.contact_name + ".\n\n" +
+      "«" + data.company + "»-ийн үнийн санал авах хүсэлтийг хүлээн авлаа. Баярлалаа.\n\n" +
+      (est ? "Урьдчилсан үнийн санал: " + est + "\n\n" + estNote + "\n\n" +
+        "Ажлын нөхцөлийг нарийвчлан тохиролцохоор манай мэргэжилтэн тантай удахгүй холбогдоно.\n\n"
+      : "Таны оруулсан мэдээлэлд үндэслэн манай мэргэжилтэн урьдчилсан үнийн санал боловсруулж, тантай удахгүй холбогдоно.\n\n" + estNote + "\n\n") +
+      "Хүндэтгэсэн,\n“Санхүүч-Аудит” ХХК\n" + cfg.to);
+    try { sessionStorage.setItem("quote-email", data.email); } catch (e) {}
+    btn.disabled = true;
+    btn.textContent = "Илгээж байна…";
+    document.body.appendChild(f);
+    f.submit();
+  }
+
+  // «Буцах» товчоор ирэхэд товчийг сэргээнэ
+  window.addEventListener("pageshow", function () { btn.disabled = false; btn.textContent = "Хүсэлт илгээх"; });
+
+  // FormSubmit-ээс буцаж ирэхэд баярлалаа хэсгийг харуулна
+  if (/[?&]sent=1/.test(location.search)) {
+    var savedEmail = "";
+    try { savedEmail = sessionStorage.getItem("quote-email") || ""; sessionStorage.removeItem("quote-email"); } catch (e) {}
+    done(savedEmail || "таны", false);
+    if (history.replaceState) history.replaceState(null, "", location.pathname);
+  }
+
   form.addEventListener("change", function (e) {
     var f = e.target.closest(".q-field, .q-check");
     if (f) f.classList.remove("is-invalid");
@@ -136,10 +188,11 @@
     var data = collect(), d = details(data), est = estimate(data);
     var subject = "Үнийн санал авах хүсэлт: " + data.company;
 
+    var estText = est || "Урьдчилсан үнийн саналыг манай мэргэжилтэн тооцоолж, тантай холбогдоно.";
+    var estNote = "Урьдчилсан үнийн санал нь эцсийн үнэ биш. Аудитын тухай хуульд заасны дагуу үйлчилгээний хөлсийг талууд харилцан тохиролцож, гэрээгээр тогтооно.";
+
     if (!useEmailJS || !window.emailjs) {
-      var body = subject + "\n\n" + d.text;
-      window.location.href = "mailto:" + cfg.to + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-      done(data.email, true);
+      sendViaFormSubmit(data, subject, est, estText, estNote);
       return;
     }
 
@@ -153,8 +206,8 @@
       reply_to: data.email,
       to_email: cfg.to,
       submitted_at: new Date().toLocaleString("mn-MN", { timeZone: "Asia/Ulaanbaatar" }),
-      estimate: est || "Урьдчилсан үнийн саналыг манай мэргэжилтэн тооцоолж, тантай холбогдоно.",
-      estimate_note: "Урьдчилсан үнийн санал нь эцсийн үнэ биш. Аудитын тухай хуульд заасны дагуу үйлчилгээний хөлсийг талууд харилцан тохиролцож, гэрээгээр тогтооно."
+      estimate: estText,
+      estimate_note: estNote
     });
     window.emailjs.send(cfg.service, cfg.template, params, { publicKey: cfg.key }).then(function () {
       done(data.email, false);
