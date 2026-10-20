@@ -11,7 +11,7 @@
   ],
   "email": "info@sankhuuch-audit.mn",
   "monicpa_url": "https://monicpa.mn/c/596888",
-  "map_url": "https://www.google.com/maps/search/?api=1&query=%D0%A8%D0%B8%D0%BD%D1%8D+%D1%82%D1%8D%D1%80%D1%8D%D0%B3+%D0%BF%D0%BB%D0%B0%D0%B7%D0%B0+%D0%9D%D0%B0%D1%80%D0%BD%D1%8B+%D0%B7%D0%B0%D0%BC+%D0%A3%D0%BB%D0%B0%D0%B0%D0%BD%D0%B1%D0%B0%D0%B0%D1%82%D0%B0%D1%80",
+  "map_url": "https://www.google.com/maps/search/?api=1&query=Shine+tereg+plaza+Ulaanbaatar&query_place_id=ChIJRY8CJzKSll0Rfv85yBL19i4",
   "youtube_channel": "https://www.youtube.com/@ganzorig.ganzoo",
   "facebook_url": "",
   "quote_form": {
@@ -22,5 +22,6 @@
       "_tailbar": "Урьдчилсан үнийн тооцоо. size = нийт хөрөнгө, борлуулалтын орлого, нийт зардлын хамгийн их нь (сая ₮). tiers: size нь max-аас бага буюу тэнцүү бол тухайн шатлалын хөлс (₮). Хоосон бол урьдчилсан үнэ тооцохгүй.",
       "tiers": []
     }
-  }
+  },
+  "map_embed": "https://maps.google.com/maps?q=Shine%20tereg%20plaza%2C%20Ulaanbaatar&ll=47.9078708,106.930865&z=17&output=embed&hl=mn"
 }

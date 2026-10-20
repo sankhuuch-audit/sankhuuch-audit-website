@@ -38,6 +38,14 @@ permalink: /holboo-barih/
     </div>
     {%- endif %}
   </div>
+  {%- if site.map_embed %}
+  <div class="container">
+    <div class="map-wrap">
+      <iframe class="map-frame" src="{{ site.map_embed }}" title="“Санхүүч-Аудит” ХХК-ийн байршил: Шинэ тэрэг плаза" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
+    <p class="map-caption">Шинэ тэрэг плаза, 604 тоот. {% if site.map_url %}<a href="{{ site.map_url }}" rel="noopener" target="_blank">Google Maps дээр нээж, чиглэл авах</a>{% endif %}</p>
+  </div>
+  {%- endif %}
 </section>
 
 <section class="section section-tint">

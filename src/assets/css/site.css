@@ -547,3 +547,10 @@ a.chip-sm:hover { background: var(--tint-2); }
 .q-legal-title { font-family: var(--f-head); font-weight: 700; color: var(--navy); }
 .q-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (max-width: 760px) { .q-grid-3 { grid-template-columns: 1fr; } }
+
+/* Байршлын газрын зураг */
+.map-wrap { margin-top: 2rem; border: 1px solid var(--line, #dde3ee); border-radius: 14px; overflow: hidden; background: #eef2f8; box-shadow: 0 10px 30px -18px rgba(12, 35, 80, .35); }
+.map-frame { display: block; width: 100%; height: 420px; border: 0; }
+.map-caption { margin-top: .75rem; font-size: .95rem; color: var(--muted, #5a6780); }
+.map-caption a { font-weight: 600; }
+@media (max-width: 760px) { .map-frame { height: 320px; } }
