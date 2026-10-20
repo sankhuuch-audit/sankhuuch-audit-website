@@ -1,0 +1,107 @@
+---
+layout: layouts/base.njk
+title: Жирэмсний болон амаржсаны тэтгэмжийн тооцоолуур
+description: Жирэмсний болон амаржсаны тэтгэмжийг сүүлийн 12 сарын дундаж цалин, 120 (ихэр бол 140) хоногийн доторх ажлын өдрөөр Нийгмийн даатгалын сангаас олгох тэтгэмжийн тухай хууль, НДЕГ-ын «Тэтгэмж бодох заавар»-аар тооцох тооцоолуур.
+permalink: /tootsooluur/jiremsnii-tetgemj/
+bodyClass: page-calc
+---
+{%- from "partials/macros.njk" import pageHero %}
+{%- set M = benefits.maternity %}
+{{ pageHero("Тооцоолуур", "Жирэмсний болон амаржсаны тэтгэмжийн тооцоолуур", "Сүүлийн 12 сарын дундаж цалин, 120 хоногийн доторх ажлын өдрөөр тэтгэмжийг хууль, НДЕГ-ын «Тэтгэмж бодох заавар»-аар тооцоолно.") }}
+
+<section class="section">
+  <div class="container">
+    {% include "partials/calc-tabs.njk" %}
+  </div>
+  <div class="container calc-layout">
+    <form class="calc-form" id="mb-form" novalidate onsubmit="return false">
+      <fieldset class="calc-group">
+        <legend>1. Амралтын хугацаа</legend>
+        <label class="calc-field">
+          <span class="calc-label">Жирэмсний амралт эхлэх өдөр</span>
+          <input class="calc-input" id="mb-start" type="date" value="2025-04-01" min="2025-01-01" max="2028-12-31">
+          <span class="calc-hint">Эмнэлгийн хуудсанд бичигдсэн өдөр. Ихэвчлэн жирэмсний 32 долоо хоногтойд бичигдэнэ (зааврын санамж 10).</span>
+        </label>
+        <label class="calc-check">
+          <input type="checkbox" id="mb-twins">
+          <span>Ихэр хүүхэд: амралт {{ M.pre_days + M.post_days_twins }} хоног, амаржсаны хэсэг {{ M.post_days_twins }} хоног (хуулийн 7.1, 7.3)</span>
+        </label>
+      </fieldset>
+
+      <fieldset class="calc-group">
+        <legend>2. Дундаж цалин</legend>
+        <div class="calc-field">
+          <span class="calc-label">Даатгуулагч</span>
+          <div class="seg" role="radiogroup" aria-label="Даатгуулагчийн төрөл">
+            <label class="seg-opt"><input type="radio" name="itype" value="compulsory" checked><span>Албан журмын</span></label>
+            <label class="seg-opt"><input type="radio" name="itype" value="voluntary"><span>Сайн дурын</span></label>
+          </div>
+        </div>
+        <div class="calc-field">
+          <span class="calc-label">Цалинг хэрхэн оруулах вэ</span>
+          <div class="seg" role="radiogroup" aria-label="Цалин оруулах арга">
+            <label class="seg-opt"><input type="radio" name="wmode" value="avg" checked><span>Сарын дунджаар</span></label>
+            <label class="seg-opt"><input type="radio" name="wmode" value="months"><span>Сар бүрээр</span></label>
+          </div>
+        </div>
+        <label class="calc-field" id="mb-avg-field">
+          <span class="calc-label">Сүүлийн {{ M.avg_months }} сарын дундаж цалин, ₮</span>
+          <input class="calc-input" id="mb-avg" type="text" inputmode="numeric" autocomplete="off" value="2,100,000">
+        </label>
+        <div class="calc-field" id="mb-months-field" hidden>
+          <span class="calc-label" id="mb-mlabel">Сүүлийн {{ M.avg_months }} сарын цалин, ₮</span>
+          <div class="calc-months" id="mb-mgrid" role="group" aria-labelledby="mb-mlabel">
+            {%- for i in range(1, M.avg_months + 1) %}
+            <label class="calc-month"><span>{{ i }}-р сар</span><input class="calc-input" type="text" inputmode="numeric" autocomplete="off" data-m="1" value="2,100,000"></label>
+            {%- endfor %}
+          </div>
+        </div>
+        <span class="calc-hint" id="mb-wage-hint"></span>
+      </fieldset>
+    </form>
+
+    <div class="calc-result" aria-live="polite">
+      <div class="calc-net">
+        <p class="calc-net-label">Жирэмсний болон амаржсаны тэтгэмж, нийт</p>
+        <p class="calc-net-value" id="mb-total">—</p>
+        <p class="calc-net-sub" id="mb-sub"></p>
+      </div>
+      <table class="calc-table">
+        <caption class="visually-hidden">Жирэмсний болон амаржсаны тэтгэмжийн тооцоо</caption>
+        <tbody>
+          <tr id="mb-row-sum" hidden><th scope="row">Цалингийн нийлбэр ({{ M.avg_months }} сар)</th><td id="mb-r-sum">—</td></tr>
+          <tr><th scope="row" id="mb-r-avg-label">Сарын дундаж цалин</th><td id="mb-r-avg">—</td></tr>
+          <tr><th scope="row">Нэг өдрийн дундаж цалин (÷ {{ benefits.days_per_month }})</th><td id="mb-r-daily">—</td></tr>
+          <tr><th scope="row"><span class="calc-th-main">Жирэмсний тэтгэмж</span><span class="calc-th-sub" id="mb-r-pre-label"></span></th><td id="mb-r-pre">—</td></tr>
+          <tr><th scope="row"><span class="calc-th-main">Амаржсаны тэтгэмж</span><span class="calc-th-sub" id="mb-r-post-label"></span></th><td id="mb-r-post">—</td></tr>
+          <tr class="total"><th scope="row"><span class="calc-th-main">Нийт тэтгэмж</span><span class="calc-th-sub" id="mb-r-all-label"></span></th><td id="mb-r-all">—</td></tr>
+        </tbody>
+      </table>
+      <p class="calc-yearnote" id="mb-hol"></p>
+      <p class="calc-warn" id="mb-warn" hidden></p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="calc-notes">
+      <h2 class="h-small">Гол заалт</h2>
+      <ul>
+        <li><strong>Эрх.</strong> Тэтгэмжийн даатгалын шимтгэлийг нийт {{ M.min_months }} сараас доошгүй, үүнээс жирэмсний амралт авахын өмнөх сүүлийн {{ M.continuous_months }} сар тасралтгүй төлсөн эх: хүүхдээ 196-аас доошгүй хоног тээж төрүүлсэн, 196 хоног хүртэл тээгээгүй ч амьдрах чадвартай хүүхэд төрүүлсэн, эсхүл 196-аас доошгүй хоног тээж дутуу төрүүлсэн, эмнэлгийн заалтаар үр хөндүүлсэн (хуулийн 6.1). Албан журмын болон сайн дурын даатгуулагчид адил хамаарна.</li>
+        <li><strong>Хэмжээ.</strong> Сүүлийн 12 сарын дундаж цалингийн 100 хувиар, 120 хоногийн, ихэр бол 140 хоногийн хугацаанд олгоно (7.1).</li>
+        <li><strong>Ажлын өдөр.</strong> Эмнэлгийн хуудсанд бичигдсэн 120 (140) хоногийн доторх ажлын өдрөөр тооцно: жирэмсний тэтгэмж төрөхийн өмнөх 60 хоног, амаржсаны тэтгэмж төрсний дараах 60 (ихэр бол 80) хоног (7.3, зааврын 5.3.3). Нийтээр амрах баярын өдөр, бямба, ням гарагт таарсан ч ажлын өдөрт тооцно (7.2, санамж 15).</li>
+        <li><strong>Өдрийн дундаж.</strong> Сарын дундаж цалин ÷ 21 (7.4). Зааврын жишээ: 2,100,000 ÷ 21 = 100,000₮; 2025.04.01-ээс 60 хоногт 44 ажлын өдөр; 100,000 × 44 = 4,400,000₮.</li>
+        <li><strong>Дундаж цалин.</strong> Жирэмсний амралт эхлэхээс өмнөх шимтгэл төлсөн сүүлийн 12 сарын цалин хөлс; бүтэн ажиллаагүй сартай байсан ч нийлбэрийг 12-т хуваана (зааврын санамж 11, 5.4). Нэг сарын дээд хэмжээ ХХДХ × 10, сайн дурын даатгуулагч бол × 7 (3.8). Амаржсаны тэтгэмжийг жирэмсний тэтгэмж бодсон дундаж цалингаар бодно (санамж 13).</li>
+        <li><strong>Дахин төрүүлбэл.</strong> Хүүхэд асрах чөлөөтэй байхдаа дахин хүүхэд төрүүлсэн бол өмнөх тэтгэмж тогтоосон дундаж цалингаар тооцно (зааврын 5.5).</li>
+        <li><strong>Хүсэлт.</strong> Эмнэлгийн хуудас авснаас хойш 4 долоо хоногийн дотор, хүндэтгэн үзэх шалтгаантай бол 6 сарын дотор гаргана (хуулийн 14.1.1). Амаржсаны тэтгэмжид дахин хүсэлт гаргахгүй, эмнэлгийн хуудсаар олгоно (Засгийн газрын 438 дугаар тогтоолын журмын 3.4).</li>
+        <li><strong>Татвар.</strong> Хуулийн дагуу олгох тэтгэмжид ХХОАТ ногдохгүй (ХХОАТ-ын хуулийн 22.1.1).</li>
+        <li><strong>Эцгийн чөлөө.</strong> Ажил олгогч эцэгт шинээр төрсөн хүүхдээ асрахад нь ажлын 10-аас доошгүй өдрийн чөлөө олгож, дундаж цалинтай тэнцэх олговор олгоно (Хөдөлмөрийн тухай хуулийн 137.5).</li>
+      </ul>
+      <p class="calc-disclaimer">Эх сурвалж: <a href="{{ benefits.law_url }}" rel="noopener" target="_blank">Нийгмийн даатгалын сангаас олгох тэтгэмжийн тухай хууль</a> (2023, шинэчилсэн найруулга), 6, 7, 14 дүгээр зүйл; <a href="{{ benefits.amend_url }}" rel="noopener" target="_blank">2026.07.02-ны нэмэлт, өөрчлөлт</a> (7.3, 7.4); НДЕГ-ын даргын А/267 тушаалын хавсралт <a href="{{ benefits.guide_url }}" rel="noopener" target="_blank">«Тэтгэмж бодох заавар»</a>, 5 дугаар бүлэг; <a href="{{ benefits.labor_url }}" rel="noopener" target="_blank">Хөдөлмөрийн тухай хууль</a> 97.1, 137 дугаар зүйл. 2026.10.20-нд шалгав. Тооцоолуур нь ерөнхий мэдээллийн зорилготой; эцсийн дүнг нийгмийн даатгалын байгууллага тогтооно.</p>
+    </div>
+  </div>
+</section>
+
+<script type="application/json" id="benefit-data">{{ benefits | json | safe }}</script>
+<script src="/assets/js/benefit-mat.js" defer></script>
+
+{% include "partials/contact-band.njk" %}

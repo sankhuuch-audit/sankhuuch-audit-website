@@ -1,0 +1,148 @@
+---
+layout: layouts/base.njk
+title: Ажилгүйдлийн тэтгэмжийн тооцоолуур
+description: Ажилгүйдлийн тэтгэмжийн хувь, сарын болон өдрийн хэмжээ, нийт дүнг Нийгмийн даатгалын сангаас олгох тэтгэмжийн тухай хууль, НДЕГ-ын «Тэтгэмж бодох заавар»-аар 2026 он болон 2027 оны шинэ зохицуулалтаар тооцох тооцоолуур.
+permalink: /tootsooluur/ajilguidliin-tetgemj/
+bodyClass: page-calc
+---
+{%- from "partials/macros.njk" import pageHero %}
+{%- set U = benefits.unemployment %}
+{{ pageHero("Тооцоолуур", "Ажилгүйдлийн тэтгэмжийн тооцоолуур", "Нийгмийн даатгалын сангаас олгох тэтгэмжийн тухай хууль, НДЕГ-ын «Тэтгэмж бодох заавар»-аар ажилгүйдлийн тэтгэмжийг тооцоолно.") }}
+
+<section class="section">
+  <div class="container">
+    {% include "partials/calc-tabs.njk" %}
+  </div>
+  <div class="container calc-layout">
+    <form class="calc-form" id="ub-form" novalidate onsubmit="return false">
+      <fieldset class="calc-group">
+        <legend>1. Нөхцөл</legend>
+        <div class="calc-field">
+          <span class="calc-label">Мөрдөх зохицуулалт</span>
+          <div class="seg" role="radiogroup" aria-label="Мөрдөх зохицуулалт">
+            {%- for r in U.regimes %}
+            <label class="seg-opt"><input type="radio" name="regime" value="{{ r.key }}"{% if loop.first %} checked{% endif %}><span>{{ r.label }}</span></label>
+            {%- endfor %}
+          </div>
+          <span class="calc-hint" id="ub-regime-hint"></span>
+        </div>
+
+        <div class="calc-field">
+          <span class="calc-label">Ажлаас чөлөөлөгдсөн үндэслэл</span>
+          <div class="seg" role="radiogroup" aria-label="Ажлаас чөлөөлөгдсөн үндэслэл">
+            <label class="seg-opt"><input type="radio" name="reason" value="employer" checked><span>Ажил олгогчийн шийдвэр</span></label>
+            <label class="seg-opt"><input type="radio" name="reason" value="own"><span>Өөрийн хүсэлтээр</span></label>
+          </div>
+        </div>
+
+        <div class="calc-field">
+          <span class="calc-label" id="ub-svc-label">Ажилгүйдлийн даатгалын шимтгэл төлсөн нийт хугацаа</span>
+          <div class="calc-pair" role="group" aria-labelledby="ub-svc-label">
+            <label class="calc-unit"><input class="calc-input" id="ub-years" type="text" inputmode="numeric" autocomplete="off" value="16" aria-label="Жил"><span aria-hidden="true">жил</span></label>
+            <label class="calc-unit"><input class="calc-input" id="ub-months" type="text" inputmode="numeric" autocomplete="off" value="0" aria-label="Сар"><span aria-hidden="true">сар</span></label>
+          </div>
+          <span class="calc-hint" id="ub-svc-hint"></span>
+        </div>
+      </fieldset>
+
+      <fieldset class="calc-group">
+        <legend>2. Дундаж цалин</legend>
+        <div class="calc-field">
+          <span class="calc-label">Цалинг хэрхэн оруулах вэ</span>
+          <div class="seg" role="radiogroup" aria-label="Цалин оруулах арга">
+            <label class="seg-opt"><input type="radio" name="wmode" value="avg" checked><span>Сарын дунджаар</span></label>
+            <label class="seg-opt"><input type="radio" name="wmode" value="months"><span>Сар бүрээр</span></label>
+          </div>
+        </div>
+        <label class="calc-field" id="ub-avg-field">
+          <span class="calc-label" id="ub-avg-label">Сүүлийн 9 сарын дундаж цалин, ₮</span>
+          <input class="calc-input" id="ub-avg" type="text" inputmode="numeric" autocomplete="off" value="1,811,111">
+        </label>
+        <div class="calc-field" id="ub-months-field" hidden>
+          <span class="calc-label" id="ub-mlabel">Сүүлийн 9 сарын цалин, ₮</span>
+          <div class="calc-months" id="ub-mgrid" role="group" aria-labelledby="ub-mlabel"></div>
+        </div>
+        <span class="calc-hint" id="ub-wage-hint"></span>
+      </fieldset>
+
+      <fieldset class="calc-group">
+        <legend>3. Олгох хугацаа</legend>
+        <label class="calc-field">
+          <span class="calc-label">Хүсэлтээ хоцроосон ажлын өдөр</span>
+          <input class="calc-input" id="ub-late" type="text" inputmode="numeric" autocomplete="off" value="0">
+          <span class="calc-hint">Ажлаас чөлөөлсөн шийдвэр гарснаас хойш 4 долоо хоногийн (28 хоног) дотор хүсэлт гаргаагүй бол хоцорсон ажлын өдрийг олгох хугацаанаас хасна (хуулийн 11.3, 14.1.3).</span>
+        </label>
+      </fieldset>
+    </form>
+
+    <div class="calc-result" aria-live="polite">
+      <div class="calc-net">
+        <p class="calc-net-label">Ажилгүйдлийн тэтгэмж, нийт</p>
+        <p class="calc-net-value" id="ub-total">—</p>
+        <p class="calc-net-sub" id="ub-sub"></p>
+      </div>
+      <table class="calc-table">
+        <caption class="visually-hidden">Ажилгүйдлийн тэтгэмжийн тооцоо</caption>
+        <tbody>
+          <tr id="ub-row-sum" hidden><th scope="row" id="ub-r-sum-label">Цалингийн нийлбэр</th><td id="ub-r-sum">—</td></tr>
+          <tr><th scope="row" id="ub-r-avg-label">Сарын дундаж цалин</th><td id="ub-r-avg">—</td></tr>
+          <tr><th scope="row" id="ub-r-rate-label">Тэтгэмж бодох хувь</th><td id="ub-r-rate">—</td></tr>
+          <tr><th scope="row">Сард ногдох тэтгэмж</th><td id="ub-r-month">—</td></tr>
+          <tr><th scope="row">Ажлын нэг өдөрт ногдох (÷ {{ benefits.days_per_month }})</th><td id="ub-r-day">—</td></tr>
+          <tr><th scope="row" id="ub-r-days-label">Олгох ажлын өдөр</th><td id="ub-r-days">—</td></tr>
+          <tr class="total"><th scope="row">Нийт тэтгэмж</th><td id="ub-r-total">—</td></tr>
+        </tbody>
+      </table>
+      <p class="calc-yearnote" id="ub-elig"></p>
+      <p class="calc-warn" id="ub-warn" hidden></p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="calc-notes">
+      <h2 class="h-small">Тэтгэмж бодох хувь</h2>
+      <div class="calc-ref-wrap">
+        <table class="calc-table calc-ref" id="ub-ref">
+          <thead><tr><th scope="col">Шимтгэл төлсөн хугацаа</th><th scope="col">Хувь</th></tr></thead>
+          <tbody>
+            {%- for r in U.rates %}
+            <tr data-from="{{ r.from }}" data-to="{{ r.to if r.to else '' }}"><td>{{ r.from }}{% if r.to %}–{{ r.to }} сар{% else %} ба түүнээс дээш сар{% endif %} <span class="calc-ref-m">({{ (r.from / 12) | round(0, "floor") }}{% if r.to %}–{{ ((r.to + 1) / 12) | round(0, "floor") }} жил хүртэл{% else %} жилээс дээш{% endif %})</span></td><td>{{ (r.rate * 100) | round }}%</td></tr>
+            {%- endfor %}
+          </tbody>
+        </table>
+      </div>
+      <p class="calc-ref-src">Хуулийн 10.1. 24 сараас бага бол тэтгэмж авах эрх үүсэхгүй (9.1).</p>
+
+      <h2 class="h-small calc-h">2027 оноос өөрчлөгдөх зүйл</h2>
+      <div class="calc-ref-wrap">
+        <table class="calc-table calc-ref calc-ref-3">
+          <thead><tr><th scope="col">Нөхцөл</th><th scope="col">2026 он</th><th scope="col">2027.01.01-ээс</th></tr></thead>
+          <tbody>
+            <tr><td>Тасралтгүй шимтгэл төлсөн байх</td><td>сүүлийн 9 сар</td><td>сүүлийн 12 сар</td></tr>
+            <tr><td>Дундаж цалин тооцох хугацаа</td><td>сүүлийн 9 сар</td><td>сүүлийн 12 сар</td></tr>
+            <tr><td>Өөрийн хүсэлтээр гарсан бол</td><td>ажлын 76 өдөр</td><td>ажлын 55 өдөр</td></tr>
+            <tr><td>Дахин авах эрх: 12 сар шимтгэл, үүнээс тасралтгүй</td><td>сүүлийн 3 сар</td><td>сүүлийн 9 сар</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="calc-ref-src">2026.07.02-ны «Нийгмийн даатгалын сангаас олгох тэтгэмжийн тухай хуульд нэмэлт, өөрчлөлт оруулах тухай» хуулийн 3, 4 дүгээр зүйл.</p>
+
+      <h2 class="h-small calc-h">Гол заалт</h2>
+      <ul>
+        <li><strong>Эрх.</strong> Ажилгүйдлийн даатгалын шимтгэлийг нийт 24 сараас доошгүй, үүнээс ажилгүй болохын өмнөх сүүлийн 9 (2027 оноос 12) сар тасралтгүй төлсөн, хөдөлмөр эрхлэлтийн байгууллагад бүртгэлтэй, ажил идэвхтэй хайж буй, өндөр насны тэтгэврийн насанд хүрээгүй даатгуулагч авна (9.1).</li>
+        <li><strong>Олгохгүй.</strong> Цэргийн жинхэнэ алба, хорих ял, байгууллагын захиалгаар суралцах, тэтгэвэр тогтоолгох үндэслэлээр ажлаас чөлөөлөгдсөн бол (9.4).</li>
+        <li><strong>Тооцоо.</strong> Сарын дундаж цалин × хувь ÷ 21 × ажлын 76 өдөр (10.1, 10.3, 11.1). Зааврын жишээ: 16,300,000 ÷ 9 = 1,811,111₮; × 70% = 1,267,778₮; ÷ 21 = 60,370.37₮; × 76 = 4,588,148₮.</li>
+        <li><strong>Дээд хэмжээ.</strong> Тэтгэмж бодох нэг сарын цалин хөдөлмөрийн хөлсний доод хэмжээний 10 дахин хэмжээнээс хэтрэхгүй (зааврын 3.8). Доод хэмжээнээс бага цалинтай сарыг дунджид оруулна (3.6).</li>
+        <li><strong>Хүсэлт.</strong> Ажлаас чөлөөлсөн шийдвэр гарснаас хойш 4 долоо хоногийн дотор, хүндэтгэн үзэх шалтгаантай бол 3 сарын дотор гаргана (14.1.3). Тэтгэмжийн хугацаанд баярын өдөр тохиовол ажлын өдөрт тооцно (11.2).</li>
+        <li><strong>Дахин ажилд орвол.</strong> Ажилд орж шимтгэл төлж эхэлснээс хойш 5 сарын дотор дахин чөлөөлөгдвөл олгогдоогүй үлдсэн тэтгэмжийг олгоно (11.4). Хүүхэд асрах чөлөөтэй эхийн ажил олгогч татан буугдсан, дампуурсан бол мөн олгоно (9.3).</li>
+        <li><strong>Олголт, татвар.</strong> Сар бүр банкны дансаар олгоно (11.5). Хуулийн дагуу олгох тэтгэмжид ХХОАТ ногдохгүй (ХХОАТ-ын хуулийн 22.1.1).</li>
+      </ul>
+      <p class="calc-disclaimer">Эх сурвалж: <a href="{{ benefits.law_url }}" rel="noopener" target="_blank">Нийгмийн даатгалын сангаас олгох тэтгэмжийн тухай хууль</a> (2023, шинэчилсэн найруулга), 9–12, 14 дүгээр зүйл; <a href="{{ benefits.amend_url }}" rel="noopener" target="_blank">2026.07.02-ны нэмэлт, өөрчлөлт</a>; НДЕГ-ын даргын А/267 тушаалын хавсралт <a href="{{ benefits.guide_url }}" rel="noopener" target="_blank">«Тэтгэмж бодох заавар»</a> (2026.06.09-ний А/154-өөр өөрчилсөн), 7 дугаар бүлэг. 2026.10.20-нд шалгав. Тооцоолуур нь ерөнхий мэдээллийн зорилготой; эцсийн дүнг нийгмийн даатгалын байгууллага тогтооно.</p>
+    </div>
+  </div>
+</section>
+
+<script type="application/json" id="benefit-data">{{ benefits | json | safe }}</script>
+<script src="/assets/js/benefit-unemp.js" defer></script>
+
+{% include "partials/contact-band.njk" %}

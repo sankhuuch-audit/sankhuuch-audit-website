@@ -1,4 +1,11 @@
 <nav class="calc-switch" aria-label="Тооцоолуур сонгох">
-  <a href="/tootsooluur/"{% if page.url == "/tootsooluur/" %} aria-current="page"{% endif %}>Цалин, НДШ, ХХОАТ</a>
-  <a href="/tootsooluur/eeljiin-amralt/"{% if page.url == "/tootsooluur/eeljiin-amralt/" %} aria-current="page"{% endif %}>Ээлжийн амралт</a>
+  {%- set calcs = [
+    ["/tootsooluur/", "Цалин, НДШ, ХХОАТ"],
+    ["/tootsooluur/eeljiin-amralt/", "Ээлжийн амралт"],
+    ["/tootsooluur/ajilguidliin-tetgemj/", "Ажилгүйдлийн тэтгэмж"],
+    ["/tootsooluur/jiremsnii-tetgemj/", "Жирэмсний тэтгэмж"]
+  ] %}
+  {%- for c in calcs %}
+  <a href="{{ c[0] }}"{% if page.url == c[0] %} aria-current="page"{% endif %}>{{ c[1] }}</a>
+  {%- endfor %}
 </nav>

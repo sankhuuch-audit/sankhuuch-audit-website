@@ -722,3 +722,15 @@ a.chip-sm:hover { background: var(--tint-2); }
 .calc-ref td.is-cell { color: var(--navy); font-weight: 800; }
 .calc-ref-src { margin-top: 8px; font-size: .85rem; color: var(--muted); }
 .calc-notes li strong { color: var(--navy); }
+
+/* Тэтгэмжийн тооцоолуур */
+.calc-months { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 600px) { .calc-months { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.calc-month { display: grid; gap: 4px; }
+.calc-month span { font-size: .78rem; font-weight: 600; color: var(--muted); }
+.calc-month .calc-input { min-height: 42px; padding: 8px 10px; font-size: .95rem; }
+.calc-th-main { display: block; }
+.calc-th-sub { display: block; font-size: .8rem; font-weight: 500; color: var(--muted); margin-top: 2px; }
+.calc-table tr.total .calc-th-sub { font-family: var(--f-body, inherit); font-weight: 500; }
+input[type="date"].calc-input { font-family: var(--f-head); }
+@media (max-width: 600px) { .calc-switch { gap: 6px; } .calc-switch a { padding: 7px 12px; font-size: .82rem; } }
