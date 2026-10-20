@@ -1,0 +1,81 @@
+---
+layout: layouts/base.njk
+title: Ээлжийн амралтын тооцоолуур
+description: Ажилласан жилээс хамаарсан ээлжийн амралтын нэмэлт хоног болон ээлжийн амралтын цалинг (олговор) тооцох тооцоолуур.
+permalink: /tootsooluur/eeljiin-amralt/
+bodyClass: page-calc
+---
+{%- from "partials/macros.njk" import pageHero %}
+{{ pageHero("Тооцоолуур", "Ээлжийн амралтын тооцоолуур", "Ажилласан жилээр ээлжийн амралтын хоног, өмнөх амралтаас хойшх цалингаар амралтын цалинг тооцоолно.") }}
+
+<section class="section">
+  <div class="container">
+    {% include "partials/calc-tabs.njk" %}
+  </div>
+  <div class="container calc-layout">
+    <form class="calc-form" id="leave-form" novalidate onsubmit="return false">
+      <label class="calc-field">
+        <span class="calc-label">Нийт ажилласан жил (хөдөлмөрийн стаж)</span>
+        <input class="calc-input" id="lv-years" type="text" inputmode="numeric" autocomplete="off" value="12">
+        <span class="calc-hint">Бүтэн жилээр. Хэвийн хөдөлмөрийн нөхцөлөөр тооцно.</span>
+      </label>
+      <label class="calc-field">
+        <span class="calc-label">Өмнөх ээлжийн амралтаас хойш олгосон нийт цалин, ₮</span>
+        <input class="calc-input" id="lv-pay" type="text" inputmode="numeric" autocomplete="off" value="24,000,000">
+        <span class="calc-hint">Үндсэн цалин, нэмэгдэл, нэмэгдэл хөлс, шагнал урамшуулал. Суутгал хийхээс өмнөх дүн.</span>
+      </label>
+      <label class="calc-field">
+        <span class="calc-label">Тэр хугацаанд ажилласан өдөр</span>
+        <input class="calc-input" id="lv-days" type="text" inputmode="numeric" autocomplete="off" value="250">
+        <span class="calc-hint">Ажлын анхны жилд ажилд орсон өдрөөс хойшх ажилласан өдөр.</span>
+      </label>
+    </form>
+
+    <div class="calc-result" aria-live="polite">
+      <div class="calc-net">
+        <p class="calc-net-label">Ээлжийн амралтын цалин</p>
+        <p class="calc-net-value" id="lv-total">—</p>
+        <p class="calc-net-sub" id="lv-days-sum"></p>
+      </div>
+      <table class="calc-table">
+        <caption class="visually-hidden">Ээлжийн амралтын тооцоо</caption>
+        <tbody>
+          <tr><th scope="row">Үндсэн амралт</th><td id="lv-base">—</td></tr>
+          <tr><th scope="row">Нэмэлт амралт</th><td id="lv-extra">—</td></tr>
+          <tr class="total"><th scope="row">Нийт амралт</th><td id="lv-all">—</td></tr>
+          <tr class="sub"><th scope="row">Нэг өдрийн дундаж цалин</th><td id="lv-daily">—</td></tr>
+          <tr class="total"><th scope="row">Амралтын цалин (суутгалаас өмнө)</th><td id="lv-pay-out">—</td></tr>
+        </tbody>
+      </table>
+      <p class="calc-cta"><a class="btn btn-outline btn-sm" id="lv-net-link" href="/tootsooluur/">НДШ, ХХОАТ-ын суутгалыг тооцох</a></p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="calc-notes">
+      <h2 class="h-small">Нэмэлт амралтын хоног, хэвийн нөхцөлд</h2>
+      <table class="calc-table calc-ref">
+        <thead><tr><th scope="col">Ажилласан жил</th><th scope="col">Нэмэлт ажлын өдөр</th></tr></thead>
+        <tbody>
+          <tr><td>1–5 жил</td><td>0</td></tr>
+          {%- for r in leave.extra_normal %}
+          <tr><td>{% if r.to %}{{ r.from }}–{{ r.to }} жил дуустал{% else %}{{ r.from }} дахь жилээс{% endif %}</td><td>{{ r.days }}</td></tr>
+          {%- endfor %}
+        </tbody>
+      </table>
+      <h2 class="h-small calc-h">Тооцооны аргачлал</h2>
+      <ul>
+        <li>Ээлжийн амралтын үндсэн хугацаа ажлын {{ leave.base_days }} өдөр. Нэмэлт хоногийг ажилласан жилээр дээрх хүснэгтээр нэмнэ.</li>
+        <li>Нэг өдрийн дундаж цалин = өмнөх ээлжийн амралтаас хойшх сарын нийт цалин ÷ тэр саруудад ажилласан өдрийн нийлбэр.</li>
+        <li>Ээлжийн амралтын цалин = нэг өдрийн дундаж цалин × амралтын нийт өдөр. Амралтын цалинг амралт эхлэхээс өмнө олгоно.</li>
+        <li>Амралтын цалингаас НДШ, ЭМД, ХХОАТ суутгана. Хэвийн бус нөхцөлд ажилладаг, хөгжлийн бэрхшээлтэй, 18 хүртэлх насны ажилтны хоног өөр байдгийг тусгаагүй.</li>
+      </ul>
+      <p class="calc-disclaimer">Эх сурвалж: Санхүүчдийн календарь; ХНХ сайдын 2021.12.06-ны А/191 тушаалаар баталсан <a href="https://legalinfo.mn/mn/detail/16389706300881" rel="noopener" target="_blank">«Ээлжийн амралт олгох, ээлжийн амралтын цалин тооцох журам»</a>. Тооцоолуур нь ерөнхий мэдээллийн зорилготой.</p>
+    </div>
+  </div>
+</section>
+
+<script type="application/json" id="leave-data">{{ leave | json | safe }}</script>
+<script src="/assets/js/leave.js" defer></script>
+
+{% include "partials/contact-band.njk" %}

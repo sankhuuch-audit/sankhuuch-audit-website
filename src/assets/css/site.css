@@ -692,3 +692,12 @@ a.chip-sm:hover { background: var(--tint-2); }
   .calc-tab span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 }
 .nav-open .calc-tab, .page-calc .calc-tab { display: none; }
+.calc-switch { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.calc-switch a { padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; font: 700 .9rem var(--f-head); color: var(--navy); text-decoration: none; background: #fff; }
+.calc-switch a:hover { border-color: var(--teal-ink); color: var(--teal-ink); }
+.calc-switch a[aria-current="page"] { background: var(--navy); border-color: var(--navy); color: #fff; }
+.calc-net-sub { font-size: .9rem; opacity: .85; }
+.calc-cta { margin-top: 16px; }
+.calc-ref { max-width: 460px; margin-top: 10px; background: #fff; }
+.calc-ref th, .calc-ref td { padding: 8px 12px; text-align: left; }
+.calc-ref td + td, .calc-ref th + th { text-align: right; }

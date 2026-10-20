@@ -9,6 +9,9 @@ bodyClass: page-calc
 {{ pageHero("Тооцоолуур", "Цалингийн тооцоолуур", "Цалин, НДШ, ЭМД, ХХОАТ болон гарт олгох дүнг 2026, 2027, 2028 оны хууль тогтоомжоор шууд тооцоолно.") }}
 
 <section class="section">
+  <div class="container">
+    {% include "partials/calc-tabs.njk" %}
+  </div>
   <div class="container calc-layout">
     <form class="calc-form" id="calc-form" novalidate onsubmit="return false">
       <div class="calc-field">

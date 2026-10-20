@@ -1,4 +1,4 @@
-{%- if lang != "en" and page.url != "/tootsooluur/" %}
+{%- if lang != "en" and not (page.url | string).startsWith("/tootsooluur/") %}
 <a class="calc-tab" href="/tootsooluur/" title="Цалин, НДШ, ХХОАТ тооцох">
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="8" y="6" width="8" height="3.5" rx="1" fill="currentColor"/><g fill="currentColor"><circle cx="9" cy="13" r="1.1"/><circle cx="12" cy="13" r="1.1"/><circle cx="15" cy="13" r="1.1"/><circle cx="9" cy="16.6" r="1.1"/><circle cx="12" cy="16.6" r="1.1"/><circle cx="15" cy="16.6" r="1.1"/></g></svg>
   <span>Тооцоолуур</span>

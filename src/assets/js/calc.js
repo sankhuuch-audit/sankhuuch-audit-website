@@ -106,6 +106,8 @@
     } else warn.hidden = true;
   }
 
+  var qp = /[?&]amount=(\d+)/.exec(location.search);
+  if (qp) amount.value = Number(qp[1]).toLocaleString("en-US");
   amount.addEventListener("input", function () { formatInput(); render(); });
   form.addEventListener("change", render);
   render();
