@@ -1,0 +1,53 @@
+---
+layout: layouts/base.njk
+title: Холбоо барих
+description: “Санхүүч-Аудит” ХХК-ийн хаяг, утас, имэйл. 604 тоот, Шинэ тэрэг плаза, Нарны зам-10, 1-р хороо, Сүхбаатар дүүрэг, Улаанбаатар.
+permalink: /holboo-barih/
+---
+{%- from "partials/macros.njk" import pageHero %}
+{{ pageHero("Холбоо барих", "Та бүхэнтэй хамтран ажиллахдаа таатай байх болно.", "Аудит, нягтлан бодох бүртгэл, татвар, санхүүгийн зөвлөх үйлчилгээний талаар доорх хаягаар холбогдоно уу.") }}
+
+<section class="section">
+  <div class="container contact-grid">
+    <div class="contact-card">
+      <p class="contact-label">Хаяг</p>
+      <p class="contact-value">{{ site.address }}</p>
+      {%- if site.map_url %}<a class="link-small" href="{{ site.map_url }}" rel="noopener" target="_blank">Газрын зураг дээр харах</a>{% endif %}
+    </div>
+    <div class="contact-card">
+      <p class="contact-label">Утас</p>
+      <p class="contact-value">{% for p in site.phones %}<a href="{{ p | telHref }}">{{ p }}</a>{% if not loop.last %}<br>{% endif %}{% endfor %}</p>
+    </div>
+    <div class="contact-card">
+      <p class="contact-label">Имэйл</p>
+      <p class="contact-value"><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+      <button type="button" class="link-small copy-btn" data-copy="{{ site.email }}">Имэйл хаягийг хуулах</button>
+    </div>
+    <div class="contact-card">
+      <p class="contact-label">ММНБИ дэх бүртгэл</p>
+      <p class="contact-value"><a href="{{ site.monicpa_url }}" rel="noopener" target="_blank">{{ site.monicpa_url | replace("https://", "") }}</a></p>
+    </div>
+    {%- if site.youtube_channel or site.facebook_url %}
+    <div class="contact-card">
+      <p class="contact-label">Олон нийтийн сүлжээ</p>
+      <p class="contact-value">
+        {%- if site.youtube_channel %}<a href="{{ site.youtube_channel }}" rel="noopener" target="_blank">YouTube суваг</a>{% endif %}
+        {%- if site.youtube_channel and site.facebook_url %}<br>{% endif %}
+        {%- if site.facebook_url %}<a href="{{ site.facebook_url }}" rel="noopener" target="_blank">Facebook</a>{% endif %}
+      </p>
+    </div>
+    {%- endif %}
+  </div>
+</section>
+
+<section class="section section-tint">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Бидний үйлчилгээ</p>
+      <h2>Ямар асуудлаар хандаж болох вэ?</h2>
+    </div>
+    <ul class="service-chips">
+      {%- for s in collections.services %}<li><a href="/uilchilgee/#{{ s.data.title | slugify }}">{{ s.data.title }}</a></li>{% endfor %}
+    </ul>
+  </div>
+</section>

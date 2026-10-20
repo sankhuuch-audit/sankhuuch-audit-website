@@ -1,0 +1,18 @@
+{%- from "partials/macros.njk" import articleCard, searchBar %}
+<section class="section">
+  <div class="container" data-filter-root>
+    {{ searchBar("Нийтлэлээс хайх…", categories, "Бүгд", true, activeKey) }}
+    {%- if list.length %}
+    <p class="result-count" data-count aria-live="polite">{{ list.length }} нийтлэл</p>
+    <div class="card-grid">
+      {%- for a in list %}{{ articleCard(a, categories) }}{% endfor %}
+    </div>
+    <p class="empty-state" data-empty hidden>Хайлтад тохирох нийтлэл олдсонгүй. Өөр үгээр хайж үзнэ үү.</p>
+    {%- else %}
+    <div class="empty-state empty-state-box">
+      <p class="empty-title">Энэ хэсэгт нийтлэл хараахан нэмэгдээгүй байна.</p>
+      <p>Шинэ зөвлөгөө удахгүй нийтлэгдэнэ. Асуух зүйл байвал <a href="/holboo-barih/">бидэнтэй холбогдоно уу</a>.</p>
+    </div>
+    {%- endif %}
+  </div>
+</section>

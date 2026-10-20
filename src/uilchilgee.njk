@@ -1,0 +1,72 @@
+---
+layout: layouts/base.njk
+title: Үйлчилгээ
+description: Санхүүгийн тайлангийн аудит, санхүүгийн тайланг нягтлах ажил, бусад баталгаажуулах ажил, санхүү, НББ, татварын зөвлөх үйлчилгээ.
+permalink: /uilchilgee/
+---
+{%- from "partials/macros.njk" import pageHero %}
+{{ pageHero("Бидний үйлчилгээ", "Үйлчилгээний бүтэц", "Бид “Аудит ба баталгаажуулалт”, “Зөвлөх ба холбогдох үйлчилгээ” гэсэн хоёр чиглэлээр үйлчилгээ үзүүлдэг.") }}
+
+{%- set groups = [
+  { key: "audit", label: "Аудит ба баталгаажуулалт" },
+  { key: "advisory", label: "Зөвлөх ба холбогдох үйлчилгээ" }
+] %}
+
+<section class="section">
+  <div class="container">
+    <div class="org" aria-label="Үйлчилгээний бүтэц">
+      <p class="org-root">{{ site.name }}</p>
+      <div class="org-branches">
+        {%- for g in groups %}
+        <div class="org-branch org-branch-{{ g.key }}">
+          <a class="org-group" href="#{{ g.key }}">{{ g.label }}</a>
+          <ul class="org-leaves">
+            {%- for s in collections.services | whereData("group", g.key) %}
+            <li><a href="#{{ s.data.title | slugify }}">{{ s.data.title }}</a></li>
+            {%- endfor %}
+          </ul>
+        </div>
+        {%- endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- for g in groups %}
+<section class="section {{ 'section-tint' if loop.first }}" id="{{ g.key }}">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">{{ g.label }}</p>
+      <h2>{{ "Аудит ба баталгаажуулалтын үйлчилгээ" if g.key == "audit" else "Зөвлөх ба холбогдох үйлчилгээ" }}</h2>
+    </div>
+    <div class="service-blocks">
+      {%- for s in collections.services | whereData("group", g.key) %}
+      <article class="service-block" id="{{ s.data.title | slugify }}">
+        <div class="service-block-head">
+          <h3>{{ s.data.title }}</h3>
+          {%- if s.data.summary %}<p class="service-summary">{{ s.data.summary }}</p>{% endif %}
+        </div>
+        {%- if s.data.items and s.data.items.length %}
+        <ul class="check-list">
+          {%- for it in s.data.items %}<li>{{ it }}</li>{% endfor %}
+        </ul>
+        {%- endif %}
+        {%- if s.content | trim %}
+        <div class="service-detail prose">{{ s.content | safe }}</div>
+        {%- endif %}
+      </article>
+      {%- endfor %}
+    </div>
+    {%- if g.key == "audit" and company.audit_focus.length %}
+    <aside class="focus-box">
+      <h3>Санхүүгийн тайлангийн аудит хийхдээ бид дараах зүйлд анхаардаг</h3>
+      <ul>
+        {%- for f in company.audit_focus %}<li>{{ f }}</li>{% endfor %}
+      </ul>
+    </aside>
+    {%- endif %}
+  </div>
+</section>
+{%- endfor %}
+
+{% include "partials/contact-band.njk" %}

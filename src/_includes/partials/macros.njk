@@ -1,0 +1,74 @@
+{# Дахин ашиглагдах хэсгүүд #}
+
+{% macro pageHero(eyebrow, heading, intro) %}
+<section class="page-hero">
+  <div class="container">
+    <p class="eyebrow eyebrow-on-dark"><span class="tribar" aria-hidden="true"><i></i><i></i><i></i></span>{{ eyebrow }}</p>
+    <h1>{{ heading }}</h1>
+    {% if intro %}<p class="page-hero-intro">{{ intro }}</p>{% endif %}
+    {{ caller() if caller }}
+  </div>
+</section>
+{% endmacro %}
+
+{% macro articleCard(item, categories) %}
+{%- set cat = categories | findBy("key", item.data.category) %}
+<article class="card article-card" data-item data-topic="{{ item.data.category }}" data-text="{{ [item.data.title, item.data.summary, cat.label if cat] | searchText }}">
+  <p class="card-meta">
+    {%- if cat %}<a class="chip chip-sm" href="/zuvlugu/angilal/{{ cat.key }}/">{{ cat.label }}</a>{% endif %}
+    <time datetime="{{ item.date | isoDate }}">{{ item.date | mnDate }}</time>
+  </p>
+  <h3 class="card-title"><a href="{{ item.url }}">{{ item.data.title }}</a></h3>
+  {%- if item.data.summary %}<p class="card-text">{{ item.data.summary }}</p>{% endif %}
+  <p class="card-foot">
+    {%- if item.data.legal and (item.data.legal.name or item.data.legal.url) %}<span class="flag flag-legal">Хууль эрх зүйн эх сурвалжтай</span>{% endif %}
+    {%- if item.data.youtube | youtubeId %}<span class="flag flag-video">Видеотой</span>{% endif %}
+  </p>
+</article>
+{% endmacro %}
+
+{% macro ytPlayer(id, title) %}
+<div class="yt" data-yt="{{ id }}">
+  <button type="button" class="yt-btn" aria-label="Бичлэг тоглуулах: {{ title }}">
+    <img src="https://i.ytimg.com/vi/{{ id }}/hqdefault.jpg" alt="" loading="lazy" width="480" height="360">
+    <span class="yt-play" aria-hidden="true"><svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2.3 34 .3 34 .3s-21.2 0-26.5 1.4a8.6 8.6 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.6 8.6 0 0 0 6 6C12.8 47.7 34 47.7 34 47.7s21.2 0 26.5-1.4a8.6 8.6 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="#d8263e"/><path d="M45 24 27 14v20z" fill="#fff"/></svg></span>
+  </button>
+  <noscript><a href="https://www.youtube.com/watch?v={{ id }}">YouTube дээр үзэх</a></noscript>
+</div>
+{% endmacro %}
+
+{% macro videoCard(item, topics) %}
+{%- set id = item.data.url | youtubeId %}
+{%- set topic = topics | findBy("key", item.data.topic) %}
+<article class="video-card" data-item data-topic="{{ item.data.topic }}" data-text="{{ [item.data.title, item.data.description, topic.label if topic] | searchText }}">
+  {{ ytPlayer(id, item.data.title) }}
+  <div class="video-body">
+    <p class="card-meta">
+      {%- if topic %}<span class="chip chip-sm">{{ topic.label }}</span>{% endif %}
+      {%- if item.data.date %}<time datetime="{{ item.date | isoDate }}">{{ item.date | mnDate }}</time>{% endif %}
+    </p>
+    <h3 class="video-title">{{ item.data.title }}</h3>
+    {%- if item.data.description %}<p class="card-text">{{ item.data.description }}</p>{% endif %}
+    <a class="link-small" href="https://www.youtube.com/watch?v={{ id }}" rel="noopener" target="_blank">YouTube дээр нээх</a>
+  </div>
+</article>
+{% endmacro %}
+
+{% macro searchBar(placeholder, chips, allLabel, useLinks, activeKey) %}
+<div class="filter-bar">
+  <div class="chips" role="group" aria-label="Ангилал">
+    {%- if useLinks %}
+      <a class="chip{% if not activeKey %} is-active{% endif %}" href="/zuvlugu/"{% if not activeKey %} aria-current="page"{% endif %}>{{ allLabel }}</a>
+      {%- for c in chips %}<a class="chip{% if activeKey == c.key %} is-active{% endif %}" href="/zuvlugu/angilal/{{ c.key }}/"{% if activeKey == c.key %} aria-current="page"{% endif %}>{{ c.label }}</a>{% endfor %}
+    {%- else %}
+      <button type="button" class="chip is-active" data-filter="" aria-pressed="true">{{ allLabel }}</button>
+      {%- for c in chips %}<button type="button" class="chip" data-filter="{{ c.key }}" aria-pressed="false">{{ c.label }}</button>{% endfor %}
+    {%- endif %}
+  </div>
+  <label class="search">
+    <span class="visually-hidden">Хайх</span>
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <input type="search" data-search placeholder="{{ placeholder }}" autocomplete="off">
+  </label>
+</div>
+{% endmacro %}

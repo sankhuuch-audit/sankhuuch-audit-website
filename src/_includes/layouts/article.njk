@@ -1,0 +1,90 @@
+---
+layout: layouts/base.njk
+ogType: article
+bodyClass: page-article
+---
+{%- from "partials/macros.njk" import ytPlayer, articleCard %}
+{%- set cat = categories | findBy("key", category) %}
+{%- set ytid = youtube | youtubeId %}
+<article class="article" itemscope itemtype="https://schema.org/Article">
+  <header class="article-hero">
+    <div class="container narrow">
+      <nav class="crumbs" aria-label="Байршил">
+        <a href="/zuvlugu/">Зөвлөгөө</a>
+        {%- if cat %}<span aria-hidden="true">/</span><a href="/zuvlugu/angilal/{{ cat.key }}/">{{ cat.label }}</a>{% endif %}
+      </nav>
+      {%- if draft %}<p class="draft-flag">Ноорог: вэбсайт дээр харагдахгүй</p>{% endif %}
+      <h1 itemprop="headline">{{ title }}</h1>
+      <p class="article-meta">
+        <time datetime="{{ page.date | isoDate }}" itemprop="datePublished">{{ page.date | mnDate }}</time>
+        {%- if cat %}<span aria-hidden="true">·</span><span>{{ cat.label }}</span>{% endif %}
+      </p>
+      {%- if summary %}<p class="article-lead" itemprop="description">{{ summary }}</p>{% endif %}
+    </div>
+  </header>
+
+  <div class="container narrow article-main">
+    {%- if legal and (legal.name or legal.url) %}
+    <aside class="legal-box" aria-label="Хууль тогтоомжийн эх сурвалж">
+      <p class="legal-label">Хууль тогтоомжийн эх сурвалж</p>
+      <p class="legal-name">
+        {%- if legal.url %}<a href="{{ legal.url }}" rel="noopener" target="_blank">{{ legal.name or legal.url }}</a>{% else %}{{ legal.name }}{% endif %}
+      </p>
+      <dl class="legal-dates">
+        {%- if legal.effective_date %}<div><dt>Хүчин төгөлдөр болсон</dt><dd><time datetime="{{ legal.effective_date | isoDate }}">{{ legal.effective_date | mnDate }}</time></dd></div>{% endif %}
+        {%- if legal.checked_date %}<div><dt>Эх сурвалжийг шалгасан</dt><dd><time datetime="{{ legal.checked_date | isoDate }}">{{ legal.checked_date | mnDate }}</time></dd></div>{% endif %}
+      </dl>
+      {%- if legal.checked_date %}
+      <p class="legal-stale" data-checked="{{ legal.checked_date | isoDate }}" hidden>Энэ мэдээллийн эх сурвалжийг 12 сараас дээш хугацааны өмнө шалгасан. Хууль тогтоомжид өөрчлөлт орсон эсэхийг <a href="https://legalinfo.mn" rel="noopener" target="_blank">legalinfo.mn</a>-ээс шалгана уу.</p>
+      {%- endif %}
+    </aside>
+    {%- endif %}
+
+    <div class="prose" itemprop="articleBody">
+      {{ content | safe }}
+    </div>
+
+    {%- if ytid %}
+    <section class="article-video" aria-label="Холбогдох бичлэг">
+      <h2 class="h-small">Холбогдох бичлэг</h2>
+      {{ ytPlayer(ytid, title) }}
+    </section>
+    {%- endif %}
+
+    {%- if sources and sources.length %}
+    <section class="sources">
+      <h2 class="h-small">Эх сурвалж</h2>
+      <ol>
+        {%- for s in sources %}
+        <li>{% if s.url %}<a href="{{ s.url }}" rel="noopener" target="_blank">{{ s.title or s.url }}</a>{% else %}{{ s.title }}{% endif %}{% if s.url %} <span class="source-host">{{ s.url | hostname }}</span>{% endif %}</li>
+        {%- endfor %}
+      </ol>
+    </section>
+    {%- endif %}
+
+    <p class="disclaimer">Энэхүү нийтлэл нь ерөнхий мэдээллийн зорилготой бөгөөд тодорхой нөхцөл байдалд зориулсан мэргэжлийн зөвлөгөөг орлохгүй. Хууль тогтоомжийн хүчин төгөлдөр эх бичвэрийг <a href="https://legalinfo.mn" rel="noopener" target="_blank">legalinfo.mn</a>-ээс шалгана уу. Өөрийн байгууллагын асуудлаар <a href="/holboo-barih/">бидэнтэй холбогдоорой</a>.</p>
+  </div>
+
+  {%- set related = collections.articles | whereData("category", category) | exceptUrl(page.url) | limit(3) %}
+  {%- if related.length %}
+  <section class="section section-tint">
+    <div class="container">
+      <h2 class="h-section">Энэ ангиллын бусад нийтлэл</h2>
+      <div class="card-grid">
+        {%- for a in related %}{{ articleCard(a, categories) }}{% endfor %}
+      </div>
+    </div>
+  </section>
+  {%- endif %}
+</article>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ title | json | safe }},
+  "datePublished": {{ page.date | isoDate | json | safe }},
+  "inLanguage": "mn",
+  "publisher": { "@type": "Organization", "name": {{ site.name | json | safe }} },
+  "mainEntityOfPage": {{ page.url | absUrl(site.url) | json | safe }}
+}
+</script>

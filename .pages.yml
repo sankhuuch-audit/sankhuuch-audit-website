@@ -1,0 +1,440 @@
+# Pages CMS тохиргоо (https://pagescms.org)
+# Энэ файл нь вэбсайтын агуулгыг хөтөч дээрээс маягтаар засах боломжийг олгоно.
+
+media:
+  - name: images
+    label: Зураг
+    input: src/assets/uploads/images
+    output: /assets/uploads/images
+    extensions: [jpg, jpeg, png, webp, gif, svg]
+  - name: files
+    label: Татах файл
+    input: src/assets/uploads/files
+    output: /assets/uploads/files
+    extensions: [pdf, doc, docx, xls, xlsx, ppt, pptx, zip]
+
+content:
+  # ---------------- Нийтлэл ----------------
+  - name: articles
+    label: Зөвлөгөө, нийтлэл
+    type: collection
+    path: src/content/articles
+    filename: "{year}-{month}-{day}-{primary}.md"
+    format: yaml-frontmatter
+    exclude: [articles.11tydata.js]
+    view:
+      primary: title
+      fields: [title, date, category, draft]
+      sort: date
+      order: desc
+    fields:
+      - name: title
+        label: Гарчиг
+        type: string
+        required: true
+      - name: date
+        label: Нийтэлсэн огноо
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: category
+        label: Ангилал
+        type: select
+        required: true
+        options:
+          values:
+            - name: tatvar
+              label: "НӨАТ, ХХОАТ, ААНОАТ, НДШ"
+            - name: nbb-stous
+              label: "Нягтлан бодох бүртгэл, СТОУС"
+            - name: shinjilgee
+              label: "Санхүүгийн тайлангийн шинжилгээ"
+            - name: udirdlaga
+              label: "Бизнесийн санхүүгийн удирдлага"
+            - name: huuli
+              label: "Татварын тайлагнал, хууль тогтоомжийн өөрчлөлт"
+      - name: summary
+        label: Товч агуулга
+        description: Жагсаалт болон Google хайлтад харагдах 1-2 өгүүлбэр.
+        type: text
+      - name: legal
+        label: Хууль тогтоомжийн эх сурвалж
+        description: Хууль, журамтай холбоотой нийтлэлд заавал бөглөнө. Бусад нийтлэлд хоосон орхино.
+        type: object
+        fields:
+          - name: name
+            label: Хууль, журмын нэр
+            type: string
+          - name: url
+            label: Холбоос (legalinfo.mn гэх мэт)
+            type: string
+          - name: effective_date
+            label: Хүчин төгөлдөр болсон огноо
+            type: date
+            default: ""
+            options:
+              format: yyyy-MM-dd
+          - name: checked_date
+            label: Эх сурвалжийг шалгасан огноо
+            description: 12 сараас хуучирвал вэбсайт уншигчдад анхааруулга автоматаар гарна.
+            type: date
+            default: ""
+            options:
+              format: yyyy-MM-dd
+      - name: sources
+        label: Эх сурвалж
+        type: object
+        list:
+          collapsible:
+            summary: "{title}"
+        fields:
+          - name: title
+            label: Нэр
+            type: string
+          - name: url
+            label: Холбоос
+            type: string
+      - name: youtube
+        label: Холбогдох YouTube бичлэгийн холбоос
+        description: "Жишээ: https://www.youtube.com/watch?v=... эсвэл https://youtu.be/..."
+        type: string
+      - name: slug
+        label: Вэб хаяг (заавал биш)
+        description: "Хоосон орхивол гарчгаас автоматаар үүснэ. Нийтэлсний дараа гарчгаа өөрчлөх бол хуучин хаягийг энд латинаар бичиж үлдээнэ."
+        type: string
+      - name: draft
+        label: Ноорог (вэбсайт дээр гаргахгүй)
+        type: boolean
+        default: false
+      - name: body
+        label: Үндсэн агуулга
+        type: rich-text
+        options:
+          format: markdown
+          media: images
+
+  # ---------------- Видео ----------------
+  - name: videos
+    label: Видео сан
+    type: collection
+    path: src/content/videos
+    filename: "{year}-{month}-{day}-{primary}.md"
+    format: yaml-frontmatter
+    exclude: [videos.11tydata.json]
+    view:
+      primary: title
+      fields: [title, topic, date, featured]
+      sort: date
+      order: desc
+    fields:
+      - name: title
+        label: Бичлэгийн нэр
+        type: string
+        required: true
+      - name: url
+        label: YouTube холбоос
+        description: "YouTube дээрх бичлэгийн хаягийг хуулж тавина. Жишээ: https://www.youtube.com/watch?v=..."
+        type: string
+        required: true
+      - name: topic
+        label: Сэдэв
+        type: select
+        required: true
+        options:
+          values:
+            - name: tatvar
+              label: "Татвар, НДШ"
+            - name: nbb-stous
+              label: "Нягтлан бодох бүртгэл, СТОУС"
+            - name: shinjilgee
+              label: "Санхүүгийн тайлангийн шинжилгээ"
+            - name: udirdlaga
+              label: "Бизнесийн санхүүгийн удирдлага"
+            - name: huuli
+              label: "Хууль тогтоомжийн өөрчлөлт"
+            - name: busad
+              label: "Бусад"
+      - name: date
+        label: Нэмсэн огноо
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: description
+        label: Товч тайлбар
+        type: text
+      - name: featured
+        label: Нүүр хуудсанд онцлох
+        type: boolean
+        default: false
+      - name: draft
+        label: Ноорог (вэбсайт дээр гаргахгүй)
+        type: boolean
+        default: false
+
+  # ---------------- Материал ----------------
+  - name: materials
+    label: Хэрэгцээт мэдээлэл (татах файл)
+    type: collection
+    path: src/content/materials
+    filename: "{year}-{month}-{day}-{primary}.md"
+    format: yaml-frontmatter
+    exclude: [materials.11tydata.json]
+    view:
+      primary: title
+      fields: [title, type, date]
+      sort: date
+      order: desc
+    fields:
+      - name: title
+        label: Нэр
+        type: string
+        required: true
+      - name: type
+        label: Төрөл
+        type: select
+        required: true
+        options:
+          values:
+            - name: guide
+              label: Гарын авлага
+            - name: template
+              label: Загвар, маягт
+            - name: spreadsheet
+              label: Тооцооны хүснэгт
+            - name: calendar
+              label: Календарь
+            - name: other
+              label: Бусад
+      - name: date
+        label: Огноо
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: description
+        label: Тайлбар
+        type: text
+      - name: file
+        label: Татах файл (PDF, Excel, Word)
+        type: file
+        options:
+          media: files
+      - name: cover
+        label: Нүүр зураг (заавал биш)
+        type: image
+        options:
+          media: images
+      - name: link
+        label: Эсвэл гадны холбоос
+        type: string
+      - name: draft
+        label: Ноорог (вэбсайт дээр гаргахгүй)
+        type: boolean
+        default: false
+
+  # ---------------- Үйлчилгээ ----------------
+  - name: services
+    label: Үйлчилгээ
+    type: collection
+    path: src/content/services
+    filename: "{primary}.md"
+    format: yaml-frontmatter
+    exclude: [services.11tydata.json]
+    view:
+      primary: title
+      fields: [title, group, order]
+      sort: order
+      order: asc
+    fields:
+      - name: title
+        label: Үйлчилгээний нэр
+        type: string
+        required: true
+      - name: group
+        label: Чиглэл
+        type: select
+        required: true
+        options:
+          values:
+            - name: audit
+              label: Аудит ба баталгаажуулалт
+            - name: advisory
+              label: Зөвлөх ба холбогдох үйлчилгээ
+      - name: order
+        label: Дараалал (1, 2, 3…)
+        type: number
+      - name: summary
+        label: Товч тайлбар
+        type: text
+      - name: items
+        label: Үндсэн чиглэлүүд
+        type: string
+        list: true
+      - name: draft
+        label: Нуух
+        type: boolean
+        default: false
+      - name: body
+        label: Дэлгэрэнгүй
+        type: rich-text
+        options:
+          format: markdown
+
+  # ---------------- Ерөнхий тохиргоо ----------------
+  - name: site
+    label: Холбоо барих, сошиал
+    type: file
+    path: src/_data/site.json
+    format: json
+    fields:
+      - { name: name, label: Компанийн нэр, type: string }
+      - { name: shortName, label: Богино нэр, type: string }
+      - { name: tagline, label: Уриа, type: string }
+      - { name: description, label: Танилцуулга (Google хайлтад харагдана), type: text }
+      - { name: url, label: Вэбсайтын хаяг, type: string }
+      - { name: address, label: Хаяг, type: text }
+      - { name: phones, label: Утас, type: string, list: true }
+      - { name: email, label: Имэйл, type: string }
+      - { name: monicpa_url, label: ММНБИ дэх бүртгэлийн холбоос, type: string }
+      - { name: map_url, label: Газрын зургийн холбоос, type: string }
+      - { name: youtube_channel, label: YouTube сувгийн холбоос, type: string }
+      - { name: facebook_url, label: Facebook хуудасны холбоос, type: string }
+
+  - name: company
+    label: Компанийн мэдээлэл
+    type: file
+    path: src/_data/company.json
+    format: json
+    fields:
+      - name: stats
+        label: Тоон үзүүлэлт (нүүр хуудас)
+        type: object
+        list:
+          collapsible:
+            summary: "{value} {label}"
+        fields:
+          - { name: value, label: Тоо, type: string }
+          - { name: label, label: Тайлбар, type: string }
+      - { name: history_title, label: Түүхийн гарчиг, type: string }
+      - { name: history_intro, label: Түүхийн танилцуулга, type: text }
+      - name: timeline
+        label: Түүхэн замнал
+        type: object
+        list:
+          collapsible:
+            summary: "{year}: {text}"
+        fields:
+          - { name: year, label: Он, type: string }
+          - { name: text, label: Үйл явдал, type: string }
+      - { name: mission, label: Эрхэм зорилго, type: text }
+      - { name: mission_keywords, label: Эрхэм зорилгын түлхүүр үгс, type: string, list: true }
+      - name: principles
+        label: Үндсэн зарчим
+        type: object
+        list:
+          collapsible:
+            summary: "{title}"
+        fields:
+          - { name: title, label: Нэр, type: string }
+          - { name: text, label: Тайлбар, type: text }
+      - name: value_chain
+        label: Аудитын харилцаа (3 алхам)
+        type: object
+        list:
+          collapsible:
+            summary: "{step}"
+        fields:
+          - { name: step, label: Алхам, type: string }
+          - { name: title, label: Гарчиг, type: string }
+          - { name: text, label: Тайлбар, type: string }
+      - { name: value_result, label: Аудитын үр дүн, type: string }
+      - { name: team_total, label: Нийт ажилтан, type: number }
+      - name: team
+        label: Багийн бүрэлдэхүүн
+        type: object
+        list:
+          collapsible:
+            summary: "{count} {role}"
+        fields:
+          - { name: count, label: Тоо, type: number }
+          - { name: role, label: Албан тушаал, type: string }
+          - { name: note, label: Тайлбар, type: string }
+      - name: clients_by_year
+        label: Харилцагчдын тоо (жилээр)
+        type: object
+        list:
+          collapsible:
+            summary: "{year}: {count}"
+        fields:
+          - { name: year, label: Он, type: string }
+          - { name: count, label: Харилцагчийн тоо, type: number }
+      - { name: clients_average_text, label: Жилийн дундаж харилцагч (жишээ нь 100 орчим), type: string }
+      - { name: clients_non_audit, label: Аудитаас бусад үйлчилгээ авдаг ААН, type: string }
+      - name: differentiators
+        label: Бидний ялгарал
+        type: object
+        list:
+          collapsible:
+            summary: "{title}"
+        fields:
+          - { name: title, label: Гарчиг, type: string }
+          - { name: text, label: Тайлбар, type: text }
+      - { name: calendar_intro, label: Санхүүчдийн календарийн тайлбар, type: text }
+      - { name: calendar_items, label: Календарийн агуулга, type: string, list: true }
+      - name: calendar_images
+        label: Календарийн зураг
+        type: object
+        list:
+          collapsible:
+            summary: "{caption}"
+        fields:
+          - name: image
+            label: Зураг
+            type: image
+            options:
+              media: images
+          - { name: caption, label: Тайлбар, type: string }
+      - { name: nyabo_text, label: “Ня-Бо” аппын тайлбар, type: text }
+      - { name: nyabo_features, label: “Ня-Бо” аппын боломжууд, type: string, list: true }
+      - name: nyabo_images
+        label: “Ня-Бо” аппын дэлгэцийн зураг
+        type: object
+        list:
+          collapsible:
+            summary: "{caption}"
+        fields:
+          - name: image
+            label: Зураг
+            type: image
+            options:
+              media: images
+          - { name: caption, label: Тайлбар, type: string }
+      - { name: clients_intro, label: Харилцагчдын танилцуулга, type: text }
+      - name: client_groups
+        label: Харилцагч байгууллагууд
+        type: object
+        list:
+          collapsible:
+            summary: "{title}"
+        fields:
+          - { name: title, label: Бүлгийн нэр, type: string }
+          - { name: names, label: Байгууллагууд, type: string, list: true }
+      - { name: audit_focus, label: Аудит хийхдээ анхаардаг зүйлс, type: string, list: true }
+      - name: credentials
+        label: Гэрчилгээ, гишүүнчлэл
+        type: object
+        list:
+          collapsible:
+            summary: "{title}"
+        fields:
+          - { name: title, label: Нэр, type: string }
+          - { name: issuer, label: Олгосон байгууллага, type: string }
+          - { name: detail, label: Дугаар, огноо, type: string }
+          - { name: link, label: Шалгах холбоос, type: string }
+          - name: image
+            label: Гэрчилгээний зураг
+            type: image
+            options:
+              media: images

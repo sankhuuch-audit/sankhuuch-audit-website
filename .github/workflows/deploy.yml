@@ -1,0 +1,60 @@
+# Вэбсайтыг автоматаар бүтээж GitHub Pages дээр байршуулна.
+# main салбарт өөрчлөлт орох бүрт (Pages CMS-ээр нийтлэл нэмэхэд ч) ажиллана.
+name: Вэбсайтыг байршуулах
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Кодыг татах
+        uses: actions/checkout@v7
+
+      - name: Node.js суулгах
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Хамаарлуудыг суулгах
+        run: npm ci
+
+      - name: Pages тохируулах
+        id: pages
+        uses: actions/configure-pages@v6
+
+      # Домэйн холбоогүй үед сайт username.github.io/repo/ хаягаар нээгдэнэ.
+      # Домэйн холбосны дараа base_path хоосон болж, сайт үндсэн хаягаараа ажиллана.
+      - name: Вэбсайтыг бүтээх
+        run: npx @11ty/eleventy --pathprefix="${BASE_PATH:-/}"
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+
+      - name: Бэлэн файлуудыг илгээх
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: GitHub Pages руу байршуулах
+        id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,0 +1,7 @@
+[
+  { "key": "guide", "label": "Гарын авлага" },
+  { "key": "template", "label": "Загвар, маягт" },
+  { "key": "spreadsheet", "label": "Тооцооны хүснэгт" },
+  { "key": "calendar", "label": "Календарь" },
+  { "key": "other", "label": "Бусад" }
+]

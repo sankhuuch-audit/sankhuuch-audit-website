@@ -1,0 +1,31 @@
+---
+layout: layouts/base.njk
+title: Видео сан
+description: Санхүү, татвар, нягтлан бодох бүртгэлийн сэдвээрх “Санхүүч-Аудит” ХХК-ийн YouTube бичлэгүүд.
+permalink: /video/
+---
+{%- from "partials/macros.njk" import pageHero, videoCard, searchBar %}
+{% call pageHero("Видео сан", "YouTube бичлэгүүд", "Санхүү, татвар, нягтлан бодох бүртгэлийн сэдвээрх бичлэгүүдийг эндээс шууд үзэх боломжтой.") %}
+  {%- if site.youtube_channel %}
+  <a class="btn btn-outline-light btn-sm" href="{{ site.youtube_channel }}" rel="noopener" target="_blank">YouTube суваг үзэх</a>
+  {%- endif %}
+{% endcall %}
+
+<section class="section">
+  <div class="container" data-filter-root>
+    {%- if collections.videos.length %}
+    {%- set usedTopics = videoTopics | usedTopics(collections.videos) %}
+    {{ searchBar("Бичлэгээс хайх…", usedTopics, "Бүх сэдэв", false, "") }}
+    <p class="result-count" data-count aria-live="polite">{{ collections.videos.length }} бичлэг</p>
+    <div class="video-grid">
+      {%- for v in collections.videos %}{{ videoCard(v, videoTopics) }}{% endfor %}
+    </div>
+    <p class="empty-state" data-empty hidden>Хайлтад тохирох бичлэг олдсонгүй. Өөр үгээр хайж үзнэ үү.</p>
+    {%- else %}
+    <div class="empty-state empty-state-box">
+      <p class="empty-title">Бичлэг удахгүй нэмэгдэнэ.</p>
+      <p>{% if site.youtube_channel %}Одоогоор бичлэгүүдийг манай <a href="{{ site.youtube_channel }}" rel="noopener" target="_blank">YouTube сувгаас</a> үзэх боломжтой.{% else %}Шинэ бичлэгүүдийг энд байршуулах болно.{% endif %}</p>
+    </div>
+    {%- endif %}
+  </div>
+</section>

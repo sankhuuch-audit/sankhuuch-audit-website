@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="mn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- if isHome %}{% set pageTitle = site.name + " | " + site.tagline %}{% else %}{% set pageTitle = title + " | " + site.shortName %}{% endif %}
+  {%- set pageDescription = description or summary or site.description %}
+  {%- set canonical = page.url | absUrl(site.url) %}
+  <title>{{ pageTitle }}</title>
+  <meta name="description" content="{{ pageDescription }}">
+  <link rel="canonical" href="{{ canonical }}">
+  <meta property="og:type" content="{{ ogType or 'website' }}">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="og:title" content="{{ pageTitle }}">
+  <meta property="og:description" content="{{ pageDescription }}">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta property="og:image" content="{{ '/assets/img/og-image.png' | absUrl(site.url) }}">
+  <meta property="og:locale" content="mn_MN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#16264a">
+  {%- if noindex %}<meta name="robots" content="noindex">{% endif %}
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/golos-text-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/montserrat-cyrillic-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AccountingService",
+    "name": {{ site.name | json | safe }},
+    "alternateName": "Sankhuuch audit LLC",
+    "description": {{ site.description | json | safe }},
+    "url": {{ site.url | json | safe }},
+    "logo": {{ '/assets/img/logo.png' | absUrl(site.url) | json | safe }},
+    "image": {{ '/assets/img/og-image.png' | absUrl(site.url) | json | safe }},
+    "email": {{ site.email | json | safe }},
+    "telephone": {{ site.phones[0] | json | safe }},
+    "foundingDate": "2008",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": {{ site.address | json | safe }},
+      "addressLocality": "Улаанбаатар",
+      "addressCountry": "MN"
+    }{% if site.youtube_channel or site.facebook_url %},
+    "sameAs": [{% if site.youtube_channel %}{{ site.youtube_channel | json | safe }}{% endif %}{% if site.youtube_channel and site.facebook_url %}, {% endif %}{% if site.facebook_url %}{{ site.facebook_url | json | safe }}{% endif %}]{% endif %}
+  }
+  </script>
+  {%- block head %}{% endblock %}
+</head>
+<body class="{{ bodyClass }}">
+  <a class="skip-link" href="#main">Үндсэн агуулга руу шилжих</a>
+  {% include "partials/header.njk" %}
+  <main id="main" tabindex="-1">
+    {{ content | safe }}
+  </main>
+  {% include "partials/footer.njk" %}
+  <script src="/assets/js/site.js" defer></script>
+</body>
+</html>

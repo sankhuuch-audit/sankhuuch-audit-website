@@ -1,0 +1,16 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: categories
+  size: 1
+  alias: cat
+permalink: "/zuvlugu/angilal/{{ cat.key }}/"
+eleventyComputed:
+  title: "{{ cat.label }}"
+  description: "{{ cat.description }}"
+---
+{%- from "partials/macros.njk" import pageHero %}
+{{ pageHero("Зөвлөгөө · Ангилал", cat.label, cat.description) }}
+{%- set list = collections.articles | whereData("category", cat.key) %}
+{%- set activeKey = cat.key %}
+{% include "partials/article-list.njk" %}

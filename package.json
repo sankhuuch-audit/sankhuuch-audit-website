@@ -1,0 +1,19 @@
+{
+  "name": "sankhuuch-audit-website",
+  "version": "1.0.0",
+  "description": "“Санхүүч-Аудит” ХХК-ийн вэбсайт",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy",
+    "preview": "PREVIEW_DRAFTS=1 eleventy --serve"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.6"
+  },
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,177 @@
+---
+layout: layouts/base.njk
+isHome: true
+title: Нүүр
+bodyClass: page-home
+---
+{%- from "partials/macros.njk" import articleCard, videoCard %}
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow eyebrow-on-dark"><span class="tribar" aria-hidden="true"><i></i><i></i><i></i></span>2008 оноос хойш</p>
+      <h1 class="hero-title"><span class="nowrap">“Санхүүч-Аудит”</span> <span class="accent">ХХК</span></h1>
+      <p class="hero-tagline">{{ site.tagline }}</p>
+      <p class="hero-lead">{{ site.description }}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/uilchilgee/">Үйлчилгээтэй танилцах</a>
+        <a class="btn btn-outline-light" href="/holboo-barih/">Холбоо барих</a>
+      </div>
+      <a class="badge-member" href="{{ site.monicpa_url }}" rel="noopener" target="_blank">
+        <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m6.2 10.2 2.6 2.5 5-5.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        ММНБИ-йн гишүүн
+      </a>
+    </div>
+    <div class="hero-stats" aria-label="Тоон үзүүлэлтүүд">
+      {%- for s in company.stats %}
+      <div class="stat">
+        <p class="stat-value">{{ s.value }}</p>
+        <p class="stat-label">{{ s.label }}</p>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Бидний үйлчилгээ</p>
+      <h2>Аудит, баталгаажуулалтаас зөвлөх үйлчилгээ хүртэл</h2>
+    </div>
+    <div class="service-groups">
+      {%- set groups = [
+        { key: "audit", label: "Аудит ба баталгаажуулалт" },
+        { key: "advisory", label: "Зөвлөх ба холбогдох үйлчилгээ" }
+      ] %}
+      {%- for g in groups %}
+      <div class="service-group service-group-{{ g.key }}">
+        <h3 class="service-group-title">{{ g.label }}</h3>
+        <ul class="service-list">
+          {%- for s in collections.services | whereData("group", g.key) %}
+          <li>
+            <a href="/uilchilgee/#{{ s.data.title | slugify }}">
+              <span class="service-name">{{ s.data.title }}</span>
+              <span class="service-items">{{ s.data.items | join(" · ") }}</span>
+            </a>
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-navy">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow eyebrow-on-dark">Аудитын үүрэг</p>
+      <h2>Аудит ямар үнэ цэнэ бий болгодог вэ?</h2>
+    </div>
+    <ol class="value-chain">
+      {%- for v in company.value_chain %}
+      <li class="value-step{% if loop.index == 2 %} is-core{% endif %}">
+        <p class="value-num">0{{ loop.index }} · {{ v.step }}</p>
+        <h3>{{ v.title }}</h3>
+        <p>{{ v.text }}</p>
+      </li>
+      {%- endfor %}
+    </ol>
+    <p class="value-result"><strong>Үр дүн:</strong> {{ company.value_result }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Бидний онцлог</p>
+      <h2>Аудитаас гадна харилцагчдадаа санал болгодог зүйлс</h2>
+    </div>
+    <div class="diff-grid">
+      {%- for d in company.differentiators %}
+      <div class="diff">
+        <h3>{{ d.title }}</h3>
+        <p>{{ d.text }}</p>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+{%- set featured = collections.videos | whereData("featured", true) %}
+{%- if not featured.length %}{% set featured = collections.videos %}{% endif %}
+{%- if featured.length %}
+<section class="section section-tint">
+  <div class="container">
+    <div class="section-head section-head-row">
+      <div>
+        <p class="eyebrow">Видео сан</p>
+        <h2>Онцлох бичлэг</h2>
+      </div>
+      <a class="link-more" href="/video/">Бүх бичлэг</a>
+    </div>
+    <div class="video-grid">
+      {%- for v in featured | limit(3) %}{{ videoCard(v, videoTopics) }}{% endfor %}
+    </div>
+  </div>
+</section>
+{%- endif %}
+
+{%- if collections.articles.length %}
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head-row">
+      <div>
+        <p class="eyebrow">Санхүү, татварын зөвлөгөө</p>
+        <h2>Сүүлийн нийтлэлүүд</h2>
+      </div>
+      <a class="link-more" href="/zuvlugu/">Бүх нийтлэл</a>
+    </div>
+    <div class="card-grid">
+      {%- for a in collections.articles | limit(3) %}{{ articleCard(a, categories) }}{% endfor %}
+    </div>
+  </div>
+</section>
+{%- endif %}
+
+{%- if company.client_groups and company.client_groups.length %}
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head-row">
+      <div>
+        <p class="eyebrow">Манай харилцагчид</p>
+        <h2>Хамтран ажилласан зарим байгууллага</h2>
+      </div>
+      <a class="link-more" href="/bidnii-tuhai/#harilcagchid">Бүгдийг харах</a>
+    </div>
+    <ul class="client-wall">
+      {%- for g in company.client_groups %}{% for n in g.names | limit(3) %}<li>{{ n }}</li>{% endfor %}{% endfor %}
+    </ul>
+  </div>
+</section>
+{%- endif %}
+
+<section class="section section-tint">
+  <div class="container trust">
+    <div class="trust-copy">
+      <p class="eyebrow">Мэргэжлийн баталгаа</p>
+      <h2>Гэрчилгээ, гишүүнчлэл</h2>
+      <ul class="cred-list">
+        {%- for c in company.credentials %}
+        <li>
+          <p class="cred-title">{{ c.title }}</p>
+          <p class="cred-detail">{{ c.issuer }}{% if c.detail %} · {{ c.detail }}{% endif %}</p>
+          {%- if c.link %}<a class="link-small" href="{{ c.link }}" rel="noopener" target="_blank">Шалгах</a>{% endif %}
+        </li>
+        {%- endfor %}
+      </ul>
+      <a class="link-more" href="/bidnii-tuhai/#zuvshuurul">Дэлгэрэнгүй</a>
+    </div>
+    <div class="trust-figures">
+      <div><p class="stat-value">100</p><p class="stat-label">орчим харилцагч байгууллагад жил бүр үйлчилдэг</p></div>
+      <div><p class="stat-value">{{ company.team_total }}</p><p class="stat-label">ажилтантай мэргэжлийн баг</p></div>
+    </div>
+  </div>
+</section>
+
+{% include "partials/contact-band.njk" %}

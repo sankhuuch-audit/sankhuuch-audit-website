@@ -1,0 +1,9 @@
+[
+  { "url": "/", "label": "Нүүр" },
+  { "url": "/bidnii-tuhai/", "label": "Бидний тухай" },
+  { "url": "/uilchilgee/", "label": "Үйлчилгээ" },
+  { "url": "/zuvlugu/", "label": "Зөвлөгөө" },
+  { "url": "/video/", "label": "Видео сан" },
+  { "url": "/medeelel/", "label": "Мэдээлэл" },
+  { "url": "/holboo-barih/", "label": "Холбоо барих" }
+]

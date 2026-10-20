@@ -1,0 +1,40 @@
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <img class="footer-logo" src="/assets/img/logo-light.svg" width="104" height="64" alt="{{ site.name }} лого" loading="lazy">
+      <p class="footer-name">{{ site.name }}</p>
+      <p class="footer-tagline">{{ site.tagline }}</p>
+      <a class="footer-badge" href="{{ site.monicpa_url }}" rel="noopener" target="_blank">ММНБИ-йн гишүүн</a>
+    </div>
+    <nav class="footer-col" aria-label="Хуудсууд">
+      <h2 class="footer-h">Хуудсууд</h2>
+      <ul>
+        {%- for item in navigation %}<li><a href="{{ item.url }}">{{ item.label }}</a></li>{% endfor %}
+      </ul>
+    </nav>
+    <nav class="footer-col" aria-label="Зөвлөгөөний ангилал">
+      <h2 class="footer-h">Зөвлөгөө</h2>
+      <ul>
+        {%- for c in categories %}<li><a href="/zuvlugu/angilal/{{ c.key }}/">{{ c.label }}</a></li>{% endfor %}
+      </ul>
+    </nav>
+    <div class="footer-col">
+      <h2 class="footer-h">Холбоо барих</h2>
+      <address>
+        <p>{{ site.address }}</p>
+        <p>{% for p in site.phones %}<a href="{{ p | telHref }}">{{ p }}</a>{% if not loop.last %}<br>{% endif %}{% endfor %}</p>
+        <p><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+      </address>
+      {%- if site.youtube_channel or site.facebook_url %}
+      <p class="footer-social">
+        {%- if site.youtube_channel %}<a href="{{ site.youtube_channel }}" rel="noopener" target="_blank">YouTube суваг</a>{% endif %}
+        {%- if site.facebook_url %}<a href="{{ site.facebook_url }}" rel="noopener" target="_blank">Facebook</a>{% endif %}
+      </p>
+      {%- endif %}
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© {{ build.year }} {{ site.name }}. Бүх эрх хуулиар хамгаалагдсан.</p>
+    <p class="tribar-line" aria-hidden="true"><span class="tribar"><i></i><i></i><i></i></span></p>
+  </div>
+</footer>
