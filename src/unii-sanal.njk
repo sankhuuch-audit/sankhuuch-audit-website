@@ -1,0 +1,150 @@
+---
+layout: layouts/base.njk
+title: Үнийн санал авах
+description: Аудит, санхүүгийн тайланг нягтлах ажил, санхүү, татварын зөвлөх үйлчилгээний үнийн санал авах хүсэлт илгээх.
+permalink: /unii-sanal/
+---
+{%- from "partials/macros.njk" import pageHero %}
+{{ pageHero("Үнийн санал авах", "Үнийн санал авах хүсэлт", "Байгууллагынхаа үндсэн мэдээллийг бөглөж илгээнэ үү. Бид мэдээлэлтэй танилцаад үнийн саналаа таны имэйл хаяг руу илгээнэ.") }}
+
+<section class="section">
+  <div class="container quote-layout">
+    <form class="quote-form" id="quote-form" novalidate
+      data-emailjs-key="{{ site.quote_form.emailjs_public_key }}"
+      data-emailjs-service="{{ site.quote_form.emailjs_service_id }}"
+      data-emailjs-template="{{ site.quote_form.emailjs_template_id }}"
+      data-company-email="{{ site.email }}">
+
+      <fieldset class="q-group">
+        <legend><span class="q-step">1</span>Байгууллагын мэдээлэл</legend>
+        <div class="q-grid">
+          <label class="q-field q-span2"><span>Байгууллагын нэр <b aria-hidden="true">*</b></span>
+            <input id="q-company" name="company" type="text" autocomplete="organization" required></label>
+          <label class="q-field"><span>Регистрийн дугаар</span>
+            <input id="q-register" name="register" type="text" inputmode="numeric" autocomplete="off"></label>
+          <label class="q-field"><span>Байгууллагын хэлбэр <b aria-hidden="true">*</b></span>
+            <select id="q-entity" name="entity" required>
+              <option value="">Сонгоно уу</option>
+              <option>Хувийн хэвшлийн аж ахуйн нэгж</option>
+              <option>Гадаадын хөрөнгө оруулалттай аж ахуйн нэгж</option>
+              <option>Төрийн өмчит болон төрийн өмчийн оролцоотой аж ахуйн нэгж</option>
+              <option>Төсөвт байгууллага</option>
+              <option>Төрийн бус байгууллага</option>
+              <option>Төсөл, хөтөлбөр</option>
+              <option>Бусад</option>
+            </select></label>
+          <label class="q-field q-span2"><span>Үйл ажиллагааны чиглэл</span>
+            <input id="q-industry" name="industry" type="text" placeholder="Жишээ нь: барилга, худалдаа, үйлчилгээ"></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="q-group">
+        <legend><span class="q-step">2</span>Шаардлагатай үйлчилгээ</legend>
+        <div class="q-checks" role="group" aria-label="Үйлчилгээ">
+          {%- for s in collections.services %}
+          <label class="q-check"><input type="checkbox" name="services" value="{{ s.data.title }}"><span>{{ s.data.title }}</span></label>
+          {%- endfor %}
+          <label class="q-check"><input type="checkbox" name="services" value="Татварын зөвлөх үйлчилгээ"><span>Татварын зөвлөх үйлчилгээ</span></label>
+        </div>
+        <p class="q-error" id="q-services-error" hidden>Дор хаяж нэг үйлчилгээ сонгоно уу.</p>
+        <div class="q-grid">
+          <label class="q-field"><span>Тайлант хугацаа</span>
+            <select id="q-period" name="period">
+              <option value="">Сонгоно уу</option>
+              <option>{{ build.year }} он</option>
+              <option>{{ build.year - 1 }} он</option>
+              <option>{{ build.year - 2 }} он</option>
+              <option>Олон жилийн</option>
+            </select></label>
+          <label class="q-field"><span>Санхүүгийн тайлагналын стандарт</span>
+            <select id="q-standard" name="standard">
+              <option value="">Сонгоно уу</option>
+              <option>СТОУС (бүрэн)</option>
+              <option>ЖДҮ-ийн СТОУС</option>
+              <option>Улсын салбарын НББОУС</option>
+              <option>Мэдэхгүй</option>
+            </select></label>
+          <label class="q-field"><span>Өмнө нь аудит хийлгэж байсан эсэх</span>
+            <select id="q-prior" name="prior_audit">
+              <option value="">Сонгоно уу</option>
+              <option>Тийм, жил бүр</option>
+              <option>Тийм, үе үе</option>
+              <option>Үгүй, анх удаа</option>
+            </select></label>
+          <label class="q-field"><span>Ажлыг дуусгах хүсэлтэй хугацаа</span>
+            <input id="q-deadline" name="deadline" type="date"></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="q-group">
+        <legend><span class="q-step">3</span>Санхүүгийн үндсэн үзүүлэлт</legend>
+        <p class="q-hint">Сүүлийн тайлант хугацааны ойролцоо дүнг <strong>сая төгрөгөөр</strong> оруулна уу. Үнийн санал гаргахад ажлын цар хүрээг тооцоход ашиглана.</p>
+        <div class="q-grid">
+          <label class="q-field"><span>Нийт хөрөнгө, сая ₮ <b aria-hidden="true">*</b></span>
+            <input id="q-assets" name="total_assets" type="number" inputmode="decimal" min="0" step="any" required></label>
+          <label class="q-field"><span>Борлуулалтын орлого, сая ₮ <b aria-hidden="true">*</b></span>
+            <input id="q-revenue" name="revenue" type="number" inputmode="decimal" min="0" step="any" required></label>
+          <label class="q-field"><span>Ажилтны тоо</span>
+            <input id="q-staff" name="employees" type="number" inputmode="numeric" min="0" step="1"></label>
+          <label class="q-field"><span>Салбар, охин компани</span>
+            <select id="q-branches" name="branches">
+              <option value="">Сонгоно уу</option>
+              <option>Байхгүй</option>
+              <option>1–2</option>
+              <option>3 ба түүнээс дээш</option>
+            </select></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="q-group">
+        <legend><span class="q-step">4</span>Холбоо барих мэдээлэл</legend>
+        <div class="q-grid">
+          <label class="q-field"><span>Овог, нэр <b aria-hidden="true">*</b></span>
+            <input id="q-name" name="contact_name" type="text" autocomplete="name" required></label>
+          <label class="q-field"><span>Албан тушаал</span>
+            <input id="q-position" name="position" type="text" autocomplete="organization-title"></label>
+          <label class="q-field"><span>Утас <b aria-hidden="true">*</b></span>
+            <input id="q-phone" name="phone" type="tel" autocomplete="tel" required></label>
+          <label class="q-field"><span>Имэйл <b aria-hidden="true">*</b></span>
+            <input id="q-email" name="email" type="email" autocomplete="email" required></label>
+          <label class="q-field q-span2"><span>Нэмэлт мэдээлэл</span>
+            <textarea id="q-notes" name="notes" rows="4" placeholder="Онцлог нөхцөл, асуух зүйл байвал бичнэ үү"></textarea></label>
+        </div>
+        <label class="q-check q-check-line"><input id="q-newsletter" type="checkbox" name="newsletter" value="Тийм"><span>СТОУС, НББ, татварын мэдээлэл бүхий сар бүрийн имэйл хүлээн авах</span></label>
+        <label class="q-check q-check-line"><input id="q-consent" type="checkbox" name="consent" value="Тийм" required><span>Миний оруулсан мэдээллийг үнийн санал боловсруулах зорилгоор ашиглахыг зөвшөөрч байна <b aria-hidden="true">*</b></span></label>
+        <label class="q-hp" aria-hidden="true">Энэ талбарыг хоосон орхино уу<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+      </fieldset>
+
+      <p class="q-error q-error-box" id="q-error" role="alert" hidden></p>
+      <div class="q-actions">
+        <button class="btn btn-primary" type="submit" id="q-submit">Хүсэлт илгээх</button>
+        <p class="q-note">Хүсэлт илгээсний дараа таны имэйл хаяг руу баталгаажуулах имэйл очно.</p>
+      </div>
+    </form>
+
+    <div class="quote-done" id="quote-done" hidden tabindex="-1">
+      <p class="eyebrow">Хүсэлт хүлээн авлаа</p>
+      <h2>Баярлалаа!</h2>
+      <p id="quote-done-text">Таны хүсэлтийг хүлээн авлаа. Баталгаажуулах имэйлийг <strong data-done-email></strong> хаяг руу илгээлээ. Бид мэдээлэлтэй танилцаад үнийн саналаа илгээнэ.</p>
+      <p class="q-note">Имэйл ирэхгүй бол «Spam» хавтсаа шалгана уу эсвэл <a href="{{ site.phones[0] | telHref }}">{{ site.phones[0] }}</a> утсаар холбогдоно уу.</p>
+      <a class="btn btn-outline" href="/">Нүүр хуудас руу буцах</a>
+    </div>
+
+    <aside class="quote-aside">
+      <h2 class="h-small">Үнийн санал хэрхэн гардаг вэ</h2>
+      <ol class="quote-steps">
+        <li><strong>Хүсэлт илгээх</strong><span>Байгууллагын үндсэн мэдээлэл, санхүүгийн үзүүлэлтээ бөглөнө.</span></li>
+        <li><strong>Баталгаажуулах имэйл</strong><span>Хүсэлт хүлээн авсныг мэдэгдэх имэйл таны хаяг руу автоматаар очно.</span></li>
+        <li><strong>Үнийн санал</strong><span>Ажлын цар хүрээг тооцоолж, үнийн саналыг таны имэйл рүү илгээнэ.</span></li>
+      </ol>
+      <div class="quote-contact">
+        <p class="contact-label">Шууд холбогдох</p>
+        <p>{% for p in site.phones %}<a href="{{ p | telHref }}">{{ p }}</a>{% if not loop.last %}<br>{% endif %}{% endfor %}</p>
+        <p><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<script src="/assets/js/emailjs-4.4.1.min.js" defer></script>
+<script src="/assets/js/quote.js" defer></script>

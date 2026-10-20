@@ -1,9 +1,30 @@
 [
-  { "url": "/", "label": "Нүүр" },
-  { "url": "/bidnii-tuhai/", "label": "Бидний тухай" },
-  { "url": "/uilchilgee/", "label": "Үйлчилгээ" },
-  { "url": "/zuvlugu/", "label": "Зөвлөгөө" },
-  { "url": "/video/", "label": "Видео сан" },
-  { "url": "/medeelel/", "label": "Мэдээлэл" },
-  { "url": "/holboo-barih/", "label": "Холбоо барих" }
+  {
+    "url": "/",
+    "label": "Нүүр"
+  },
+  {
+    "url": "/bidnii-tuhai/",
+    "label": "Бидний тухай"
+  },
+  {
+    "url": "/uilchilgee/",
+    "label": "Үйлчилгээ"
+  },
+  {
+    "url": "/zuvlugu/",
+    "label": "Зөвлөгөө, мэдээлэл"
+  },
+  {
+    "url": "/video/",
+    "label": "Видео сан"
+  },
+  {
+    "url": "/holboo-barih/",
+    "label": "Холбоо барих"
+  },
+  {
+    "url": "/unii-sanal/",
+    "label": "Үнийн санал авах"
+  }
 ]

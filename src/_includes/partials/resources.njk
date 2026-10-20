@@ -1,14 +1,10 @@
----
-layout: layouts/base.njk
-title: Хэрэгцээт мэдээлэл
-description: Санхүүчдийн календарь, гарын авлага, загвар маягт болон нягтлан бодогчдод зориулсан “Ня-Бо” аппын мэдээлэл.
-permalink: /medeelel/
----
-{%- from "partials/macros.njk" import pageHero %}
-{{ pageHero("Мэдээлэл", "Хэрэгцээт мэдээлэл", "Нягтлан бодогч, санхүүчдэд хэрэгтэй гарын авлага, загвар, тооцооны хүснэгт, календарийг эндээс татаж авах боломжтой.") }}
-
-<section class="section">
+<section class="section section-tint" id="tatah-material">
   <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Хэрэгцээт мэдээлэл</p>
+      <h2>Татаж авах материал</h2>
+      <p class="section-intro">Нягтлан бодогч, санхүүчдэд хэрэгтэй гарын авлага, загвар, тооцооны хүснэгт, календарийг эндээс татаж авах боломжтой.</p>
+    </div>
     {%- if collections.materials.length %}
     <ul class="materials">
       {%- for m in collections.materials %}
@@ -40,7 +36,7 @@ permalink: /medeelel/
   </div>
 </section>
 
-<section class="section section-tint">
+<section class="section" id="kalendar">
   <div class="container two-col">
     <div class="calendar-feature">
       <p class="eyebrow">2019 оноос жил бүр</p>
@@ -83,4 +79,3 @@ permalink: /medeelel/
   </div>
 </section>
 
-{% include "partials/contact-band.njk" %}

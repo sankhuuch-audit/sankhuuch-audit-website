@@ -4,7 +4,7 @@
       <img class="brand-logo" src="/assets/img/logo.svg" width="66" height="41" alt="">
       <span class="brand-text">
         <span class="brand-name">{{ site.name }}</span>
-        <span class="brand-sub">Аудит, зөвлөх үйлчилгээ · 2008 оноос</span>
+        <span class="brand-sub">2008 оноос хойш</span>
       </span>
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Цэс нээх">
@@ -15,7 +15,7 @@
       <ul>
         {%- for item in navigation %}
         {%- set active = (page.url == item.url) or (item.url != "/" and (page.url | string).startsWith(item.url)) %}
-        <li><a href="{{ item.url }}" class="{% if item.url == '/holboo-barih/' %}nav-cta{% endif %}"{% if active %} aria-current="page"{% endif %}>{{ item.label }}</a></li>
+        <li{% if item.url == '/' %} class="nav-home"{% endif %}><a href="{{ item.url }}" class="{% if item.url == '/unii-sanal/' %}nav-cta{% endif %}"{% if active %} aria-current="page"{% endif %}>{{ item.label }}</a></li>
         {%- endfor %}
       </ul>
     </nav>
