@@ -131,6 +131,9 @@ export default function (eleventyConfig) {
     });
   });
   // Зөвхөн бичлэгтэй сэдвүүдийг шүүлтүүрт харуулна
+  eleventyConfig.addFilter("usedBy", (topics, items, field) =>
+    (topics || []).filter((t) => (items || []).some((i) => i.data[field] === t.key))
+  );
   eleventyConfig.addFilter("usedTopics", (topics, videos) =>
     (topics || []).filter((t) => (videos || []).some((v) => v.data.topic === t.key))
   );

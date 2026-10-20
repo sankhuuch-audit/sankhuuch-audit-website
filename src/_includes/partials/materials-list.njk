@@ -1,8 +1,8 @@
     {%- if collections.materials.length %}
     <ul class="materials">
-      {%- for m in collections.materials %}
+      {%- for m in collections.materials | limit(matLimit or 999) %}
       {%- set mt = materialTypes | findBy("key", m.data.type) %}
-      <li class="material{% if m.data.cover %} has-cover{% endif %}">
+      <li class="material{% if m.data.cover %} has-cover{% endif %}" data-item data-topic="{{ m.data.type }}" data-text="{{ [m.data.title, m.data.description, mt.label if mt] | searchText }}">
         {%- if m.data.cover %}
         <img class="material-cover" src="{{ m.data.cover }}" alt="" loading="lazy">
         {%- else %}
@@ -15,11 +15,14 @@
         </div>
         <div class="material-actions">
           {%- if m.data.file %}<a class="btn btn-primary btn-sm" href="{{ m.data.file }}" download>Татах{% if m.data.file | fileExt %} ({{ m.data.file | fileExt }}){% endif %}</a>{% endif %}
-          {%- if m.data.link %}<a class="btn btn-outline btn-sm" href="{{ m.data.link }}" rel="noopener" target="_blank">Нээх</a>{% endif %}
+          {%- if m.data.link %}<a class="btn btn-outline btn-sm" href="{{ m.data.link }}" rel="noopener" target="_blank">{{ "legalinfo.mn" if "legalinfo.mn" in m.data.link else "Нээх" }}</a>{% endif %}
         </div>
       </li>
       {%- endfor %}
     </ul>
+    {%- if matLimit and collections.materials.length > matLimit %}
+    <p class="materials-more"><a class="link-more" href="/zuvlugu/failuud/">Бүх файл ({{ collections.materials.length }})</a></p>
+    {%- endif %}
     {%- else %}
     <div class="empty-state empty-state-box">
       <p class="empty-title">Татаж авах материал удахгүй нэмэгдэнэ.</p>

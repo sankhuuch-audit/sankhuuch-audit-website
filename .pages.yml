@@ -193,6 +193,8 @@ content:
         required: true
         options:
           values:
+            - name: regulation
+              label: Журам, заавар
             - name: guide
               label: Гарын авлага
             - name: template

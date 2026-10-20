@@ -8,8 +8,13 @@ permalink: /zuvlugu/failuud/
 {{ pageHero("Зөвлөгөө, мэдээлэл", "Хэрэгцээт файл", "Тооцооны хүснэгт (Excel), загвар маягт, гарын авлага болон Санхүүчдийн календарийг эндээс татаж авна уу.") }}
 
 <section class="section">
-  <div class="container">
+  <div class="container" data-filter-root>
+    {%- from "partials/macros.njk" import searchBar %}
+    {%- set usedTypes = materialTypes | usedBy(collections.materials, "type") %}
+    {{ searchBar("Файлаас хайх…", usedTypes, "Бүгд", false, "") }}
+    <p class="result-count" data-count aria-live="polite">{{ collections.materials.length }} файл</p>
     {% include "partials/materials-list.njk" %}
+    <p class="empty-state" data-empty hidden>Хайлтад тохирох файл олдсонгүй. Өөр үгээр хайж үзнэ үү.</p>
   </div>
 </section>
 
