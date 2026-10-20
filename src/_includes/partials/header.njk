@@ -15,7 +15,19 @@
       <ul>
         {%- for item in navigation %}
         {%- set active = (page.url == item.url) or (item.url != "/" and (page.url | string).startsWith(item.url)) %}
+        {%- if item.url == '/zuvlugu/' %}
+        <li class="has-sub">
+          <a href="{{ item.url }}"{% if active %} aria-current="page"{% endif %}>{{ item.label }}<svg class="nav-caret" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <ul class="sub-nav" aria-label="{{ item.label }}: ангилал">
+            {%- for c in categories %}
+            {%- set curl = "/zuvlugu/angilal/" + c.key + "/" %}
+            <li><a href="{{ curl }}"{% if page.url == curl %} aria-current="page"{% endif %}>{{ c.label }}</a></li>
+            {%- endfor %}
+          </ul>
+        </li>
+        {%- else %}
         <li{% if item.url == '/' %} class="nav-home"{% endif %}><a href="{{ item.url }}" class="{% if item.url == '/unii-sanal/' %}nav-cta{% endif %}"{% if active %} aria-current="page"{% endif %}>{{ item.label }}</a></li>
+        {%- endif %}
         {%- endfor %}
       </ul>
     </nav>

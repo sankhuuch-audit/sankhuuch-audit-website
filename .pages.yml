@@ -45,15 +45,13 @@ content:
         options:
           values:
             - name: tatvar
-              label: "НӨАТ, ХХОАТ, ААНОАТ, НДШ"
+              label: "Татвар"
+            - name: ndsh
+              label: "НДШ"
             - name: nbb-stous
-              label: "Нягтлан бодох бүртгэл, СТОУС"
-            - name: shinjilgee
-              label: "Санхүүгийн тайлангийн шинжилгээ"
-            - name: udirdlaga
-              label: "Бизнесийн санхүүгийн удирдлага"
-            - name: huuli
-              label: "Татварын тайлагнал, хууль тогтоомжийн өөрчлөлт"
+              label: "НББ, СТОУС"
+            - name: busad
+              label: "Бусад"
       - name: summary
         label: Товч агуулга
         description: Жагсаалт болон Google хайлтад харагдах 1-2 өгүүлбэр.
