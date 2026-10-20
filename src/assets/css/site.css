@@ -734,3 +734,4 @@ a.chip-sm:hover { background: var(--tint-2); }
 .calc-table tr.total .calc-th-sub { font-family: var(--f-body, inherit); font-weight: 500; }
 input[type="date"].calc-input { font-family: var(--f-head); }
 @media (max-width: 600px) { .calc-switch { gap: 6px; } .calc-switch a { padding: 7px 12px; font-size: .82rem; } }
+.footer-note { opacity: .7; font-size: .8rem; }

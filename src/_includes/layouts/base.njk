@@ -57,6 +57,11 @@
     "sameAs": [{% if site.youtube_channel %}{{ site.youtube_channel | json | safe }}{% endif %}{% if site.youtube_channel and site.facebook_url %}, {% endif %}{% if site.facebook_url %}{{ site.facebook_url | json | safe }}{% endif %}]{% endif %}
   }
   </script>
+  {%- set gaId = site.ga_id | gaId %}
+  {%- if gaId %}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ gaId }}"></script>
+  <script>window.dataLayer = window.dataLayer || []; function gtag(){ dataLayer.push(arguments); } gtag("js", new Date()); gtag("config", "{{ gaId }}");</script>
+  {%- endif %}
   {%- block head %}{% endblock %}
 </head>
 <body class="{{ bodyClass }}">

@@ -95,6 +95,7 @@
   }
 
   function done() {
+    if (typeof window.gtag === "function") window.gtag("event", "generate_lead", { form_name: "quote", language: document.documentElement.lang });
     form.hidden = true;
     var box = document.getElementById("quote-done");
     box.hidden = false;

@@ -48,6 +48,9 @@
   </div>
   <div class="container footer-bottom">
     <p>© {{ build.year }} {{ S.name }}. {{ "All rights reserved." if isEn else "Бүх эрх хуулиар хамгаалагдсан." }}</p>
+    {%- if site.ga_id | gaId %}
+    <p class="footer-note">{{ "We use Google Analytics (cookies) to measure site traffic." if isEn else "Хандалтын статистикт Google Analytics (cookie) ашигладаг." }}</p>
+    {%- endif %}
     <p class="tribar-line" aria-hidden="true"><span class="tribar"><i></i><i></i><i></i></span></p>
   </div>
 </footer>

@@ -100,6 +100,8 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("slugify", slugify);
   eleventyConfig.addFilter("youtubeId", youtubeId);
   eleventyConfig.addFilter("json", (v) => JSON.stringify(v));
+  // Google Analytics ID: зөвхөн G-XXXXXXX хэлбэрийг зөвшөөрнө
+  eleventyConfig.addFilter("gaId", (v) => { const id = String(v || "").trim().toUpperCase(); return /^G-[A-Z0-9]{4,20}$/.test(id) ? id : ""; });
   eleventyConfig.addFilter("limit", (arr, n) => (Array.isArray(arr) ? arr.slice(0, n) : []));
   eleventyConfig.addFilter("whereData", (arr, key, value) =>
     (arr || []).filter((item) => item.data && item.data[key] === value)

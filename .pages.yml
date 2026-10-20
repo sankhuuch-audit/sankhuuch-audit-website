@@ -319,6 +319,7 @@ content:
       - { name: map_url, label: Газрын зургийн холбоос, type: string }
       - { name: youtube_channel, label: YouTube сувгийн холбоос, type: string }
       - { name: facebook_url, label: Facebook хуудасны холбоос, type: string }
+      - { name: ga_id, label: "Google Analytics ID (G-ээр эхэлнэ, хоосон бол хандалт тоолохгүй)", type: string }
   - name: company
     label: Компанийн мэдээлэл
     type: file
