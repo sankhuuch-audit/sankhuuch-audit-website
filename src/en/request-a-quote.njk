@@ -85,7 +85,7 @@ altUrl: /unii-sanal/
       <p class="eyebrow">Request received</p>
       <h2>Thank you!</h2>
       <p id="quote-done-text">We have received your request. Our specialist will prepare a preliminary quote and email it to you shortly. The preliminary quote is not the final price; the service fee is agreed between the parties and set out in the contract.</p>
-      <p class="q-note">If it is urgent, please call us on <a href="{{ site.phones[0] | telHref }}">{{ site.phones[0] }}</a>.</p>
+      <p class="q-note">If it is urgent, please call us on <a href="{{ (site.urgent_phone or site.phones[0]) | telHref }}">{{ site.urgent_phone or site.phones[0] }}</a>.</p>
       <a class="btn btn-outline" href="/en/">Back to the home page</a>
     </div>
 

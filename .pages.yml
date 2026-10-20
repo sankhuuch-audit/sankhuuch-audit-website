@@ -294,6 +294,7 @@ content:
       - { name: url, label: Вэбсайтын хаяг, type: string }
       - { name: address, label: Хаяг, type: text }
       - { name: phones, label: Утас, type: string, list: true }
+      - { name: urgent_phone, label: Яаралтай үед залгах утас (үнийн санал илгээсний дараа харагдана), type: string }
       - { name: email, label: Имэйл, type: string }
       - { name: monicpa_url, label: ММНБИ дэх бүртгэлийн холбоос, type: string }
       - { name: map_url, label: Газрын зургийн холбоос, type: string }

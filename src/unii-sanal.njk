@@ -88,7 +88,7 @@ altUrl: /en/request-a-quote/
       <p class="eyebrow">Хүсэлт хүлээн авлаа</p>
       <h2>Баярлалаа!</h2>
       <p id="quote-done-text">Таны хүсэлтийг хүлээн авлаа. Манай мэргэжилтэн урьдчилсан үнийн санал боловсруулж, таны имэйл хаяг руу удахгүй илгээнэ. Урьдчилсан үнийн санал нь эцсийн үнэ биш бөгөөд үйлчилгээний хөлсийг харилцан тохиролцож, гэрээгээр тогтооно.</p>
-      <p class="q-note">Яаралтай бол <a href="{{ site.phones[0] | telHref }}">{{ site.phones[0] }}</a> утсаар холбогдоно уу.</p>
+      <p class="q-note">Яаралтай бол <a href="{{ (site.urgent_phone or site.phones[0]) | telHref }}">{{ site.urgent_phone or site.phones[0] }}</a> утсаар холбогдоно уу.</p>
       <a class="btn btn-outline" href="/">Нүүр хуудас руу буцах</a>
     </div>
 
