@@ -50,8 +50,6 @@ content:
               label: "НДШ"
             - name: nbb-stous
               label: "НББ, СТОУС"
-            - name: busad
-              label: "Бусад"
       - name: summary
         label: Товч агуулга
         description: Жагсаалт болон Google хайлтад харагдах 1-2 өгүүлбэр.
@@ -173,7 +171,7 @@ content:
 
   # ---------------- Материал ----------------
   - name: materials
-    label: Хэрэгцээт мэдээлэл (татах файл)
+    label: Хэрэгцээт файл (PDF, Excel, Word)
     type: collection
     path: src/content/materials
     filename: "{year}-{month}-{day}-{primary}.md"

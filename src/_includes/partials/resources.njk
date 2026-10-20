@@ -5,34 +5,7 @@
       <h2>Татаж авах материал</h2>
       <p class="section-intro">Нягтлан бодогч, санхүүчдэд хэрэгтэй гарын авлага, загвар, тооцооны хүснэгт, календарийг эндээс татаж авах боломжтой.</p>
     </div>
-    {%- if collections.materials.length %}
-    <ul class="materials">
-      {%- for m in collections.materials %}
-      {%- set mt = materialTypes | findBy("key", m.data.type) %}
-      <li class="material{% if m.data.cover %} has-cover{% endif %}">
-        {%- if m.data.cover %}
-        <img class="material-cover" src="{{ m.data.cover }}" alt="" loading="lazy">
-        {%- else %}
-        <div class="material-icon" aria-hidden="true">{{ (m.data.file | fileExt) or "URL" }}</div>
-        {%- endif %}
-        <div class="material-body">
-          {%- if mt %}<p class="card-meta"><span class="chip chip-sm">{{ mt.label }}</span></p>{% endif %}
-          <h3>{{ m.data.title }}</h3>
-          {%- if m.data.description %}<p class="card-text">{{ m.data.description }}</p>{% endif %}
-        </div>
-        <div class="material-actions">
-          {%- if m.data.file %}<a class="btn btn-primary btn-sm" href="{{ m.data.file }}" download>Татах{% if m.data.file | fileExt %} ({{ m.data.file | fileExt }}){% endif %}</a>{% endif %}
-          {%- if m.data.link %}<a class="btn btn-outline btn-sm" href="{{ m.data.link }}" rel="noopener" target="_blank">Нээх</a>{% endif %}
-        </div>
-      </li>
-      {%- endfor %}
-    </ul>
-    {%- else %}
-    <div class="empty-state empty-state-box">
-      <p class="empty-title">Татаж авах материал удахгүй нэмэгдэнэ.</p>
-      <p>Гарын авлага, загвар маягт, тооцооны хүснэгтүүдийг энд байршуулах болно.</p>
-    </div>
-    {%- endif %}
+    {% include "partials/materials-list.njk" %}
   </div>
 </section>
 

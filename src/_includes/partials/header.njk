@@ -38,6 +38,7 @@
             {%- set curl = "/zuvlugu/angilal/" + c.key + "/" %}
             <li><a href="{{ curl }}"{% if page.url == curl %} aria-current="page"{% endif %}>{{ c.label }}</a></li>
             {%- endfor %}
+            <li><a href="/zuvlugu/failuud/"{% if page.url == "/zuvlugu/failuud/" %} aria-current="page"{% endif %}>Хэрэгцээт файл</a></li>
           </ul>
         </li>
         {%- else %}

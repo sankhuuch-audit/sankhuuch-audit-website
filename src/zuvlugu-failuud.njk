@@ -1,0 +1,16 @@
+---
+layout: layouts/base.njk
+title: Хэрэгцээт файл
+description: Нягтлан бодогч, санхүүчдэд хэрэгтэй Excel тооцооны хүснэгт, загвар маягт, гарын авлага, Санхүүчдийн календарийг татаж авах.
+permalink: /zuvlugu/failuud/
+---
+{%- from "partials/macros.njk" import pageHero %}
+{{ pageHero("Зөвлөгөө, мэдээлэл", "Хэрэгцээт файл", "Тооцооны хүснэгт (Excel), загвар маягт, гарын авлага болон Санхүүчдийн календарийг эндээс татаж авна уу.") }}
+
+<section class="section">
+  <div class="container">
+    {% include "partials/materials-list.njk" %}
+  </div>
+</section>
+
+{% include "partials/contact-band.njk" %}
