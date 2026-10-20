@@ -17,11 +17,11 @@ permalink: /unii-sanal/
       data-pricing="{{ site.quote_form.pricing | json }}">
 
       <fieldset class="q-group">
-        <legend><span class="q-step">1</span>Байгууллагын мэдээлэл</legend>
+        <legend><span class="q-step">1</span>Байгууллага, үйлчилгээ</legend>
         <div class="q-grid">
-          <label class="q-field q-span2"><span>Байгууллагын нэр <b aria-hidden="true">*</b></span>
+          <label class="q-field"><span>Байгууллагын нэр <b aria-hidden="true">*</b></span>
             <input id="q-company" name="company" type="text" autocomplete="organization" required></label>
-          <label class="q-field q-span2"><span>Байгууллагын хэлбэр <b aria-hidden="true">*</b></span>
+          <label class="q-field"><span>Байгууллагын хэлбэр <b aria-hidden="true">*</b></span>
             <select id="q-entity" name="entity" required>
               <option value="">Сонгоно уу</option>
               <option>Хувийн хэвшлийн аж ахуйн нэгж</option>
@@ -30,52 +30,20 @@ permalink: /unii-sanal/
               <option>Төсөл, хөтөлбөр</option>
               <option>Бусад</option>
             </select></label>
-          <label class="q-field q-span2"><span>Үйл ажиллагааны чиглэл</span>
-            <input id="q-industry" name="industry" type="text" placeholder="Жишээ нь: барилга, худалдаа, үйлчилгээ"></label>
         </div>
-      </fieldset>
-
-      <fieldset class="q-group">
-        <legend><span class="q-step">2</span>Шаардлагатай үйлчилгээ</legend>
-        <div class="q-checks" role="group" aria-label="Үйлчилгээ">
+        <p class="q-sublabel">Шаардлагатай үйлчилгээ <b aria-hidden="true">*</b></p>
+        <div class="q-checks" role="group" aria-label="Шаардлагатай үйлчилгээ">
           {%- for s in collections.services %}
           <label class="q-check"><input type="checkbox" name="services" value="{{ s.data.title }}"><span>{{ s.data.title }}</span></label>
           {%- endfor %}
           <label class="q-check"><input type="checkbox" name="services" value="Нягтлан бодох бүртгэлийн бодлогын баримт бичиг боловсруулах"><span>Нягтлан бодох бүртгэлийн бодлогын баримт бичиг боловсруулах</span></label>
         </div>
         <p class="q-error" id="q-services-error" hidden>Дор хаяж нэг үйлчилгээ сонгоно уу.</p>
-        <div class="q-grid">
-          <label class="q-field"><span>Тайлант хугацаа</span>
-            <select id="q-period" name="period">
-              <option value="">Сонгоно уу</option>
-              <option>{{ build.year }} он</option>
-              <option>{{ build.year - 1 }} он</option>
-              <option>{{ build.year - 2 }} он</option>
-              <option>Олон жилийн</option>
-            </select></label>
-          <label class="q-field"><span>Санхүүгийн тайлагналын стандарт</span>
-            <select id="q-standard" name="standard">
-              <option value="">Сонгоно уу</option>
-              <option>СТОУС (бүрэн)</option>
-              <option>ЖДҮ-ийн СТОУС</option>
-              <option>Улсын салбарын НББОУС</option>
-              <option>Мэдэхгүй</option>
-            </select></label>
-          <label class="q-field"><span>Өмнө нь аудит хийлгэж байсан эсэх</span>
-            <select id="q-prior" name="prior_audit">
-              <option value="">Сонгоно уу</option>
-              <option>Тийм, жил бүр</option>
-              <option>Тийм, үе үе</option>
-              <option>Үгүй, анх удаа</option>
-            </select></label>
-          <label class="q-field"><span>Ажлыг дуусгах хүсэлтэй хугацаа</span>
-            <input id="q-deadline" name="deadline" type="date"></label>
-        </div>
       </fieldset>
 
       <fieldset class="q-group">
-        <legend><span class="q-step">3</span>Санхүүгийн үндсэн үзүүлэлт</legend>
-        <p class="q-hint">Сүүлийн тайлант хугацааны ойролцоо дүнг <strong>сая төгрөгөөр</strong> оруулна уу. Үнийн санал гаргахад ажлын цар хүрээг тооцоход ашиглана.</p>
+        <legend><span class="q-step">2</span>Санхүүгийн үндсэн үзүүлэлт</legend>
+        <p class="q-hint">Сүүлийн тайлант хугацааны ойролцоо дүнг <strong>сая төгрөгөөр</strong> оруулна уу.</p>
         <div class="q-grid q-grid-3">
           <label class="q-field"><span>Нийт хөрөнгө, сая ₮ <b aria-hidden="true">*</b></span>
             <input id="q-assets" name="total_assets" type="number" inputmode="decimal" min="0" step="any" required></label>
@@ -84,34 +52,23 @@ permalink: /unii-sanal/
           <label class="q-field"><span>Нийт зардал, сая ₮ <b aria-hidden="true">*</b></span>
             <input id="q-expenses" name="total_expenses" type="number" inputmode="decimal" min="0" step="any" required></label>
         </div>
-        <div class="q-grid">
-          <label class="q-field"><span>Ажилтны тоо</span>
-            <input id="q-staff" name="employees" type="number" inputmode="numeric" min="0" step="1"></label>
-          <label class="q-field"><span>Салбар, охин компани</span>
-            <select id="q-branches" name="branches">
-              <option value="">Сонгоно уу</option>
-              <option>Байхгүй</option>
-              <option>1–2</option>
-              <option>3 ба түүнээс дээш</option>
-            </select></label>
-        </div>
       </fieldset>
 
       <fieldset class="q-group">
-        <legend><span class="q-step">4</span>Холбоо барих мэдээлэл</legend>
-        <div class="q-grid">
-          <label class="q-field"><span>Овог, нэр <b aria-hidden="true">*</b></span>
+        <legend><span class="q-step">3</span>Холбоо барих</legend>
+        <div class="q-grid q-grid-3">
+          <label class="q-field"><span>Нэр <b aria-hidden="true">*</b></span>
             <input id="q-name" name="contact_name" type="text" autocomplete="name" required></label>
-          <label class="q-field"><span>Албан тушаал</span>
-            <input id="q-position" name="position" type="text" autocomplete="organization-title"></label>
           <label class="q-field"><span>Утас <b aria-hidden="true">*</b></span>
             <input id="q-phone" name="phone" type="tel" autocomplete="tel" required></label>
           <label class="q-field"><span>Имэйл <b aria-hidden="true">*</b></span>
             <input id="q-email" name="email" type="email" autocomplete="email" required></label>
-          <label class="q-field q-span2"><span>Нэмэлт мэдээлэл</span>
-            <textarea id="q-notes" name="notes" rows="4" placeholder="Онцлог нөхцөл, асуух зүйл байвал бичнэ үү"></textarea></label>
         </div>
-        <label class="q-check q-check-line"><input id="q-newsletter" type="checkbox" name="newsletter" value="Тийм"><span>СТОУС, НББ, татварын мэдээлэл бүхий сар бүрийн имэйл хүлээн авах</span></label>
+        <details class="q-more">
+          <summary>Нэмэлт мэдээлэл бичих (заавал биш)</summary>
+          <label class="q-field"><span class="visually-hidden">Нэмэлт мэдээлэл</span>
+            <textarea id="q-notes" name="notes" rows="3" placeholder="Тайлант хугацаа, ажлыг дуусгах хугацаа, онцлог нөхцөл гэх мэт"></textarea></label>
+        </details>
         <label class="q-check q-check-line"><input id="q-consent" type="checkbox" name="consent" value="Тийм" required><span>Миний оруулсан мэдээллийг үнийн санал боловсруулах зорилгоор ашиглахыг зөвшөөрч байна <b aria-hidden="true">*</b></span></label>
         <label class="q-hp" aria-hidden="true">Энэ талбарыг хоосон орхино уу<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
       </fieldset>
@@ -140,7 +97,7 @@ permalink: /unii-sanal/
     <aside class="quote-aside">
       <h2 class="h-small">Үнийн санал хэрхэн гардаг вэ</h2>
       <ol class="quote-steps">
-        <li><strong>Хүсэлт илгээх</strong><span>Байгууллагын үндсэн мэдээлэл, санхүүгийн үзүүлэлтээ бөглөнө.</span></li>
+        <li><strong>Хүсэлт илгээх</strong><span>Байгууллагын нэр, үйлчилгээ, санхүүгийн 3 үзүүлэлтээ бөглөнө. 2 минут орчим зарцуулна.</span></li>
         <li><strong>Урьдчилсан үнийн санал</strong><span>Таны мэдээлэлд үндэслэн тооцсон урьдчилсан үнийн санал имэйлээр автоматаар очно.</span></li>
         <li><strong>Тохиролцох, гэрээ байгуулах</strong><span>Ажлын нөхцөлийг нарийвчлан тохиролцож, үйлчилгээний хөлсийг гэрээгээр тогтооно.</span></li>
       </ol>

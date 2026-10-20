@@ -30,23 +30,14 @@
   var LABELS = [
     ["company", "Байгууллагын нэр"],
     ["entity", "Байгууллагын хэлбэр"],
-    ["industry", "Үйл ажиллагааны чиглэл"],
     ["services", "Шаардлагатай үйлчилгээ"],
-    ["period", "Тайлант хугацаа"],
-    ["standard", "Тайлагналын стандарт"],
-    ["prior_audit", "Өмнө аудит хийлгэсэн эсэх"],
-    ["deadline", "Дуусгах хүсэлтэй хугацаа"],
     ["total_assets", "Нийт хөрөнгө (сая ₮)"],
     ["revenue", "Борлуулалтын орлого (сая ₮)"],
     ["total_expenses", "Нийт зардал (сая ₮)"],
-    ["employees", "Ажилтны тоо"],
-    ["branches", "Салбар, охин компани"],
     ["contact_name", "Холбоо барих хүн"],
-    ["position", "Албан тушаал"],
     ["phone", "Утас"],
     ["email", "Имэйл"],
-    ["notes", "Нэмэлт мэдээлэл"],
-    ["newsletter", "Сар бүрийн мэдээллийн имэйл"]
+    ["notes", "Нэмэлт мэдээлэл"]
   ];
 
   var errBox = document.getElementById("q-error");
@@ -59,7 +50,6 @@
       var v = l[0] === "services" ? fd.getAll("services").join(", ") : (fd.get(l[0]) || "");
       data[l[0]] = String(v).trim();
     });
-    if (!data.newsletter) data.newsletter = "Үгүй";
     return data;
   }
 

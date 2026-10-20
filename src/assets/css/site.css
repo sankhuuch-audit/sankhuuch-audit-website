@@ -554,3 +554,12 @@ a.chip-sm:hover { background: var(--tint-2); }
 .map-caption { margin-top: .75rem; font-size: .95rem; color: var(--muted, #5a6780); }
 .map-caption a { font-weight: 600; }
 @media (max-width: 760px) { .map-frame { height: 320px; } }
+
+/* Үнийн санал: товч маягт */
+.q-sublabel { margin: 1.1rem 0 .55rem; font-size: .9rem; font-weight: 600; color: var(--text); }
+.q-sublabel b, .q-field b { color: #c0392b; }
+.q-more { margin: 1rem 0 .25rem; }
+.q-more summary { cursor: pointer; font-size: .92rem; font-weight: 600; color: var(--muted); }
+.q-more summary:hover { color: var(--text); }
+.q-more[open] summary { margin-bottom: .6rem; }
+.q-more textarea { width: 100%; }
