@@ -25,14 +25,14 @@ altUrl: /unii-sanal/
               {%- endfor %}
             </select></label>
         </div>
-        <p class="q-sublabel">Services required <b aria-hidden="true">*</b></p>
-        <div class="q-checks" role="group" aria-label="Services required">
+        <p class="q-sublabel">Service required <b aria-hidden="true">*</b> <span class="q-sub-hint">(choose one)</span></p>
+        <div class="q-checks" role="radiogroup" aria-label="Service required">
           {%- for s in en.services %}
-          <label class="q-check"><input type="checkbox" name="services" value="{{ s.title }}"><span>{{ s.title }}</span></label>
+          <label class="q-check"><input type="radio" name="services" value="{{ s.title }}"><span>{{ s.title }}</span></label>
           {%- endfor %}
-          <label class="q-check"><input type="checkbox" name="services" value="{{ en.quote_extra_service }}"><span>{{ en.quote_extra_service }}</span></label>
+          <label class="q-check"><input type="radio" name="services" value="{{ en.quote_extra_service }}"><span>{{ en.quote_extra_service }}</span></label>
         </div>
-        <p class="q-error" id="q-services-error" hidden>Please select at least one service.</p>
+        <p class="q-error" id="q-services-error" hidden>Please select a service.</p>
       </fieldset>
 
       <fieldset class="q-group">
@@ -92,7 +92,7 @@ altUrl: /unii-sanal/
     <aside class="quote-aside">
       <h2 class="h-small">How the quote works</h2>
       <ol class="quote-steps">
-        <li><strong>Send a request</strong><span>Enter your organisation's name, the services you need and three financial figures. It takes about 2 minutes.</span></li>
+        <li><strong>Send a request</strong><span>Enter your organisation's name, the service you need and three financial figures. It takes about 2 minutes.</span></li>
         <li><strong>Preliminary quote</strong><span>Our specialist prepares a preliminary quote based on your information and emails it to you.</span></li>
         <li><strong>Agreement and contract</strong><span>We agree the terms of the engagement in detail and set the service fee in the contract.</span></li>
       </ol>

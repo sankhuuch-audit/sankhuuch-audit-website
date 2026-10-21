@@ -9,7 +9,7 @@
   var to = form.getAttribute("data-company-email");
   var isEn = (document.documentElement.lang || "").toLowerCase().indexOf("en") === 0;
   var T = isEn ? {
-    labels: { company: "Organisation name", entity: "Type of organisation", services: "Services required", total_assets: "Total assets (MNT million)", revenue: "Sales revenue (MNT million)", total_expenses: "Total expenses (MNT million)", contact_name: "Contact person", phone: "Phone", email: "Email", notes: "Additional information" },
+    labels: { company: "Organisation name", entity: "Type of organisation", services: "Service required", total_assets: "Total assets (MNT million)", revenue: "Sales revenue (MNT million)", total_expenses: "Total expenses (MNT million)", contact_name: "Contact person", phone: "Phone", email: "Email", notes: "Additional information" },
     subject: "Quote request (English site): ",
     sending: "Sending…",
     submit: "Send request",

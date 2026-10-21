@@ -28,14 +28,14 @@ altUrl: /en/request-a-quote/
               <option>Бусад</option>
             </select></label>
         </div>
-        <p class="q-sublabel">Шаардлагатай үйлчилгээ <b aria-hidden="true">*</b></p>
-        <div class="q-checks" role="group" aria-label="Шаардлагатай үйлчилгээ">
+        <p class="q-sublabel">Шаардлагатай үйлчилгээ <b aria-hidden="true">*</b> <span class="q-sub-hint">(нэгийг сонгоно)</span></p>
+        <div class="q-checks" role="radiogroup" aria-label="Шаардлагатай үйлчилгээ">
           {%- for s in collections.services %}
-          <label class="q-check"><input type="checkbox" name="services" value="{{ s.data.title }}"><span>{{ s.data.title }}</span></label>
+          <label class="q-check"><input type="radio" name="services" value="{{ s.data.title }}"><span>{{ s.data.title }}</span></label>
           {%- endfor %}
-          <label class="q-check"><input type="checkbox" name="services" value="Нягтлан бодох бүртгэлийн бодлогын баримт бичиг боловсруулах"><span>Нягтлан бодох бүртгэлийн бодлогын баримт бичиг боловсруулах</span></label>
+          <label class="q-check"><input type="radio" name="services" value="Нягтлан бодох бүртгэлийн бодлогын баримт бичиг боловсруулах"><span>Нягтлан бодох бүртгэлийн бодлогын баримт бичиг боловсруулах</span></label>
         </div>
-        <p class="q-error" id="q-services-error" hidden>Дор хаяж нэг үйлчилгээ сонгоно уу.</p>
+        <p class="q-error" id="q-services-error" hidden>Үйлчилгээгээ сонгоно уу.</p>
       </fieldset>
 
       <fieldset class="q-group">
