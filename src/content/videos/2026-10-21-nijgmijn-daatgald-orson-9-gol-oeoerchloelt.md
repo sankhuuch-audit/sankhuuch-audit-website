@@ -1,6 +1,6 @@
 ---
 title: Нийгмийн даатгалд орсон 9 гол өөрчлөлт
-url: https://www.youtube.com/watch?v=wVt9ba1u164&t=459s
+url: https://www.youtube.com/watch?v=wVt9ba1u164
 topic: tatvar
 date: 2026-10-21
 description: >-

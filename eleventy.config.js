@@ -72,6 +72,9 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
   eleventyConfig.addPassthroughCopy({ "src/favicon.ico": "favicon.ico" });
   eleventyConfig.addPassthroughCopy({ "src/favicon.png": "favicon.png" });
+  eleventyConfig.addPassthroughCopy({ "src/favicon.svg": "favicon.svg" });
+  eleventyConfig.addPassthroughCopy({ "src/favicon-192.png": "favicon-192.png" });
+  eleventyConfig.addPassthroughCopy({ "src/favicon-96.png": "favicon-96.png" });
 
   eleventyConfig.addWatchTarget("src/assets/");
 

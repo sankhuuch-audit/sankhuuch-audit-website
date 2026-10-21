@@ -31,7 +31,7 @@ bodyClass: page-article
         {%- if legal.url %}<a href="{{ legal.url }}" rel="noopener" target="_blank">{{ legal.name or legal.url }}</a>{% else %}{{ legal.name }}{% endif %}
       </p>
       <dl class="legal-dates">
-        {%- if legal.effective_date %}<div><dt>Хүчин төгөлдөр болсон</dt><dd><time datetime="{{ legal.effective_date | isoDate }}">{{ legal.effective_date | mnDate }}</time></dd></div>{% endif %}
+        {%- if legal.effective_date %}<div><dt>Мөрдөх огноо</dt><dd><time datetime="{{ legal.effective_date | isoDate }}">{{ legal.effective_date | mnDate }}</time></dd></div>{% endif %}
         {%- if legal.checked_date %}<div><dt>Эх сурвалжийг шалгасан</dt><dd><time datetime="{{ legal.checked_date | isoDate }}">{{ legal.checked_date | mnDate }}</time></dd></div>{% endif %}
       </dl>
       {%- if legal.checked_date %}

@@ -28,8 +28,10 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#16264a">
   {%- if noindex %}<meta name="robots" content="noindex">{% endif %}
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/golos-text-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/montserrat-cyrillic-800-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -61,6 +63,18 @@
   {%- if gaId %}
   <script async src="https://www.googletagmanager.com/gtag/js?id={{ gaId }}"></script>
   <script>window.dataLayer = window.dataLayer || []; function gtag(){ dataLayer.push(arguments); } gtag("js", new Date()); gtag("config", "{{ gaId }}");</script>
+  {%- endif %}
+  {%- if isHome and not isEn %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Санхүүч-Аудит",
+    "alternateName": ["“Санхүүч-Аудит” ХХК", "Sankhuuch Audit", "sankhuuch-audit.mn"],
+    "url": "https://sankhuuch-audit.mn/",
+    "inLanguage": "mn"
+  }
+  </script>
   {%- endif %}
   {%- block head %}{% endblock %}
 </head>
