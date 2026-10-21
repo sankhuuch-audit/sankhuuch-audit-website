@@ -735,3 +735,5 @@ a.chip-sm:hover { background: var(--tint-2); }
 input[type="date"].calc-input { font-family: var(--f-head); }
 @media (max-width: 600px) { .calc-switch { gap: 6px; } .calc-switch a { padding: 7px 12px; font-size: .82rem; } }
 .footer-note { opacity: .7; font-size: .8rem; }
+.calc-alert { margin: -6px 0 22px; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--gold-line); border-left: 4px solid var(--gold); background: var(--gold-soft); font-size: .9rem; color: var(--text); }
+.calc-alert strong { color: var(--navy); }
